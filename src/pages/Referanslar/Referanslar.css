@@ -1,0 +1,229 @@
+/* ============================================================
+   Referanslar sayfası
+   ============================================================ */
+
+/* ---------- İstatistik ---------- */
+.ref-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.ref-stat {
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 30px 20px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.ref-stat:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.ref-stat strong {
+  display: block;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ref-stat span {
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Logolar ---------- */
+.ref-logos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.ref-logo {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 26px 14px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+  opacity: 0.55;
+  transition: opacity var(--transition), color var(--transition),
+    transform var(--transition);
+}
+
+.ref-logo:hover {
+  opacity: 1;
+  color: var(--c-primary);
+  transform: translateY(-3px);
+}
+
+/* ---------- Vaka özetleri ---------- */
+.ref-cases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ref-case {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.ref-case:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ref-case__metric {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.ref-case__metric strong {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ref-case__metric span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.ref-case__desc {
+  font-size: 0.96rem;
+  flex: 1;
+}
+
+.ref-case__company {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--c-primary-dark);
+}
+
+/* ---------- Müşteri yorumları ---------- */
+.ref-quotes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ref-quote {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.ref-quote:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.ref-quote__stars {
+  color: #ffb020;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.ref-quote__text {
+  font-size: 0.98rem;
+  color: var(--c-text-soft);
+  flex: 1;
+}
+
+.ref-quote__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+}
+
+.ref-quote__avatar {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.ref-quote__author strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--c-text);
+}
+
+.ref-quote__author small {
+  font-size: 0.84rem;
+  color: var(--c-text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 920px) {
+  .ref-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ref-logos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ref-cases,
+  .ref-quotes {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ref-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-logos {
+    grid-template-columns: 1fr 1fr;
+  }
+}

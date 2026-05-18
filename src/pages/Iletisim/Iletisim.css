@@ -1,0 +1,316 @@
+/* ============================================================
+   İletişim sayfası
+   ============================================================ */
+
+.il-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ---------- Form ---------- */
+.il-form-wrap {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 38px;
+  box-shadow: var(--shadow-sm);
+}
+
+.il-form__title {
+  font-size: 1.5rem;
+}
+
+.il-form__sub {
+  margin: 6px 0 24px;
+  font-size: 0.96rem;
+}
+
+.il-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.il-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.il-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.il-field label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.il-field input,
+.il-field select,
+.il-field textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--c-text);
+  background: var(--c-bg-soft);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color var(--transition), background var(--transition),
+    box-shadow var(--transition);
+}
+
+.il-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.il-field input::placeholder,
+.il-field textarea::placeholder {
+  color: var(--c-text-muted);
+}
+
+.il-field input:focus,
+.il-field select:focus,
+.il-field textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 4px rgba(109, 74, 255, 0.12);
+}
+
+/* Onay kutusu */
+.il-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--c-text-soft);
+  cursor: pointer;
+}
+
+.il-check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--c-primary);
+}
+
+/* ---------- Başarı durumu ---------- */
+.il-success {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.il-success__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #e4f8ec;
+  color: #1d9d57;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.il-success h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.il-success p {
+  font-size: 1rem;
+  max-width: 380px;
+  margin: 0 auto 24px;
+}
+
+/* ---------- Bilgi kartları ---------- */
+.il-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.il-info__card {
+  display: flex;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.il-info__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.il-info__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--gradient);
+  color: #fff;
+}
+
+.il-info__card h3 {
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+
+.il-info__value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-primary-dark);
+}
+
+.il-info__note {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+/* ---------- Sosyal ---------- */
+.il-socials {
+  background: var(--gradient-soft);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.il-socials > span {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.il-socials > div {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.il-social {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  color: var(--c-text-soft);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background var(--transition), color var(--transition),
+    transform var(--transition);
+}
+
+.il-social:hover {
+  background: var(--gradient);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Harita ---------- */
+.il-map {
+  position: relative;
+  height: 380px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-border);
+  background: linear-gradient(135deg, #eef0ff 0%, #f6f5ff 100%);
+  overflow: hidden;
+}
+
+.il-map__grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      var(--c-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--c-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.6;
+}
+
+.il-map__pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.il-map__dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--gradient);
+  box-shadow: var(--shadow-primary);
+}
+
+.il-map__label {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 12px 18px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.il-map__label strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.il-map__label small {
+  font-size: 0.84rem;
+  color: var(--c-text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .il-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .il-form-wrap {
+    padding: 26px 20px;
+  }
+
+  .il-row {
+    grid-template-columns: 1fr;
+  }
+
+  .il-map {
+    height: 320px;
+  }
+
+  .il-map__label {
+    white-space: normal;
+    max-width: 200px;
+  }
+}

@@ -1,0 +1,318 @@
+/* ============================================================
+   Aserai & Iberai — Tasarım Sistemi
+   Mor-mavi palet, beyaz arka plan
+   ============================================================ */
+
+:root {
+  /* Renkler — mora çalan mavi */
+  --c-primary: #6d4aff;
+  --c-primary-dark: #4a2fd6;
+  --c-primary-darker: #3a23ad;
+  --c-primary-light: #8e72ff;
+  --c-accent: #3b6dff;
+  --c-accent-light: #6f93ff;
+
+  /* Yüzeyler */
+  --c-bg: #ffffff;
+  --c-bg-soft: #f6f5ff;
+  --c-bg-tint: #efeaff;
+  --c-surface: #ffffff;
+
+  /* Metin */
+  --c-text: #181231;
+  --c-text-soft: #443f5e;
+  --c-text-muted: #6f6b86;
+  --c-text-invert: #ffffff;
+
+  /* Çizgi & gölge */
+  --c-border: #e8e5f6;
+  --c-border-strong: #d6d1ee;
+
+  /* Gradyanlar */
+  --gradient: linear-gradient(135deg, #6d4aff 0%, #3b6dff 100%);
+  --gradient-soft: linear-gradient(135deg, #f6f5ff 0%, #eef0ff 100%);
+  --gradient-hero: linear-gradient(160deg, #2a1d6e 0%, #4a2fd6 45%, #3b6dff 100%);
+
+  /* Gölgeler */
+  --shadow-sm: 0 2px 8px rgba(40, 24, 110, 0.06);
+  --shadow-md: 0 12px 30px rgba(40, 24, 110, 0.1);
+  --shadow-lg: 0 26px 60px rgba(40, 24, 110, 0.16);
+  --shadow-primary: 0 14px 30px rgba(109, 74, 255, 0.32);
+
+  /* Yarıçap */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* Düzen */
+  --container: 1200px;
+  --nav-height: 76px;
+
+  /* Sayfa başlığı (mavi alan) iç boşluğu — tüm sayfalarda ortak */
+  --head-pad-top: clamp(56px, 5vw, 88px);
+  --head-pad-bottom: clamp(84px, 6vw, 122px);
+
+  /* Tipografi */
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, sans-serif;
+
+  /* Geçiş */
+  --transition: 0.22s ease;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--c-bg);
+  color: var(--c-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ---------- Tipografi ---------- */
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+}
+
+h1 {
+  font-size: clamp(2.1rem, 1.4rem + 2.9vw, 3.6rem);
+}
+
+h2 {
+  font-size: clamp(1.7rem, 1.2rem + 1.9vw, 2.6rem);
+}
+
+h3 {
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+}
+
+p {
+  color: var(--c-text-soft);
+}
+
+/* ---------- Düzen yardımcıları ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: clamp(56px, 4vw + 36px, 104px) 0;
+}
+
+.section--soft {
+  background: var(--c-bg-soft);
+}
+
+.section-head {
+  max-width: 660px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.section-head p {
+  margin-top: 14px;
+  font-size: 1.05rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  background: var(--c-bg-tint);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+}
+
+.eyebrow--invert {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ---------- Butonlar ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.96rem;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition), box-shadow var(--transition),
+    background var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(109, 74, 255, 0.42);
+}
+
+.btn--ghost {
+  background: #fff;
+  color: var(--c-primary-dark);
+  border: 1.5px solid var(--c-border-strong);
+}
+
+.btn--ghost:hover {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  transform: translateY(-2px);
+}
+
+.btn--invert {
+  background: #fff;
+  color: var(--c-primary-dark);
+}
+
+.btn--invert:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn--outline-invert {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn--outline-invert:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btn--lg {
+  padding: 16px 34px;
+  font-size: 1.02rem;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* ---------- Bağlantı oku ---------- */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--c-primary);
+  transition: gap var(--transition);
+}
+
+.text-link:hover {
+  gap: 10px;
+}
+
+/* ---------- Animasyon ---------- */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.6s ease both;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  will-change: opacity, transform;
+}
+
+.reveal.reveal--in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Bağlantı hedefleri sabit menünün altında kalmasın */
+[id] {
+  scroll-margin-top: calc(var(--nav-height) + 20px);
+}
+
+/* ---------- Erişilebilirlik ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,39 @@
+.page-head {
+  position: relative;
+  background: var(--gradient-hero);
+  color: #fff;
+  overflow: hidden;
+}
+
+.page-head__glow {
+  position: absolute;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 560px;
+  height: 460px;
+  background: radial-gradient(
+    circle,
+    rgba(142, 114, 255, 0.5) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.page-head__inner {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--head-pad-top) 24px var(--head-pad-bottom);
+  text-align: center;
+}
+
+.page-head__inner h1 {
+  color: #fff;
+  margin: 8px 0 16px;
+}
+
+.page-head__inner p {
+  font-size: 1.08rem;
+  color: rgba(255, 255, 255, 0.82);
+}
