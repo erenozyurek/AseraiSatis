@@ -1,0 +1,88 @@
+<svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aserai maskot robotu">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4fc3f7"/>
+      <stop offset="0.55" stop-color="#12a6f0"/>
+      <stop offset="1" stop-color="#0a72c4"/>
+    </linearGradient>
+    <linearGradient id="bodyDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b8fd6"/>
+      <stop offset="1" stop-color="#0a5d9e"/>
+    </linearGradient>
+    <radialGradient id="face" cx="0.5" cy="0.4" r="0.8">
+      <stop offset="0" stop-color="#0e2a44"/>
+      <stop offset="1" stop-color="#08182b"/>
+    </radialGradient>
+    <linearGradient id="eye" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9b6ff"/>
+      <stop offset="1" stop-color="#6d4aff"/>
+    </linearGradient>
+    <linearGradient id="chest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8fbff"/>
+      <stop offset="1" stop-color="#bfeff7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft ground shadow -->
+  <ellipse cx="200" cy="452" rx="96" ry="16" fill="#1c3444" opacity="0.14"/>
+
+  <!-- antenna -->
+  <line x1="200" y1="60" x2="200" y2="30" stroke="url(#bodyDark)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="200" cy="24" r="10" fill="#37d3db"/>
+  <circle cx="200" cy="24" r="10" fill="#37d3db"><animate attributeName="opacity" values="1;0.4;1" dur="2.4s" repeatCount="indefinite"/></circle>
+
+  <!-- side ear discs -->
+  <circle cx="112" cy="150" r="26" fill="url(#bodyDark)"/>
+  <circle cx="112" cy="150" r="12" fill="#0a4a7e"/>
+  <circle cx="288" cy="150" r="26" fill="url(#bodyDark)"/>
+  <circle cx="288" cy="150" r="12" fill="#0a4a7e"/>
+
+  <!-- head -->
+  <rect x="128" y="66" width="144" height="150" rx="52" fill="url(#body)"/>
+  <!-- head highlight -->
+  <path d="M150 96 q50 -22 100 0" stroke="#eaf7ff" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.5"/>
+
+  <!-- face panel -->
+  <rect x="146" y="104" width="108" height="86" rx="40" fill="url(#face)"/>
+  <!-- eyes -->
+  <ellipse cx="178" cy="146" rx="16" ry="20" fill="url(#eye)"/>
+  <ellipse cx="222" cy="146" rx="16" ry="20" fill="url(#eye)"/>
+  <circle cx="183" cy="139" r="5" fill="#ffffff" opacity="0.9"/>
+  <circle cx="227" cy="139" r="5" fill="#ffffff" opacity="0.9"/>
+  <!-- smile -->
+  <path d="M186 172 q14 12 28 0" stroke="#37d3db" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+  <!-- body -->
+  <path d="M150 250
+           q0 -22 22 -26
+           q28 -6 56 0
+           q22 4 22 26
+           v96
+           q0 40 -50 40
+           q-50 0 -50 -40 z" fill="url(#body)"/>
+  <!-- belly seam -->
+  <path d="M200 300 v70" stroke="#0a5d9e" stroke-width="3" opacity="0.5"/>
+
+  <!-- chest panel with Aserai swirl mark -->
+  <rect x="168" y="270" width="64" height="60" rx="16" fill="url(#chest)"/>
+  <g transform="translate(200 300)">
+    <circle r="22" fill="#0f8fd6"/>
+    <path d="M-9 9 A13 13 0 1 1 9 -6" fill="none" stroke="#eafcff" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="8" cy="8" r="4.5" fill="#eafcff"/>
+  </g>
+
+  <!-- left arm raised (waving) -->
+  <path d="M156 258 q-40 -6 -58 -44" stroke="url(#bodyDark)" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <g transform="translate(96 206)">
+    <circle r="20" fill="url(#body)"/>
+    <!-- fingers -->
+    <rect x="-16" y="-30" width="8" height="26" rx="4" fill="url(#body)"/>
+    <rect x="-4" y="-34" width="8" height="30" rx="4" fill="url(#body)"/>
+    <rect x="8" y="-32" width="8" height="28" rx="4" fill="url(#body)"/>
+    <rect x="18" y="-24" width="8" height="22" rx="4" fill="url(#body)"/>
+  </g>
+
+  <!-- right arm resting -->
+  <path d="M244 262 q40 8 48 46" stroke="url(#bodyDark)" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <circle cx="296" cy="316" r="19" fill="url(#body)"/>
+</svg>

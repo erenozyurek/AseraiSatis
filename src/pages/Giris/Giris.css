@@ -1,0 +1,274 @@
+/* ============================================================
+   Giriş Yap sayfası
+   ============================================================ */
+
+.login {
+  background: var(--gradient-soft);
+  padding: clamp(40px, 5vw, 80px) 0;
+  min-height: calc(100vh - var(--nav-height));
+  display: grid;
+  place-items: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* ---------- Form tarafı ---------- */
+.login-form {
+  padding: clamp(32px, 4vw, 52px);
+}
+
+.login-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 26px;
+}
+
+.login-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.login-logo__amp {
+  color: var(--c-primary);
+  margin: 0 1px;
+}
+
+.login-form h1 {
+  font-size: 1.7rem;
+}
+
+.login-sub {
+  margin: 6px 0 24px;
+  font-size: 0.96rem;
+}
+
+.login-note {
+  font-size: 0.88rem;
+  color: var(--c-primary-darker);
+  background: var(--c-bg-tint);
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Şifre alanı */
+.login-pw__wrap {
+  position: relative;
+}
+
+.login-pw__wrap input {
+  padding-right: 78px;
+}
+
+.login-pw__toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.login-pw__toggle:hover {
+  background: var(--c-bg-tint);
+}
+
+.login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: -2px;
+}
+
+.login-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--c-primary);
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Ayraç */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0;
+  color: var(--c-text-muted);
+  font-size: 0.85rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+
+/* SSO butonu */
+.login-sso {
+  gap: 10px;
+}
+
+.login-sso__icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.login-foot {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--c-text-muted);
+}
+
+.login-foot a {
+  font-weight: 700;
+  color: var(--c-primary);
+}
+
+.login-foot a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Tanıtım tarafı ---------- */
+.login-aside {
+  position: relative;
+  background: var(--c-navy);
+  color: #fff;
+  padding: clamp(32px, 4vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.login-aside__glow {
+  position: absolute;
+  top: -120px;
+  right: -100px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle,
+    rgba(142, 114, 255, 0.55) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.login-aside__eyebrow {
+  position: relative;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-aside h2 {
+  position: relative;
+  color: #fff;
+  font-size: 1.6rem;
+  margin: 10px 0 22px;
+}
+
+.login-aside__list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-aside__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.96rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.login-aside__list span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.login-aside__quote {
+  position: relative;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.98rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.login-aside__quote cite {
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .login-card {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+  }
+
+  .login-aside {
+    display: none;
+  }
+}

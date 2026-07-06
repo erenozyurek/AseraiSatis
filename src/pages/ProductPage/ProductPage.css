@@ -1,0 +1,508 @@
+/* ============================================================
+   Ürün Sayfası — Aserai & Iberai
+   ============================================================ */
+
+/* ---------- HERO ---------- */
+.phero {
+  position: relative;
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  overflow: hidden;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.phero__glow {
+  position: absolute;
+  top: -160px;
+  left: -120px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(
+    circle,
+    rgba(28, 52, 68, 0.05) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Açık hero içinde beyaz butonları koyu/uygun renklere çevir */
+.phero .btn--invert {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+
+.phero .btn--outline-invert {
+  background: #fff;
+  color: var(--c-navy);
+  border: 1.5px solid var(--c-border-strong);
+}
+
+.phero .btn--outline-invert:hover {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+.phero .phero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+  padding: var(--head-pad-top) 24px var(--head-pad-bottom);
+}
+
+.phero__content h1 {
+  color: var(--c-navy);
+  margin: 8px 0 18px;
+}
+
+.phero__content h1 span {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.phero__text {
+  font-size: 1.1rem;
+  color: var(--c-text-soft);
+  max-width: 480px;
+}
+
+.phero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 28px 0 24px;
+}
+
+.phero__bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.phero__bullets li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: var(--c-text-soft);
+}
+
+.phero__bullets li::before {
+  content: '✓';
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* ---------- HERO GÖRSEL ---------- */
+.phero__visual {
+  position: relative;
+}
+
+.pp-visual {
+  position: relative;
+}
+
+/* Aserai · mağaza */
+.pp-store {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: floaty 6s ease-in-out infinite;
+}
+
+.pp-store__bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 18px;
+  background: var(--c-bg-soft);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.pp-store__bar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c-border-strong);
+}
+
+.pp-store__bar em {
+  margin-left: 8px;
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-pill);
+  padding: 3px 12px;
+}
+
+.pp-store__banner {
+  margin: 18px;
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background: var(--gradient);
+  color: #fff;
+}
+
+.pp-store__banner-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 8px;
+}
+
+.pp-store__banner strong {
+  display: block;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.pp-store__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 0 18px 22px;
+}
+
+.pp-store__item {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.pp-store__thumb {
+  height: 64px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-soft);
+  border: 1px solid var(--c-border);
+  margin-bottom: 10px;
+}
+
+.pp-store__name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+}
+
+.pp-store__price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--c-primary-dark);
+}
+
+/* Iberai · kanallar */
+.pp-channels {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  animation: floaty 6s ease-in-out infinite;
+}
+
+.pp-channels__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.pp-channels__head p {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.pp-channels__count {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  background: var(--c-bg-tint);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.pp-channels__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+}
+
+.pp-channels__logo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 800;
+}
+
+.pp-channels__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.pp-channels__status {
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.pp-channels__status.is-ok {
+  color: #1d9d57;
+  background: #e4f8ec;
+}
+
+.pp-channels__status.is-sync {
+  color: var(--c-accent);
+  background: var(--c-bg-tint);
+}
+
+.pp-channels__foot {
+  margin-top: 6px;
+  padding: 14px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--c-text-soft);
+  border: 1px dashed var(--c-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.pp-channels__foot strong {
+  color: var(--c-primary-dark);
+}
+
+/* Yüzen kart */
+.pp-float {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 12px 15px;
+}
+
+.pp-float strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-text);
+}
+
+.pp-float small {
+  font-size: 0.76rem;
+  color: var(--c-text-muted);
+}
+
+.pp-float__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #e4f8ec;
+  color: #1d9d57;
+  font-weight: 800;
+}
+
+.pp-float__icon--blue {
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+}
+
+.pp-float--a {
+  bottom: -22px;
+  left: -34px;
+  animation: floaty 5s ease-in-out infinite;
+}
+
+.pp-float--b {
+  top: -24px;
+  right: -30px;
+  animation: floaty 5.4s ease-in-out 0.5s infinite;
+}
+
+/* ---------- İSTATİSTİK ŞERİDİ ---------- */
+.pp-stats-wrap {
+  border-bottom: 1px solid var(--c-border);
+}
+
+.pp-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 36px 24px;
+}
+
+.pp-stat {
+  text-align: center;
+}
+
+.pp-stat strong {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pp-stat span {
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- ÖZELLİKLER ---------- */
+.pp-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pp-feature {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.pp-feature:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.pp-feature__icon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md);
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+  margin-bottom: 18px;
+}
+
+.pp-feature h3 {
+  font-size: 1.12rem;
+  margin-bottom: 8px;
+}
+
+.pp-feature p {
+  font-size: 0.94rem;
+}
+
+/* ---------- ENTEGRASYONLAR ---------- */
+.pp-integrations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.pp-integration {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--c-text-soft);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-pill);
+  padding: 12px 26px;
+  transition: transform var(--transition), border-color var(--transition),
+    color var(--transition);
+}
+
+.pp-integration:hover {
+  transform: translateY(-3px);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 980px) {
+  .phero .phero__inner {
+    grid-template-columns: 1fr;
+    gap: 52px;
+    text-align: center;
+  }
+
+  .phero__text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .phero__actions,
+  .phero__bullets {
+    justify-content: center;
+  }
+
+  .phero__visual {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .pp-features {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .pp-stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pp-features {
+    grid-template-columns: 1fr;
+  }
+
+  .pp-float--a {
+    left: -10px;
+  }
+
+  .pp-float--b {
+    right: -10px;
+  }
+
+  .pp-float small {
+    display: none;
+  }
+
+  .phero__bullets {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}

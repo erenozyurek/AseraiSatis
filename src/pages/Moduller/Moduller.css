@@ -1,0 +1,71 @@
+/* ============================================================
+   Modüller sayfası
+   ============================================================ */
+
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.mod-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.mod-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.mod-card__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+  margin-bottom: 18px;
+}
+
+.mod-card h3 {
+  font-size: 1.12rem;
+  color: var(--c-navy);
+  margin-bottom: 8px;
+}
+
+.mod-card p {
+  font-size: 0.94rem;
+  color: var(--c-text-soft);
+}
+
+.mod-note {
+  text-align: center;
+  margin-top: 36px;
+  font-size: 0.98rem;
+  color: var(--c-text-muted);
+}
+
+.mod-note .text-link {
+  margin-left: 4px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .mod-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .mod-grid {
+    grid-template-columns: 1fr;
+  }
+}

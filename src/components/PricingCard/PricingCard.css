@@ -1,0 +1,148 @@
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 34px 30px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.pcard:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.pcard--highlight {
+  border: 2px solid var(--c-navy);
+  box-shadow: var(--shadow-lg);
+}
+
+.pcard--highlight:hover {
+  transform: translateY(-9px);
+}
+
+.pcard__badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--c-navy);
+  padding: 7px 18px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+
+.pcard__head {
+  min-height: 96px;
+}
+
+.pcard__head h3 {
+  font-size: 1.35rem;
+}
+
+.pcard__summary {
+  margin-top: 6px;
+  font-size: 0.92rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Fiyat ---------- */
+.pcard__price {
+  margin: 18px 0 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.pcard__amount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.pcard__currency {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.pcard__value {
+  font-size: 2.9rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.pcard__period {
+  font-size: 1rem;
+  color: var(--c-text-muted);
+}
+
+.pcard__hint {
+  margin-top: 12px;
+  font-size: 0.86rem;
+  color: var(--c-text-soft);
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.pcard__hint strong {
+  color: var(--c-primary-dark);
+}
+
+.pcard__hint s {
+  color: var(--c-text-muted);
+}
+
+.pcard__hint--save {
+  background: #e9f7ef;
+}
+
+.pcard__hint--save strong {
+  display: block;
+  margin-top: 2px;
+  color: #1d9d57;
+}
+
+/* ---------- Özellikler ---------- */
+.pcard__features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.pcard__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+}
+
+.pcard__check {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pcard--highlight .pcard__check {
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+}

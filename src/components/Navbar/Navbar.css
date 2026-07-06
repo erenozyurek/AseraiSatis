@@ -1,0 +1,347 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.nav--scrolled {
+  border-bottom-color: var(--c-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav__inner {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ---------- Logo ---------- */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.18rem;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.nav-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-primary);
+}
+
+.nav-logo__amp {
+  color: var(--c-primary);
+  margin: 0 1px;
+}
+
+/* ---------- Masaüstü bağlantılar ---------- */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-left: auto;
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav__link:hover {
+  color: #000;
+  background: var(--c-bg-tint);
+}
+
+.nav__link.active {
+  color: #000;
+}
+
+.nav__link.active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 2px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #1a1a1a;
+}
+
+.nav__link--has-caret svg {
+  transition: transform var(--transition);
+}
+
+/* ---------- Dropdown ---------- */
+.nav__dropdown {
+  position: relative;
+}
+
+.nav__dropdown:hover .nav__link--has-caret svg {
+  transform: rotate(180deg);
+}
+
+.nav__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 290px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--transition), transform var(--transition),
+    visibility var(--transition);
+}
+
+.nav__menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.nav__menu-item:hover {
+  background: var(--c-bg-soft);
+}
+
+.nav__menu-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #1a1a1a;
+  color: #fff;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.nav__menu-item strong {
+  display: block;
+  font-size: 0.96rem;
+  color: var(--c-text);
+}
+
+.nav__menu-item small {
+  font-size: 0.84rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Aksiyonlar ---------- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-shrink: 0;
+  margin-left: 40px;
+}
+
+.nav__login {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  transition: color var(--transition);
+}
+
+.nav__login svg {
+  color: #1a1a1a;
+}
+
+.nav__login:hover {
+  color: #000;
+}
+
+.nav__login:hover svg {
+  color: #000;
+}
+
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  transition: color var(--transition);
+}
+
+.nav__cta svg {
+  color: #1a1a1a;
+}
+
+.nav__cta:hover,
+.nav__cta:hover svg {
+  color: #000;
+}
+
+/* ---------- Hamburger ---------- */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  border: 1px solid var(--c-border);
+  background: #fff;
+}
+
+.nav__burger span {
+  display: block;
+  width: 20px;
+  height: 2.2px;
+  border-radius: 2px;
+  background: var(--c-text);
+  margin: 0 auto;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.nav__burger.is-open span:nth-child(1) {
+  transform: translateY(7.2px) rotate(45deg);
+}
+
+.nav__burger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__burger.is-open span:nth-child(3) {
+  transform: translateY(-7.2px) rotate(-45deg);
+}
+
+/* ---------- Mobil menü ---------- */
+.nav__mobile {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid var(--c-border);
+  padding: 16px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--transition), opacity var(--transition),
+    visibility var(--transition);
+  z-index: 99;
+  max-height: calc(100vh - var(--nav-height));
+  overflow-y: auto;
+}
+
+.nav__mobile.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav__mobile-link {
+  padding: 13px 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav__mobile-link:hover,
+.nav__mobile-link.active {
+  background: var(--c-bg-soft);
+  color: var(--c-primary);
+}
+
+.nav__mobile-link--sub {
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding-left: 24px;
+  color: var(--c-text-soft);
+}
+
+.nav__mobile-group {
+  padding: 14px 12px 4px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.nav__mobile-cta {
+  margin-top: 14px;
+}
+
+.nav__overlay {
+  position: fixed;
+  inset: var(--nav-height) 0 0;
+  background: rgba(28, 52, 68, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition), visibility var(--transition);
+  z-index: 98;
+}
+
+.nav__overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1040px) {
+  .nav__links,
+  .nav__actions {
+    display: none;
+  }
+
+  .nav__burger {
+    display: flex;
+  }
+}
+
+@media (min-width: 1041px) {
+  .nav__mobile,
+  .nav__overlay {
+    display: none;
+  }
+}
