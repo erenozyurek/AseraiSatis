@@ -3,7 +3,7 @@ import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import './Demo.css'
 
 const benefits = [
-  'Aserai ve Iberai’nin canlı kullanımı',
+  'Aserai’nin canlı kullanımı',
   'İşletmenize özel kurulum senaryosu',
   'Pazaryeri entegrasyon akışının gösterimi',
   'Size en uygun paket ve fiyat önerisi',
@@ -35,9 +35,10 @@ const steps = [
 
 const employeeRanges = ['1 - 10', '11 - 50', '51 - 200', '200+']
 const products = [
-  'Aserai E-Ticaret Altyapısı',
-  'Iberai Pazaryeri Entegrasyonu',
-  'Aserai + Iberai Paketi',
+  'Başlangıç Paketi',
+  'Standart Paket',
+  'Profesyonel Paket',
+  'E-İhracat Paketi',
   'Henüz emin değilim',
 ]
 
@@ -53,7 +54,7 @@ export default function Demo() {
     <>
       <PageHeader
         eyebrow="Ücretsiz Demo"
-        title="Aserai ve Iberai’yi canlı keşfedin"
+        title="Aserai’yi canlı keşfedin"
         text="Uzman ekibimiz, ürünleri işletmenize özel bir senaryoyla göstersin. Yaklaşık 30 dakikalık, tamamen ücretsiz birebir görüşme."
       />
 

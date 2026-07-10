@@ -1,0 +1,157 @@
+/* ============================================================
+   Teklif Talep Formu sayfası
+   ============================================================ */
+
+.teklif-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ---------- Form ---------- */
+.teklif-form-wrap {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 38px;
+  box-shadow: var(--shadow-sm);
+}
+
+.teklif-form__title {
+  font-size: 1.5rem;
+}
+
+.teklif-form__sub {
+  margin: 6px 0 24px;
+  font-size: 0.96rem;
+}
+
+.teklif-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ---------- Başarı durumu ---------- */
+.teklif-success {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.teklif-success__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #e4f8ec;
+  color: #1d9d57;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.teklif-success h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.teklif-success p {
+  font-size: 1rem;
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+
+/* ---------- Avantajlar ---------- */
+.teklif-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+}
+
+.teklif-promise {
+  background: var(--c-navy);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 30px;
+}
+
+.teklif-promise h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+}
+
+.teklif-promise ul {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.teklif-promise li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.teklif-check {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.teklif-highlight {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.teklif-highlight__item {
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 16px 8px;
+}
+
+.teklif-highlight__item strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-primary-dark);
+}
+
+.teklif-highlight__item span {
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 920px) {
+  .teklif-grid {
+    grid-template-columns: 1fr;
+  }
+  .teklif-aside {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .teklif-form-wrap {
+    padding: 26px 20px;
+  }
+}

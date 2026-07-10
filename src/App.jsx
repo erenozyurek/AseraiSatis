@@ -12,7 +12,12 @@ import Hakkimizda from './pages/Hakkimizda/Hakkimizda.jsx'
 import Referanslar from './pages/Referanslar/Referanslar.jsx'
 import Iletisim from './pages/Iletisim/Iletisim.jsx'
 import Demo from './pages/Demo/Demo.jsx'
+import Teklif from './pages/Teklif/Teklif.jsx'
+import Yardim from './pages/Yardim/Yardim.jsx'
+import Blog from './pages/Blog/Blog.jsx'
+import BlogDetail from './pages/BlogDetail/BlogDetail.jsx'
 import Giris from './pages/Giris/Giris.jsx'
+import Legal from './pages/Legal/Legal.jsx'
 import Placeholder from './pages/Placeholder/Placeholder.jsx'
 
 const REVEAL_SELECTOR = [
@@ -96,7 +101,22 @@ export default function App() {
         <Route path="/referanslar" element={<Referanslar />} />
         <Route path="/iletisim" element={<Iletisim />} />
         <Route path="/demo" element={<Demo />} />
+        <Route path="/teklif" element={<Teklif />} />
+        <Route path="/yardim" element={<Yardim />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/giris" element={<Giris />} />
+        <Route path="/kvkk" element={<Legal slug="kvkk" />} />
+        <Route path="/gizlilik" element={<Legal slug="gizlilik" />} />
+        <Route
+          path="/kullanim-sartlari"
+          element={<Legal slug="kullanim-sartlari" />}
+        />
+        <Route
+          path="/cerez-politikasi"
+          element={<Legal slug="cerez-politikasi" />}
+        />
+        <Route path="/yasal-uyari" element={<Legal slug="yasal-uyari" />} />
         <Route
           path="*"
           element={<Placeholder title="Sayfa bulunamadı" stage="404" />}

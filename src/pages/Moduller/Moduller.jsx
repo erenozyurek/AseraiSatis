@@ -129,7 +129,7 @@ export default function Moduller() {
 
       <CtaBand
         title="İhtiyacınız olan modülleri tek panelde toplayın"
-        text="Aserai ve Iberai ile mağazanızı, entegrasyonlarınızı ve tüm operasyonunuzu tek yerden yönetin."
+        text="Aserai ile mağazanızı, entegrasyonlarınızı ve tüm operasyonunuzu tek yerden yönetin."
       />
     </>
   )

@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Footer.css'
 
-import aseraiLogo from '../../assets/aserai.png'
-
 /* Footer sütunları (2026 dökümanı — 5 kolon) */
 const columns = [
   {
@@ -44,6 +42,7 @@ const columns = [
       { label: 'E-Ticaret Çözümleri', to: '/cozumler' },
       { label: 'Paketler', to: '/paketler' },
       { label: 'Demo Talep Et', to: '/demo' },
+      { label: 'Teklif Al', to: '/teklif' },
       { label: 'İletişim', to: '/iletisim' },
       { label: 'Giriş Yap', to: '/giris' },
     ],
@@ -55,79 +54,25 @@ const columns = [
       { label: 'Referanslarımız', to: '/referanslar' },
       { label: 'Partner / Bayii', to: '/hakkimizda' },
       { label: 'Kariyer', to: '/hakkimizda' },
-      { label: 'Blog', to: '/referanslar' },
-      { label: 'Destek Merkezi', to: '/iletisim' },
-      { label: 'KVKK', to: '/iletisim' },
+      { label: 'Blog', to: '/blog' },
+      { label: 'Destek Merkezi', to: '/yardim' },
+      { label: 'KVKK', to: '/kvkk' },
     ],
   },
 ]
 
 const legalLinks = [
-  'Site Haritası',
-  'Yasal Uyarı',
-  'Kullanım Şartları',
-  'KVKK Politikası',
-  'Çerezlerin Kullanımı',
-  'Gizlilik Politikası',
+  { label: 'Yasal Uyarı', to: '/yasal-uyari' },
+  { label: 'Kullanım Şartları', to: '/kullanim-sartlari' },
+  { label: 'KVKK', to: '/kvkk' },
+  { label: 'Çerez Politikası', to: '/cerez-politikasi' },
+  { label: 'Gizlilik Politikası', to: '/gizlilik' },
 ]
-
-const PersonIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-    <path
-      d="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-
-const CartIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-    <path
-      d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        {/* Üst şerit: logo + destek + aksiyonlar */}
-        <div className="footer__utility">
-          <div className="footer__utility-brand">
-            <Link to="/" className="footer__logo">
-              <img
-                src={aseraiLogo}
-                alt="Aserai"
-                className="footer__logo-image"
-                style={{ height: '38px' }}
-              />
-            </Link>
-            <Link to="/iletisim" className="footer__support">
-              <span aria-hidden="true">›</span> Destek
-            </Link>
-          </div>
-          <div className="footer__utility-actions">
-            <Link to="/giris" className="footer__action">
-              <PersonIcon />
-              Katıl
-            </Link>
-            <Link to="/paketler" className="footer__action footer__action--cta">
-              <CartIcon />
-              E-Ticarete Başla
-            </Link>
-          </div>
-        </div>
-
         {/* Sütunlar */}
         <div className="footer__cols">
           {columns.map((col) => (
@@ -147,9 +92,9 @@ export default function Footer() {
         {/* Alt şerit */}
         <div className="footer__bottom">
           <div className="footer__legal">
-            {legalLinks.map((label) => (
-              <Link key={label} to="/iletisim">
-                {label}
+            {legalLinks.map((item) => (
+              <Link key={item.label} to={item.to}>
+                {item.label}
               </Link>
             ))}
           </div>

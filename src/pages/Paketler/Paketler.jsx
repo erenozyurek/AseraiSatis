@@ -1,6 +1,6 @@
 import Icon from '../../components/Icon/Icon.jsx'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
-import PricingPlans from '../../components/PricingPlans/PricingPlans.jsx'
+import ComparisonTable from '../../components/ComparisonTable/ComparisonTable.jsx'
 import Faq from '../../components/Faq/Faq.jsx'
 import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import './Paketler.css'
@@ -72,24 +72,24 @@ export default function Paketler() {
       <PageHeader
         eyebrow="Paketler & Fiyatlandırma"
         title="İşletmenize uygun paketi seçin"
-        text="Aserai’yi, Iberai’yi ya da ikisini birden kapsayan avantajlı paketi seçin. Aylık veya yıllık ödeyin — yıllık planlarda aya düşen maliyetiniz belirgin şekilde azalır."
+        text="İşletmenize en uygun Aserai paketini seçin. Aylık veya yıllık ödeyin — yıllık planlarda aya düşen maliyetiniz belirgin şekilde azalır."
       />
 
-      {/* ---------- FİYAT TABLOSU ---------- */}
+      {/* ---------- PAKETLER & KARŞILAŞTIRMA (tek tablo) ---------- */}
       <section className="section pak-plans">
         <div className="container">
-          <PricingPlans productKeys={['aserai']} showTabs={false} />
+          <ComparisonTable />
         </div>
       </section>
 
       {/* ---------- HER PAKETTE DAHİL ---------- */}
-      <section className="section section--soft">
+      <section className="section">
         <div className="container">
           <div className="section-head">
             <span className="eyebrow">Her pakette dahil</span>
             <h2>Hangi paketi seçerseniz seçin yanınızdayız</h2>
             <p>
-              Tüm Aserai ve Iberai paketleri bu temel hizmetleri ek ücret
+              Tüm Aserai paketleri bu temel hizmetleri ek ücret
               olmadan içerir.
             </p>
           </div>

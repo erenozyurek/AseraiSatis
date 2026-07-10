@@ -95,7 +95,7 @@ export default function Referanslar() {
     <>
       <PageHeader
         eyebrow="Referanslar"
-        title="Binlerce işletme Aserai ve Iberai ile büyüyor"
+        title="Binlerce işletme Aserai ile büyüyor"
         text="Farklı sektörlerden on iki binden fazla işletme satışlarını platformumuz üzerinden yönetiyor. İşte bazı hikayeleri."
       />
 
@@ -139,7 +139,7 @@ export default function Referanslar() {
             <span className="eyebrow">Başarı hikayeleri</span>
             <h2>Sonuçlar kendini gösteriyor</h2>
             <p>
-              Müşterilerimizin Aserai ve Iberai ile elde ettiği somut
+              Müşterilerimizin Aserai ile elde ettiği somut
               kazanımlardan bazıları.
             </p>
           </div>

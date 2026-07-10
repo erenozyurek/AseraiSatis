@@ -1,0 +1,122 @@
+/* ============================================================
+   Hukuki sayfalar — sol menü + içerik
+   ============================================================ */
+
+.legal {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ---------- Sol menü ---------- */
+.legal__nav {
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  background: var(--c-surface);
+}
+
+.legal__nav-title {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin-bottom: 12px;
+}
+
+.legal__nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legal__nav-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+  transition: background var(--transition), color var(--transition);
+}
+
+.legal__nav-link:hover {
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+}
+
+.legal__nav-link.is-active {
+  background: var(--c-navy);
+  color: #fff;
+}
+
+/* ---------- İçerik ---------- */
+.legal__body {
+  max-width: 760px;
+}
+
+.legal__doc-title {
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+}
+
+.legal__intro {
+  color: var(--c-text-soft);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.legal__updated {
+  font-size: 0.86rem;
+  color: var(--c-text-muted);
+  margin-bottom: 28px;
+}
+
+.legal__section {
+  margin-bottom: 30px;
+}
+
+.legal__section h2,
+.legal__section h3 {
+  font-size: 1.28rem;
+  margin-bottom: 10px;
+}
+
+.legal__section p {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.legal__disclaimer {
+  margin-top: 40px;
+  padding: 18px 20px;
+  background: var(--c-bg-soft);
+  border-left: 3px solid var(--c-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--c-text-soft);
+}
+
+.legal__inline-link {
+  color: var(--c-primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .legal {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .legal__nav {
+    position: static;
+  }
+}

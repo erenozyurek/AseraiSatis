@@ -6,7 +6,7 @@ import './Iletisim.css'
 const infoCards = [
   {
     title: 'E-posta',
-    value: 'merhaba@aseraiiberai.com',
+    value: 'merhaba@aserai.com',
     note: 'Genellikle birkaç saat içinde yanıtlıyoruz.',
     iconPath: 'M3 7h18v10H3zM3 7l9 6 9-6',
   },
@@ -33,8 +33,7 @@ const infoCards = [
 
 const subjects = [
   'Aserai E-Ticaret Altyapısı',
-  'Iberai Pazaryeri Entegrasyonu',
-  'Aserai + Iberai Paketi',
+  'Paket ve Fiyatlandırma',
   'Teknik Destek',
   'Diğer',
 ]
@@ -205,7 +204,7 @@ export default function Iletisim() {
             <div className="il-map__pin">
               <span className="il-map__dot" />
               <div className="il-map__label">
-                <strong>Aserai &amp; Iberai</strong>
+                <strong>Aserai</strong>
                 <small>Levent, Şişli / İstanbul</small>
               </div>
             </div>

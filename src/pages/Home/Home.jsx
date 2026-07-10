@@ -87,7 +87,7 @@ const steps = [
   {
     no: '01',
     title: 'Paketinizi Seçin',
-    desc: 'Aserai, Iberai ya da ikisini birden kapsayan paketlerden işinize uygun olanı belirleyin.',
+    desc: 'İhtiyacınıza uygun Aserai paketini seçin; dilerseniz ek modüllerle kapsamını genişletin.',
   },
   {
     no: '02',
@@ -103,24 +103,24 @@ const steps = [
 
 const pricePreview = [
   {
-    name: 'Aserai',
-    sub: 'E-ticaret altyapısı',
-    monthly: 1490,
-    yearlyMonthly: 1190,
+    name: 'Başlangıç',
+    sub: 'Yeni başlayanlar için',
+    monthly: 790,
+    yearlyMonthly: 590,
     featured: false,
   },
   {
-    name: 'Aserai + Iberai',
-    sub: 'Tam kapsamlı paket',
-    monthly: 1990,
-    yearlyMonthly: 1590,
+    name: 'Standart',
+    sub: 'KOBİ’ler için',
+    monthly: 1490,
+    yearlyMonthly: 1190,
     featured: true,
   },
   {
-    name: 'Iberai',
-    sub: 'Pazaryeri entegrasyonu',
-    monthly: 990,
-    yearlyMonthly: 790,
+    name: 'Profesyonel',
+    sub: 'Büyük ölçekli işletmeler',
+    monthly: 2990,
+    yearlyMonthly: 2390,
     featured: false,
   },
 ]

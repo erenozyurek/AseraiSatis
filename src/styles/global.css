@@ -23,8 +23,8 @@
 
   /* Yüzeyler */
   --c-bg: #ffffff;
-  --c-bg-soft: #f9f9f9;        /* Background Colour-1 / Logo Colours-1 */
-  --c-bg-tint: #f4f4f4;        /* Background Colour */
+  --c-bg-soft: #fdfbf7;        /* Background Colour-1 — beyaza yakın, minik krem izi */
+  --c-bg-tint: #f8f5ef;        /* Background Colour — krem tonlu chip zemini */
   --c-surface: #ffffff;
 
   /* Metin */
@@ -39,7 +39,7 @@
 
   /* Gradyanlar */
   --gradient: linear-gradient(135deg, #1c3444 0%, #34505f 100%);
-  --gradient-soft: linear-gradient(135deg, #f9f9f9 0%, #f2fbfc 100%);
+  --gradient-soft: linear-gradient(135deg, #fdfbf7 0%, #fefdfb 100%);
   --gradient-hero: linear-gradient(160deg, #1c3444 0%, #234d63 55%, #04acfc 125%);
 
   /* Gölgeler */

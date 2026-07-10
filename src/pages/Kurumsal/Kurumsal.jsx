@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Icon from '../../components/Icon/Icon.jsx'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import CtaBand from '../../components/CtaBand/CtaBand.jsx'
+import LegalReader from '../../components/LegalReader/LegalReader.jsx'
 import './Kurumsal.css'
 import '../Hakkimizda/Hakkimizda.css'
 import '../Referanslar/Referanslar.css'
@@ -440,6 +441,21 @@ export default function Kurumsal() {
               ))}
             </aside>
           </div>
+        </div>
+      </section>
+
+      {/* ---------- HUKUKİ SAYFALAR ---------- */}
+      <section className="section section--soft">
+        <div className="container">
+          <div className="section-head">
+            <span className="eyebrow">Hukuki</span>
+            <h2>Hukuki Sayfalar</h2>
+            <p>
+              Kişisel verilerinizin korunması ve hizmet kullanımına ilişkin tüm
+              yasal metinlerimizi buradan inceleyebilirsiniz.
+            </p>
+          </div>
+          <LegalReader />
         </div>
       </section>
 

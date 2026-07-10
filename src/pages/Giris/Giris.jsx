@@ -25,7 +25,7 @@ export default function Giris() {
           <div className="login-form">
             <Link to="/" className="login-logo">
               <span className="login-logo__mark">A</span>
-              Aserai<span className="login-logo__amp">&amp;</span>Iberai
+              Aserai
             </Link>
             <h1>Tekrar hoş geldiniz</h1>
             <p className="login-sub">
@@ -104,7 +104,7 @@ export default function Giris() {
           {/* Tanıtım tarafı */}
           <aside className="login-aside">
             <div className="login-aside__glow" aria-hidden="true" />
-            <span className="login-aside__eyebrow">Aserai &amp; Iberai</span>
+            <span className="login-aside__eyebrow">Aserai</span>
             <h2>Satışın tamamı tek ekranda</h2>
             <ul className="login-aside__list">
               {asideBullets.map((b) => (

@@ -1,0 +1,267 @@
+/* ============================================================
+   Paket Karşılaştırma — kart tarzı başlık + karşılaştırma satırları
+   (tek birleşik tablo)
+   ============================================================ */
+
+.cmp {
+  --cmp-highlight: #f2f7fb;
+  --cmp-border: var(--c-navy);
+}
+
+.cmp .billing {
+  margin-bottom: 30px;
+}
+
+.cmp__scroll {
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  background: var(--c-surface);
+  -webkit-overflow-scrolling: touch;
+}
+
+.cmp__table {
+  width: 100%;
+  min-width: 940px;
+  border-collapse: collapse;
+  background: var(--c-surface);
+  font-size: 0.94rem;
+}
+
+/* ===========================================================
+   BAŞLIK (kart tarzı paket sütunları)
+   =========================================================== */
+.cmp__table thead th {
+  vertical-align: top;
+  background: var(--c-surface);
+}
+
+.cmp__corner {
+  text-align: left;
+  vertical-align: bottom;
+  padding: 28px 24px 26px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cmp__corner-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.cmp__corner-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+
+.cmp__col-head {
+  position: relative;
+  width: 22%;
+  text-align: center;
+  padding: 30px 20px 26px;
+  border-left: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cmp__col-head.is-highlight {
+  background: var(--cmp-highlight);
+  border-left: 2px solid var(--cmp-border);
+  border-right: 2px solid var(--cmp-border);
+  border-bottom: 1px solid var(--cmp-border);
+}
+
+.cmp__col-badge {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 16px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--c-navy);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Vurgulanmayan sütunlarda rozet yüksekliğini dengele */
+.cmp__col-head:not(.is-highlight) .cmp__col-name {
+  margin-top: 40px;
+}
+
+.cmp__col-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.cmp__col-summary {
+  display: block;
+  margin: 6px auto 0;
+  max-width: 220px;
+  min-height: 40px;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Fiyat ---------- */
+.cmp__price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 18px;
+}
+
+.cmp__price-cur {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.cmp__price-val {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--c-text);
+}
+
+.cmp__price-per {
+  font-size: 0.95rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Tasarruf kutusu ---------- */
+.cmp__save {
+  display: block;
+  margin: 14px auto 20px;
+  max-width: 230px;
+  min-height: 62px;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--c-text-soft);
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-sm);
+}
+
+.cmp__save strong {
+  color: var(--c-primary-dark);
+}
+
+.cmp__save s {
+  color: var(--c-text-muted);
+}
+
+.cmp__save--yes {
+  background: #e9f7ef;
+}
+
+.cmp__save--yes strong {
+  display: block;
+  margin-top: 3px;
+  color: #1d9d57;
+}
+
+.cmp__col-cta {
+  font-size: 0.92rem;
+}
+
+/* ===========================================================
+   GRUP BAŞLIĞI SATIRI
+   =========================================================== */
+.cmp__group th {
+  text-align: left;
+  padding: 14px 24px;
+  background: var(--c-bg-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted);
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+/* ===========================================================
+   ÖZELLİK SATIRLARI
+   =========================================================== */
+.cmp__table tbody tr:not(.cmp__group):hover td,
+.cmp__table tbody tr:not(.cmp__group):hover .cmp__row-head {
+  background: #fbfcfd;
+}
+
+.cmp__row-head {
+  text-align: left;
+  font-weight: 600;
+  color: var(--c-text-soft);
+  padding: 15px 24px;
+  border-top: 1px solid var(--c-border);
+}
+
+.cmp__table tbody td {
+  text-align: center;
+  padding: 15px 18px;
+  border-top: 1px solid var(--c-border);
+  border-left: 1px solid var(--c-border);
+  color: var(--c-text-soft);
+}
+
+.cmp__table tbody td.is-highlight {
+  background: var(--cmp-highlight);
+  border-left: 2px solid var(--cmp-border);
+  border-right: 2px solid var(--cmp-border);
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.cmp__table tbody tr:last-child td.is-highlight {
+  border-bottom: 2px solid var(--cmp-border);
+}
+
+/* ---------- Hücre içerikleri ---------- */
+.cmp__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--c-primary);
+}
+
+.cmp__dash {
+  color: var(--c-border-strong);
+  font-weight: 700;
+}
+
+.cmp__text {
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.cmp__note {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--c-text-muted);
+}
+
+@media (max-width: 640px) {
+  .cmp__table {
+    font-size: 0.88rem;
+  }
+  .cmp__price-val {
+    font-size: 2.2rem;
+  }
+}
