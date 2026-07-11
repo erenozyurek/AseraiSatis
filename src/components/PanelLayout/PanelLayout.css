@@ -1,0 +1,152 @@
+/* ============================================================
+   Müşteri Paneli düzeni (sol menü + içerik)
+   ============================================================ */
+
+.panel-section {
+  background: var(--c-bg-soft);
+  min-height: calc(100vh - var(--nav-height));
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ---------- Sol menü ---------- */
+.panel__side {
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.panel__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.panel__avatar {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.panel__user-info {
+  overflow: hidden;
+}
+
+.panel__user-info strong {
+  display: block;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel__user-info small {
+  color: var(--c-text-muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.panel__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+
+.panel__nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+  transition: background var(--transition), color var(--transition);
+}
+
+.panel__nav-link:hover:not(.is-soon) {
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+}
+
+.panel__nav-link.is-active {
+  background: var(--c-navy);
+  color: #fff;
+}
+
+.panel__nav-link.is-soon {
+  color: var(--c-text-muted);
+  cursor: default;
+}
+
+.panel__soon {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--c-text-muted);
+  background: var(--c-bg-tint);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.panel__logout {
+  font-size: 0.9rem;
+}
+
+/* ---------- İçerik ---------- */
+.panel__main {
+  min-width: 0;
+}
+
+.panel-head {
+  margin-bottom: 24px;
+}
+
+.panel-head h1 {
+  font-size: 1.7rem;
+}
+
+.panel-head p {
+  color: var(--c-text-muted);
+  margin-top: 4px;
+}
+
+/* Ortak kart */
+.panel-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 860px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+  .panel__side {
+    position: static;
+  }
+}

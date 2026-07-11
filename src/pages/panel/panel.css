@@ -1,0 +1,229 @@
+/* ============================================================
+   Müşteri paneli içerik stilleri (Dashboard / Siparişlerim / Profil)
+   ============================================================ */
+
+.panel-muted {
+  color: var(--c-text-muted);
+}
+
+.panel-link {
+  font-weight: 700;
+  color: var(--c-primary);
+  font-size: 0.9rem;
+}
+
+/* ---------- İstatistik kartları ---------- */
+.panel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.panel-stat {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.panel-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--c-text);
+  line-height: 1;
+}
+
+.panel-stat__label {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Kart başlığı ---------- */
+.panel-card__title {
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+}
+
+/* ---------- Son siparişler ---------- */
+.panel-recent__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-recent__head h2 {
+  font-size: 1.15rem;
+}
+
+.panel-recent__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-recent__list li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--c-border);
+}
+
+/* ---------- Sipariş kartları ---------- */
+.panel-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-order__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.panel-order-no {
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.panel-order-date {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.panel-order__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.panel-order__items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--c-text-soft);
+}
+
+.panel-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  background: var(--c-bg-tint);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  margin-left: 8px;
+}
+
+.panel-order__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-order-total {
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+/* ---------- Durum rozeti ---------- */
+.panel-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.panel-badge--pending {
+  color: #9a6a00;
+  background: #fff3d6;
+}
+
+.panel-badge--paid {
+  color: #1d7a45;
+  background: #e4f8ec;
+}
+
+.panel-badge--cancelled {
+  color: #a12318;
+  background: #fdecea;
+}
+
+/* ---------- Boş durum ---------- */
+.panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* ---------- Formlar ---------- */
+.panel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-form__foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.panel-saved {
+  color: #1d7a45;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.panel-form__inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-form__inline .field {
+  flex: 1;
+}
+
+.panel-tenants {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-tenants li {
+  padding: 12px 16px;
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+@media (max-width: 680px) {
+  .panel-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

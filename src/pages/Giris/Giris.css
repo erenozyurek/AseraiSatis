@@ -23,6 +23,12 @@
   overflow: hidden;
 }
 
+/* Tek kolon (şifre işlemleri gibi tek taraflı sayfalar) */
+.login-card--single {
+  grid-template-columns: 1fr;
+  max-width: 460px;
+}
+
 /* ---------- Form tarafı ---------- */
 .login-form {
   padding: clamp(32px, 4vw, 52px);
@@ -70,6 +76,12 @@
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   margin-bottom: 20px;
+}
+
+.login-note--error {
+  color: #a12318;
+  background: #fdecea;
+  border-color: #f5c6c0;
 }
 
 .login-form form {

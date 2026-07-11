@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { useCart } from '../../context/CartContext.jsx'
 import './Navbar.css'
 
 import aseraiLogo from '../../assets/aserai.png'
@@ -104,6 +106,14 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, signOut } = useAuth()
+  const { count } = useCart()
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/')
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -138,14 +148,36 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__actions">
-          <Link to="/giris" className="nav__login">
-            <PersonIcon />
-            Katıl
-          </Link>
-          <Link to="/paketler" className="nav__cta">
+          <Link to="/sepet" className="nav__cart" aria-label="Sepet">
             <CartIcon />
-            E-Ticarete Başla
+            {count > 0 && <span className="nav__cart-badge">{count}</span>}
           </Link>
+          {user ? (
+            <>
+              <Link to="/panel" className="nav__login" title={user.email}>
+                <PersonIcon />
+                Hesabım
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="nav__cta nav__cta--logout"
+              >
+                Çıkış Yap
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/giris" className="nav__login">
+                <PersonIcon />
+                Giriş Yap
+              </Link>
+              <Link to="/kayit" className="nav__cta">
+                <CartIcon />
+                E-Ticarete Başla
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -166,15 +198,32 @@ export default function Navbar() {
             {item.label}
           </NavLink>
         ))}
-        <NavLink to="/giris" className="nav__mobile-link">
-          Katıl
-        </NavLink>
-        <Link
-          to="/paketler"
-          className="btn btn--dark btn--block nav__mobile-cta"
-        >
-          E-Ticarete Başla
-        </Link>
+        {user ? (
+          <>
+            <NavLink to="/panel" className="nav__mobile-link">
+              Hesabım
+            </NavLink>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn btn--dark btn--block nav__mobile-cta"
+            >
+              Çıkış Yap
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/giris" className="nav__mobile-link">
+              Giriş Yap
+            </NavLink>
+            <Link
+              to="/kayit"
+              className="btn btn--dark btn--block nav__mobile-cta"
+            >
+              E-Ticarete Başla
+            </Link>
+          </>
+        )}
       </div>
 
       <div

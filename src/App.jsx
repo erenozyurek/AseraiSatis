@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useEffect, useLayoutEffect } from 'react'
 import Layout from './components/Layout/Layout.jsx'
 import Home from './pages/Home/Home.jsx'
@@ -17,6 +17,17 @@ import Yardim from './pages/Yardim/Yardim.jsx'
 import Blog from './pages/Blog/Blog.jsx'
 import BlogDetail from './pages/BlogDetail/BlogDetail.jsx'
 import Giris from './pages/Giris/Giris.jsx'
+import Kayit from './pages/Kayit/Kayit.jsx'
+import SifremiUnuttum from './pages/SifremiUnuttum/SifremiUnuttum.jsx'
+import SifreYenile from './pages/SifreYenile/SifreYenile.jsx'
+import Sepet from './pages/Sepet/Sepet.jsx'
+import Odeme from './pages/Odeme/Odeme.jsx'
+import SiparisTamamlandi from './pages/SiparisTamamlandi/SiparisTamamlandi.jsx'
+import PanelLayout from './components/PanelLayout/PanelLayout.jsx'
+import Dashboard from './pages/panel/Dashboard.jsx'
+import Siparislerim from './pages/panel/Siparislerim.jsx'
+import Profil from './pages/panel/Profil.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Legal from './pages/Legal/Legal.jsx'
 import Placeholder from './pages/Placeholder/Placeholder.jsx'
 
@@ -106,6 +117,32 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/giris" element={<Giris />} />
+        <Route path="/kayit" element={<Kayit />} />
+        <Route path="/sifremi-unuttum" element={<SifremiUnuttum />} />
+        <Route path="/sifre-yenile" element={<SifreYenile />} />
+        <Route
+          path="/panel"
+          element={
+            <ProtectedRoute>
+              <PanelLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="siparislerim" element={<Siparislerim />} />
+          <Route path="profil" element={<Profil />} />
+        </Route>
+        <Route path="/hesabim" element={<Navigate to="/panel" replace />} />
+        <Route path="/sepet" element={<Sepet />} />
+        <Route
+          path="/odeme"
+          element={
+            <ProtectedRoute>
+              <Odeme />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/siparis-tamamlandi" element={<SiparisTamamlandi />} />
         <Route path="/kvkk" element={<Legal slug="kvkk" />} />
         <Route path="/gizlilik" element={<Legal slug="gizlilik" />} />
         <Route

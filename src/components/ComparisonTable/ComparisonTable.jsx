@@ -1,11 +1,12 @@
 import { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   pricing,
   comparison,
   formatTL,
   yearlySaving,
 } from '../../data/pricing.js'
+import { useCart } from '../../context/CartContext.jsx'
 import BillingToggle from '../BillingToggle/BillingToggle.jsx'
 import './ComparisonTable.css'
 
@@ -44,6 +45,13 @@ function Cell({ value }) {
 export default function ComparisonTable() {
   const [billing, setBilling] = useState('yearly')
   const yearly = billing === 'yearly'
+  const navigate = useNavigate()
+  const { selectPackage } = useCart()
+
+  const handleSelect = (tierId) => {
+    selectPackage(tierId, billing)
+    navigate('/sepet')
+  }
 
   const tiers = comparison.tierIds.map((id) =>
     pricing.aserai.tiers.find((t) => t.id === id),
@@ -100,14 +108,15 @@ export default function ComparisonTable() {
                       </span>
                     )}
 
-                    <Link
-                      to="/iletisim"
+                    <button
+                      type="button"
+                      onClick={() => handleSelect(tier.id)}
                       className={`btn btn--block ${
                         tier.highlight ? 'btn--dark' : 'btn--ghost'
                       } cmp__col-cta`}
                     >
                       Paketi Seç
-                    </Link>
+                    </button>
                   </th>
                 )
               })}

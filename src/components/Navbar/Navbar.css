@@ -173,6 +173,38 @@
   margin-left: 40px;
 }
 
+.nav__cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #1a1a1a;
+  transition: color var(--transition);
+}
+
+.nav__cart:hover {
+  color: var(--c-primary);
+}
+
+.nav__cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--c-navy);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.nav__cta--logout {
+  cursor: pointer;
+}
+
 .nav__login {
   display: inline-flex;
   align-items: center;
