@@ -25,9 +25,11 @@
 }
 
 .mod-card__img {
-  display: block;
-  width: 100%;
-  height: 150px;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding: 6px;
   border-radius: var(--radius-md);
   overflow: hidden;
   margin-bottom: 18px;
@@ -52,15 +54,23 @@
 }
 
 .mod-card__img--preview {
+  width: 110px;
   height: 110px;
+  padding: 8px;
   margin-bottom: 0;
 }
 
 .mod-card__img img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.mod-card__img--preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .mod-card__icon {
