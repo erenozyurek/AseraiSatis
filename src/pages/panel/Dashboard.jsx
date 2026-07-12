@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../../lib/supabase.js'
 import { formatTL } from '../../data/pricing.js'
+import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
 const statusLabels = {
@@ -11,31 +10,13 @@ const statusLabels = {
 }
 
 export default function Dashboard() {
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let active = true
-    ;(async () => {
-      if (!supabase) return
-      const { data } = await supabase
-        .from('orders')
-        .select('id, status, total, created_at')
-        .order('created_at', { ascending: false })
-      if (active) {
-        setOrders(data || [])
-        setLoading(false)
-      }
-    })()
-    return () => {
-      active = false
-    }
-  }, [])
-
-  const latest = orders[0]
+  const { orders } = usePanelData()
+  const loading = orders === null
+  const list = orders || []
+  const latest = list[0]
 
   const stats = [
-    { label: 'Toplam Sipariş', value: loading ? '…' : orders.length },
+    { label: 'Toplam Sipariş', value: loading ? '…' : list.length },
     {
       label: 'Son Sipariş',
       value: loading ? '…' : latest ? statusLabels[latest.status] : '—',
@@ -70,7 +51,7 @@ export default function Dashboard() {
 
         {loading ? (
           <p className="panel-muted">Yükleniyor…</p>
-        ) : orders.length === 0 ? (
+        ) : list.length === 0 ? (
           <div className="panel-empty">
             <p>Henüz siparişiniz yok.</p>
             <Link to="/paketler" className="btn btn--primary">
@@ -79,7 +60,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <ul className="panel-recent__list">
-            {orders.slice(0, 5).map((o) => (
+            {list.slice(0, 5).map((o) => (
               <li key={o.id}>
                 <span className="panel-order-no">
                   #{o.id.slice(0, 8).toUpperCase()}

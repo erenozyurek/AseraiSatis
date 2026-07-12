@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../../lib/supabase.js'
 import { formatTL } from '../../data/pricing.js'
+import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
 const statusLabels = {
@@ -18,26 +17,9 @@ const formatDate = (iso) =>
   })
 
 export default function Siparislerim() {
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let active = true
-    ;(async () => {
-      if (!supabase) return
-      const { data } = await supabase
-        .from('orders')
-        .select('*, order_items(*)')
-        .order('created_at', { ascending: false })
-      if (active) {
-        setOrders(data || [])
-        setLoading(false)
-      }
-    })()
-    return () => {
-      active = false
-    }
-  }, [])
+  const { orders } = usePanelData()
+  const loading = orders === null
+  const list = orders || []
 
   return (
     <>
@@ -48,7 +30,7 @@ export default function Siparislerim() {
 
       {loading ? (
         <div className="panel-card panel-muted">Yükleniyor…</div>
-      ) : orders.length === 0 ? (
+      ) : list.length === 0 ? (
         <div className="panel-card panel-empty">
           <p>Henüz siparişiniz yok.</p>
           <Link to="/paketler" className="btn btn--primary">
@@ -57,7 +39,7 @@ export default function Siparislerim() {
         </div>
       ) : (
         <div className="panel-orders">
-          {orders.map((o) => (
+          {list.map((o) => (
             <article key={o.id} className="panel-card panel-order">
               <div className="panel-order__top">
                 <div>

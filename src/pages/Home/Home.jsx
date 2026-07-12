@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
-import mokupImg from '../../assets/mokup.png'
-import avatarImg from '../../assets/avatar.png'
-import mattImg from '../../assets/matt.png'
+import mokupImg from '../../assets/mokup.webp'
+import avatarImg from '../../assets/avatar.webp'
+import mattImg from '../../assets/matt.webp'
 
 const Icon = ({ path }) => (
   <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">

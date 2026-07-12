@@ -1,14 +1,16 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { PanelDataProvider } from '../../context/PanelDataContext.jsx'
 import './PanelLayout.css'
 
 const activeItems = [
   { to: '/panel', label: 'Dashboard', end: true },
   { to: '/panel/siparislerim', label: 'Siparişlerim' },
+  { to: '/panel/destek', label: 'Destek Taleplerim' },
   { to: '/panel/profil', label: 'Profilim' },
 ]
 
-const soonItems = ['Faturalarım', 'Lisanslarım', 'Destek Taleplerim']
+const soonItems = ['Faturalarım', 'Lisanslarım', 'Yenilemelerim']
 
 export default function PanelLayout() {
   const { user, signOut } = useAuth()
@@ -66,7 +68,9 @@ export default function PanelLayout() {
         </aside>
 
         <main className="panel__main">
-          <Outlet />
+          <PanelDataProvider>
+            <Outlet />
+          </PanelDataProvider>
         </main>
       </div>
     </section>

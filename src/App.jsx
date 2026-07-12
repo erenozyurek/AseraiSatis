@@ -26,6 +26,8 @@ import SiparisTamamlandi from './pages/SiparisTamamlandi/SiparisTamamlandi.jsx'
 import PanelLayout from './components/PanelLayout/PanelLayout.jsx'
 import Dashboard from './pages/panel/Dashboard.jsx'
 import Siparislerim from './pages/panel/Siparislerim.jsx'
+import DestekTaleplerim from './pages/panel/DestekTaleplerim.jsx'
+import DestekDetay from './pages/panel/DestekDetay.jsx'
 import Profil from './pages/panel/Profil.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Legal from './pages/Legal/Legal.jsx'
@@ -130,6 +132,8 @@ export default function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="siparislerim" element={<Siparislerim />} />
+          <Route path="destek" element={<DestekTaleplerim />} />
+          <Route path="destek/:id" element={<DestekDetay />} />
           <Route path="profil" element={<Profil />} />
         </Route>
         <Route path="/hesabim" element={<Navigate to="/panel" replace />} />

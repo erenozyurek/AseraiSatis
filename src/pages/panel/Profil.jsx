@@ -1,33 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
 export default function Profil() {
   const { user } = useAuth()
-  const [profile, setProfile] = useState(null)
-  const [tenants, setTenants] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { profile, tenants, refreshProfile } = usePanelData()
+  const loading = profile === null
+  const tenantList = tenants || []
+
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [creating, setCreating] = useState(false)
-
-  const load = async () => {
-    if (!supabase || !user) return
-    setLoading(true)
-    const [{ data: prof }, { data: tens }] = await Promise.all([
-      supabase.from('profiles').select('*').eq('id', user.id).single(),
-      supabase.from('tenants').select('id, name'),
-    ])
-    setProfile(prof || null)
-    setTenants(tens || [])
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    load()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -42,7 +27,7 @@ export default function Profil() {
       .eq('id', user.id)
     setSaving(false)
     setSaved(true)
-    load()
+    refreshProfile()
   }
 
   const handleCreateTenant = async (e) => {
@@ -54,7 +39,7 @@ export default function Profil() {
     setCreating(false)
     if (!error) {
       e.target.reset()
-      load()
+      refreshProfile()
     }
   }
 
@@ -118,9 +103,9 @@ export default function Profil() {
         <h2 className="panel-card__title">Firmalarım</h2>
         {loading ? (
           <p className="panel-muted">Yükleniyor…</p>
-        ) : tenants.length > 0 ? (
+        ) : tenantList.length > 0 ? (
           <ul className="panel-tenants">
-            {tenants.map((t) => (
+            {tenantList.map((t) => (
               <li key={t.id}>{t.name}</li>
             ))}
           </ul>
