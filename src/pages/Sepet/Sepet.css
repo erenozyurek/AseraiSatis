@@ -1,0 +1,208 @@
+/* ============================================================
+   Sepet
+   ============================================================ */
+
+.sepet-empty {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.sepet {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: start;
+}
+
+.sepet__billing {
+  margin-bottom: 26px;
+}
+
+.sepet__block {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sepet__block h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.sepet__muted {
+  color: var(--c-text-muted);
+}
+
+.sepet__hint {
+  font-size: 0.9rem;
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+
+/* Paket satırı */
+.sepet__pkg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-md);
+}
+
+.sepet__pkg strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.sepet__pkg .sepet__muted {
+  font-size: 0.88rem;
+}
+
+.sepet__pkg-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.sepet__price {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--c-text);
+}
+
+.sepet__price small {
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.sepet__remove {
+  font-size: 0.85rem;
+  color: var(--c-red);
+  font-weight: 600;
+}
+
+.sepet__remove:hover {
+  text-decoration: underline;
+}
+
+/* Modül listesi */
+.sepet__modules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sepet__module {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.sepet__module.is-active {
+  border-color: var(--c-primary);
+  background: var(--cmp-highlight, #f2f7fb);
+}
+
+.sepet__module label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.sepet__module input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--c-primary);
+  flex-shrink: 0;
+}
+
+.sepet__module-info strong {
+  display: block;
+  font-size: 0.98rem;
+}
+
+.sepet__module-info small {
+  color: var(--c-text-muted);
+  font-size: 0.86rem;
+}
+
+.sepet__module-price {
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--c-text);
+}
+
+/* Özet */
+.sepet__summary {
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: var(--shadow-md);
+}
+
+.sepet__summary h2 {
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+}
+
+.sepet__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: var(--c-text-soft);
+}
+
+.sepet__row--total {
+  border-top: 1px solid var(--c-border);
+  margin-top: 6px;
+  padding-top: 16px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.sepet__vat {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  margin: 4px 0 18px;
+}
+
+.sepet__back {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+@media (max-width: 880px) {
+  .sepet {
+    grid-template-columns: 1fr;
+  }
+  .sepet__summary {
+    position: static;
+  }
+}

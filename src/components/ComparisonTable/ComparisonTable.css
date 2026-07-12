@@ -176,6 +176,79 @@
   font-size: 0.92rem;
 }
 
+/* ---------- Düzenleme modu ---------- */
+.cmp__col-head.is-editing {
+  background: #eef6fd;
+  outline: 2px dashed #04acfc;
+  outline-offset: -6px;
+}
+
+.cmp__edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.cmp__edit-in {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.88rem;
+  padding: 7px 9px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.cmp__edit-in--name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.cmp__edit-in--sm {
+  font-size: 0.82rem;
+}
+
+.cmp__edit-prices {
+  display: flex;
+  gap: 8px;
+}
+
+.cmp__edit-prices label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--c-text-muted);
+}
+
+.cmp__edit-prices input {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 6px 8px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  width: 100%;
+}
+
+.cmp__edit-check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+}
+
+.cmp__edit-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--c-primary);
+}
+
 /* ===========================================================
    GRUP BAŞLIĞI SATIRI
    =========================================================== */

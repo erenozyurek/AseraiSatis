@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { supabase } from '../../lib/supabase.js'
 import './Giris.css'
 
 const asideBullets = [
@@ -9,12 +11,40 @@ const asideBullets = [
 ]
 
 export default function Giris() {
-  const [showPw, setShowPw] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const { signIn } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
 
-  const handleSubmit = (e) => {
+  const [showPw, setShowPw] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setError('')
+    setLoading(true)
+    const { error: err } = await signIn({
+      email: e.target.email.value,
+      password: e.target.sifre.value,
+    })
+
+    if (err) {
+      setLoading(false)
+      const msg =
+        err.message === 'Invalid login credentials'
+          ? 'E-posta veya şifre hatalı.'
+          : err.message === 'Email not confirmed'
+            ? 'E-posta adresiniz henüz doğrulanmamış. Lütfen e-postanızı kontrol edin.'
+            : err.message || 'Giriş sırasında bir hata oluştu.'
+      setError(msg)
+      return
+    }
+
+    // Admin ise doğrudan yönetim paneline, değilse gelinen sayfaya/ana panele
+    const { data: admin } = await supabase.rpc('is_platform_admin')
+    setLoading(false)
+    navigate(admin ? '/yonetim' : from, { replace: true })
   }
 
   return (
@@ -32,10 +62,9 @@ export default function Giris() {
               Satış panelinize ulaşmak için hesabınıza giriş yapın.
             </p>
 
-            {submitted && (
-              <div className="login-note" role="status">
-                Giriş bilgileriniz kontrol ediliyor. Bu bir tasarım
-                şablonudur; gerçek bir oturum açılmaz.
+            {error && (
+              <div className="login-note login-note--error" role="alert">
+                {error}
               </div>
             )}
 
@@ -44,6 +73,7 @@ export default function Giris() {
                 <label htmlFor="email">E-posta</label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="ornek@firma.com"
                   required
@@ -54,6 +84,7 @@ export default function Giris() {
                 <div className="login-pw__wrap">
                   <input
                     id="sifre"
+                    name="sifre"
                     type={showPw ? 'text' : 'password'}
                     placeholder="••••••••"
                     required
@@ -73,7 +104,7 @@ export default function Giris() {
                   <input type="checkbox" />
                   <span>Beni hatırla</span>
                 </label>
-                <Link to="/giris" className="login-link">
+                <Link to="/sifremi-unuttum" className="login-link">
                   Şifremi unuttum?
                 </Link>
               </div>
@@ -81,23 +112,14 @@ export default function Giris() {
               <button
                 type="submit"
                 className="btn btn--primary btn--block btn--lg"
+                disabled={loading}
               >
-                Giriş Yap
+                {loading ? 'Giriş yapılıyor…' : 'Giriş Yap'}
               </button>
             </form>
 
-            <div className="login-divider">
-              <span>veya</span>
-            </div>
-
-            <button type="button" className="btn btn--ghost btn--block login-sso">
-              <span className="login-sso__icon">G</span>
-              Google ile devam et
-            </button>
-
             <p className="login-foot">
-              Hesabınız yok mu?{' '}
-              <Link to="/demo">Ücretsiz demo talep edin</Link>
+              Hesabınız yok mu? <Link to="/kayit">Ücretsiz hesap oluşturun</Link>
             </p>
           </div>
 

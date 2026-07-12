@@ -1,0 +1,124 @@
+/* ============================================================
+   Ödeme (Checkout)
+   ============================================================ */
+
+.odeme {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: start;
+}
+
+.odeme__form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.odeme__block {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.odeme__block h2 {
+  font-size: 1.2rem;
+}
+
+/* Ödeme yöntemi */
+.odeme__method {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.odeme__method.is-active {
+  border-color: var(--c-primary);
+  background: var(--cmp-highlight, #f2f7fb);
+}
+
+.odeme__method.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.odeme__method input {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-primary);
+  flex-shrink: 0;
+}
+
+.odeme__method strong {
+  display: block;
+}
+
+.odeme__method small {
+  color: var(--c-text-muted);
+  font-size: 0.86rem;
+}
+
+/* Özet */
+.odeme__summary {
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  box-shadow: var(--shadow-md);
+}
+
+.odeme__summary h2 {
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+}
+
+.odeme__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 0.95rem;
+  color: var(--c-text-soft);
+}
+
+.odeme__row--sub {
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+}
+
+.odeme__row--total {
+  border-top: 1px solid var(--c-border);
+  margin-top: 6px;
+  padding-top: 16px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.odeme__vat {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  margin-top: 6px;
+}
+
+@media (max-width: 880px) {
+  .odeme {
+    grid-template-columns: 1fr;
+  }
+  .odeme__summary {
+    position: static;
+  }
+}

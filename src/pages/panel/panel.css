@@ -1,0 +1,458 @@
+/* ============================================================
+   Müşteri paneli içerik stilleri (Dashboard / Siparişlerim / Profil)
+   ============================================================ */
+
+.panel-muted {
+  color: var(--c-text-muted);
+}
+
+.panel-link {
+  font-weight: 700;
+  color: var(--c-primary);
+  font-size: 0.9rem;
+}
+
+/* ---------- İstatistik kartları ---------- */
+.panel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.panel-stat {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.panel-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--c-text);
+  line-height: 1;
+}
+
+.panel-stat__label {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Kart başlığı ---------- */
+.panel-card__title {
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+}
+
+/* ---------- Son siparişler ---------- */
+.panel-recent__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-recent__head h2 {
+  font-size: 1.15rem;
+}
+
+.panel-recent__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-recent__list li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--c-border);
+}
+
+/* ---------- Sipariş kartları ---------- */
+.panel-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-order__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.panel-order-no {
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.panel-order-date {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.panel-order__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.panel-order__items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--c-text-soft);
+}
+
+.panel-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  background: var(--c-bg-tint);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  margin-left: 8px;
+}
+
+.panel-order__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-order-total {
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+/* ---------- Durum rozeti ---------- */
+.panel-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.panel-badge--pending {
+  color: #9a6a00;
+  background: #fff3d6;
+}
+
+.panel-badge--paid {
+  color: #1d7a45;
+  background: #e4f8ec;
+}
+
+.panel-badge--cancelled {
+  color: #a12318;
+  background: #fdecea;
+}
+
+/* ---------- Boş durum ---------- */
+.panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* ---------- Formlar ---------- */
+.panel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-form__foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.panel-saved {
+  color: #1d7a45;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.panel-form__inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-form__inline .field {
+  flex: 1;
+}
+
+.panel-tenants {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-tenants li {
+  padding: 12px 16px;
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+/* ---------- Destek Taleplerim ---------- */
+.panel-head--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.panel-tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-ticket {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 22px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.panel-ticket:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.panel-ticket__main strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--c-text);
+}
+
+.panel-ticket__meta {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+}
+
+.panel-ticket__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0;
+}
+
+.panel-badge--open {
+  color: #9a6a00;
+  background: #fff3d6;
+}
+
+.panel-badge--answered {
+  color: #1d7a45;
+  background: #e4f8ec;
+}
+
+.panel-badge--closed {
+  color: var(--c-text-muted);
+  background: var(--c-bg-tint);
+}
+
+/* ---------- Mesaj dizisi ---------- */
+.panel-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.panel-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 78%;
+}
+
+.panel-msg--me {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.panel-msg--staff {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.panel-msg__bubble {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.panel-msg--me .panel-msg__bubble {
+  background: var(--c-navy);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.panel-msg--staff .panel-msg__bubble {
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  border-bottom-left-radius: 4px;
+}
+
+.panel-msg__meta {
+  margin-top: 5px;
+  font-size: 0.76rem;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Yanıt kutusu ---------- */
+.panel-reply {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--c-border);
+  padding-top: 18px;
+}
+
+.panel-reply textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--c-text);
+  background: var(--c-bg-soft);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.panel-reply textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--c-primary);
+}
+
+.panel-reply .btn {
+  align-self: flex-end;
+}
+
+/* ---------- Yönetim paneli ---------- */
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+}
+
+.admin-status select {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text);
+  background: var(--c-bg-soft);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.admin-reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Paket/Modül düzenleme */
+.admin-edit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-edit__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.admin-field--sm {
+  max-width: 160px;
+}
+
+.admin-edit__foot {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-top: 1px solid var(--c-border);
+  padding-top: 14px;
+}
+
+.admin-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text-soft);
+  cursor: pointer;
+}
+
+.admin-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--c-primary);
+}
+
+.admin-edit__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 560px) {
+  .admin-edit__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .panel-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

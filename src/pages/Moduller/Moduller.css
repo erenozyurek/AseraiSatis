@@ -69,3 +69,115 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   İnline düzenleme (admin, düzenleme modu)
+   ============================================================ */
+.mod-card {
+  position: relative;
+}
+
+.mod-card.is-editable {
+  outline: 1.5px dashed var(--c-border-strong);
+  outline-offset: 3px;
+}
+
+.mod-card.is-editing {
+  outline: 2px dashed #04acfc;
+}
+
+.mod-card__pencil {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-navy);
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  z-index: 2;
+}
+
+.mod-card.is-editable:hover .mod-card__pencil {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mod-card__edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mod-edit-in {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.92rem;
+  padding: 9px 11px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  resize: vertical;
+}
+
+.mod-edit-in--title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.mod-card__edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mod-card__edit-actions .btn {
+  padding: 8px 16px;
+  font-size: 0.86rem;
+}
+
+.mod-card__del {
+  margin-right: auto;
+  color: var(--c-red);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.mod-card__del:hover {
+  text-decoration: underline;
+}
+
+/* "+" ekle kartı */
+.mod-card--add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 180px;
+  border: 2px dashed var(--c-border-strong);
+  background: var(--c-bg-soft);
+  color: var(--c-text-muted);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition),
+    background var(--transition);
+}
+
+.mod-card--add:hover {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  background: #fff;
+}
+
+.mod-card__plus {
+  font-size: 2.4rem;
+  line-height: 1;
+  font-weight: 300;
+}

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { useCart } from '../../context/CartContext.jsx'
+import { useEditMode } from '../../context/EditModeContext.jsx'
 import './Navbar.css'
 
 import aseraiLogo from '../../assets/aserai.png'
@@ -72,6 +75,19 @@ const Caret = () => (
   </svg>
 )
 
+const EditPencil = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M4 20h4L18 10l-4-4L4 16v4zM14 6l4 4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 function Dropdown({ label, items, openKey, active, setActive }) {
   const isOpen = active === openKey
   return (
@@ -104,6 +120,16 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, isAdmin, signOut } = useAuth()
+  const { count } = useCart()
+  const { editMode, toggle: toggleEdit } = useEditMode()
+  const accountTo = isAdmin ? '/yonetim' : '/panel'
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/')
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -138,14 +164,47 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__actions">
-          <Link to="/giris" className="nav__login">
-            <PersonIcon />
-            Katıl
-          </Link>
-          <Link to="/paketler" className="nav__cta">
+          {isAdmin && (
+            <button
+              type="button"
+              className={`nav__edit ${editMode ? 'is-active' : ''}`}
+              onClick={toggleEdit}
+              title={editMode ? 'Düzenleme modunu kapat' : 'Düzenleme modu'}
+              aria-pressed={editMode}
+            >
+              <EditPencil />
+            </button>
+          )}
+          <Link to="/sepet" className="nav__cart" aria-label="Sepet">
             <CartIcon />
-            E-Ticarete Başla
+            {count > 0 && <span className="nav__cart-badge">{count}</span>}
           </Link>
+          {user ? (
+            <>
+              <Link to={accountTo} className="nav__login" title={user.email}>
+                <PersonIcon />
+                {isAdmin ? 'Yönetim' : 'Hesabım'}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="nav__cta nav__cta--logout"
+              >
+                Çıkış Yap
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/giris" className="nav__login">
+                <PersonIcon />
+                Giriş Yap
+              </Link>
+              <Link to="/kayit" className="nav__cta">
+                <CartIcon />
+                E-Ticarete Başla
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -166,15 +225,32 @@ export default function Navbar() {
             {item.label}
           </NavLink>
         ))}
-        <NavLink to="/giris" className="nav__mobile-link">
-          Katıl
-        </NavLink>
-        <Link
-          to="/paketler"
-          className="btn btn--dark btn--block nav__mobile-cta"
-        >
-          E-Ticarete Başla
-        </Link>
+        {user ? (
+          <>
+            <NavLink to={accountTo} className="nav__mobile-link">
+              {isAdmin ? 'Yönetim' : 'Hesabım'}
+            </NavLink>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn btn--dark btn--block nav__mobile-cta"
+            >
+              Çıkış Yap
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/giris" className="nav__mobile-link">
+              Giriş Yap
+            </NavLink>
+            <Link
+              to="/kayit"
+              className="btn btn--dark btn--block nav__mobile-cta"
+            >
+              E-Ticarete Başla
+            </Link>
+          </>
+        )}
       </div>
 
       <div
