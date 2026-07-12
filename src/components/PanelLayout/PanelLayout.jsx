@@ -1,19 +1,24 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { useNotifications } from '../../context/NotificationsContext.jsx'
 import { PanelDataProvider } from '../../context/PanelDataContext.jsx'
 import './PanelLayout.css'
 
 const activeItems = [
   { to: '/panel', label: 'Dashboard', end: true },
   { to: '/panel/siparislerim', label: 'Siparişlerim' },
+  { to: '/panel/lisanslarim', label: 'Lisanslarım' },
+  { to: '/panel/faturalarim', label: 'Faturalarım' },
+  { to: '/panel/bildirimlerim', label: 'Bildirimlerim' },
   { to: '/panel/destek', label: 'Destek Taleplerim' },
   { to: '/panel/profil', label: 'Profilim' },
 ]
 
-const soonItems = ['Faturalarım', 'Lisanslarım', 'Yenilemelerim']
+const soonItems = ['Yenilemelerim']
 
 export default function PanelLayout() {
   const { user, signOut } = useAuth()
+  const { unreadCount } = useNotifications()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
@@ -48,6 +53,9 @@ export default function PanelLayout() {
                 }
               >
                 {item.label}
+                {item.to === '/panel/bildirimlerim' && unreadCount > 0 && (
+                  <span className="panel__nav-badge">{unreadCount}</span>
+                )}
               </NavLink>
             ))}
             {soonItems.map((label) => (

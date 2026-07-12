@@ -8,9 +8,8 @@ export default function Placeholder({ title, stage }) {
         <span className="placeholder__badge">{stage}</span>
         <h1>{title}</h1>
         <p>
-          Bu sayfa pipeline'ın bir sonraki aşamasında tasarlanacak. Şu an
-          Aşama&nbsp;1 (anasayfa, tasarım sistemi ve ortak bileşenler)
-          tamamlandı.
+          Aradığınız sayfa kaldırılmış, taşınmış veya adresi yanlış yazılmış
+          olabilir.
         </p>
         <Link to="/" className="btn btn--primary btn--lg">
           Anasayfaya dön

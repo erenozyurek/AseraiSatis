@@ -1,31 +1,58 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { useNotifications } from '../../context/NotificationsContext.jsx'
 import { AdminDataProvider } from '../../context/AdminDataContext.jsx'
 import '../PanelLayout/PanelLayout.css'
 
 const activeItems = [
   { to: '/yonetim', label: 'Dashboard', end: true },
   { to: '/yonetim/siparisler', label: 'Sipariş Yönetimi' },
+  { to: '/yonetim/yenilemeler', label: 'Yenileme Yönetimi' },
+  { to: '/yonetim/musteriler', label: 'Müşteri Yönetimi' },
+  { to: '/yonetim/bildirimler', label: 'Bildirim Yönetimi' },
   { to: '/yonetim/paketler', label: 'Paket Yönetimi' },
   { to: '/yonetim/moduller', label: 'Modül Yönetimi' },
   { to: '/yonetim/destek', label: 'Destek Yönetimi' },
 ]
 
-const soonItems = [
-  'Tenant Yönetimi',
-  'Fatura Yönetimi',
-  'Lisans Yönetimi',
-  'CMS',
-  'Ayarlar',
-]
+const soonItems = ['CMS', 'Ayarlar']
 
 export default function AdminLayout() {
   const { user, signOut } = useAuth()
+  const { supportCount } = useNotifications()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
+  const [instantActivePath, setInstantActivePath] = useState(pathname)
 
   const handleLogout = async () => {
     await signOut()
     navigate('/')
+  }
+
+  useEffect(() => {
+    setInstantActivePath(pathname)
+  }, [pathname])
+
+  const isActivePath = (item) => {
+    if (item.end) return instantActivePath === item.to
+    return (
+      instantActivePath === item.to ||
+      instantActivePath.startsWith(`${item.to}/`)
+    )
+  }
+
+  const markActive = (event, item) => {
+    if (
+      event.button > 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return
+    }
+    setInstantActivePath(item.to)
   }
 
   return (
@@ -48,11 +75,18 @@ export default function AdminLayout() {
                 key={item.to}
                 to={item.to}
                 end={item.end}
+                onPointerDown={(event) => markActive(event, item)}
+                onClick={(event) => markActive(event, item)}
                 className={({ isActive }) =>
-                  `panel__nav-link ${isActive ? 'is-active' : ''}`
+                  `panel__nav-link ${
+                    isActive || isActivePath(item) ? 'is-active' : ''
+                  }`
                 }
               >
                 {item.label}
+                {item.to === '/yonetim/destek' && supportCount > 0 && (
+                  <span className="panel__nav-badge">{supportCount}</span>
+                )}
               </NavLink>
             ))}
             {soonItems.map((label) => (

@@ -5,6 +5,10 @@ import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
+import {
+  normalizeImageUrl,
+  uploadCardImage,
+} from '../../lib/imageUpload.js'
 import './Moduller.css'
 
 const Icon = ({ path }) => (
@@ -61,7 +65,31 @@ export default function Moduller() {
 
   const [cards, setCards] = useState(null)
   const [editingId, setEditingId] = useState(null)
+  const [imageDraft, setImageDraft] = useState('')
+  const [uploading, setUploading] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [actionError, setActionError] = useState('')
+
+  const openEdit = (card) => {
+    setImageDraft(card.imageUrl || '')
+    setActionError('')
+    setEditingId(card.id)
+  }
+
+  const uploadImage = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setActionError('')
+    try {
+      setImageDraft(await uploadCardImage('modules', file))
+    } catch (error) {
+      setActionError(error.message || 'Görsel yüklenemedi.')
+    } finally {
+      setUploading(false)
+      e.target.value = ''
+    }
+  }
 
   const load = async () => {
     if (!supabase) return
@@ -77,6 +105,7 @@ export default function Moduller() {
           title: c.title,
           desc: c.description,
           iconPath: c.icon_path,
+          imageUrl: c.image_url,
         })),
       )
   }
@@ -93,31 +122,53 @@ export default function Moduller() {
   const saveCard = async (card, e) => {
     e.preventDefault()
     const f = e.target
+    setActionError('')
+    let imageUrl
+    try {
+      imageUrl = normalizeImageUrl(imageDraft)
+    } catch (error) {
+      setActionError(error.message)
+      return
+    }
     setBusy(true)
-    await supabase
+    const { error } = await supabase
       .from('feature_cards')
       .update({
         title: f.title.value,
         description: f.description.value,
+        image_url: imageUrl,
         updated_at: new Date().toISOString(),
       })
       .eq('id', card.id)
     setBusy(false)
+    if (error) {
+      setActionError(error.message || 'Kart kaydedilemedi.')
+      return
+    }
     setEditingId(null)
     load()
   }
 
   const deleteCard = async (card) => {
     setBusy(true)
-    await supabase.from('feature_cards').delete().eq('id', card.id)
+    setActionError('')
+    const { error } = await supabase
+      .from('feature_cards')
+      .delete()
+      .eq('id', card.id)
     setBusy(false)
+    if (error) {
+      setActionError(error.message || 'Kart silinemedi.')
+      return
+    }
     setEditingId(null)
     load()
   }
 
   const addCard = async () => {
     setBusy(true)
-    const { data } = await supabase
+    setActionError('')
+    const { data, error } = await supabase
       .from('feature_cards')
       .insert({
         title: 'Yeni Modül',
@@ -128,8 +179,15 @@ export default function Moduller() {
       .select('id')
       .single()
     setBusy(false)
+    if (error) {
+      setActionError(error.message || 'Kart eklenemedi.')
+      return
+    }
     await load()
-    if (data) setEditingId(data.id)
+    if (data) {
+      setImageDraft('')
+      setEditingId(data.id)
+    }
   }
 
   return (
@@ -169,6 +227,45 @@ export default function Moduller() {
                         rows="4"
                         className="mod-edit-in"
                       />
+                      <div className="mod-img-edit">
+                        {imageDraft && (
+                          <span className="mod-card__img mod-card__img--preview">
+                            <img src={imageDraft} alt="" />
+                          </span>
+                        )}
+                        <div className="mod-img-edit__row">
+                          <label className="btn btn--ghost mod-upload">
+                            {uploading ? 'Yükleniyor…' : 'Görsel yükle'}
+                            <input
+                              type="file"
+                              accept="image/avif,image/jpeg,image/png,image/webp"
+                              onChange={uploadImage}
+                              disabled={uploading}
+                              hidden
+                            />
+                          </label>
+                          {imageDraft && (
+                            <button
+                              type="button"
+                              className="mod-card__del"
+                              onClick={() => setImageDraft('')}
+                            >
+                              Görseli kaldır
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          value={imageDraft}
+                          onChange={(e) => setImageDraft(e.target.value)}
+                          placeholder="veya görsel URL'si yapıştırın — boşsa ikon gösterilir"
+                          className="mod-edit-in"
+                        />
+                        {actionError && (
+                          <span className="panel-error" role="alert">
+                            {actionError}
+                          </span>
+                        )}
+                      </div>
                       <div className="mod-card__edit-actions">
                         <button
                           type="button"
@@ -200,15 +297,21 @@ export default function Moduller() {
                         <button
                           type="button"
                           className="mod-card__pencil"
-                          onClick={() => setEditingId(m.id)}
+                          onClick={() => openEdit(m)}
                           aria-label="Kartı düzenle"
                         >
                           <PencilIcon />
                         </button>
                       )}
-                      <span className="mod-card__icon" aria-hidden="true">
-                        <Icon path={m.iconPath} />
-                      </span>
+                      {m.imageUrl ? (
+                        <span className="mod-card__img">
+                          <img src={m.imageUrl} alt={m.title} loading="lazy" />
+                        </span>
+                      ) : (
+                        <span className="mod-card__icon" aria-hidden="true">
+                          <Icon path={m.iconPath} />
+                        </span>
+                      )}
                       <h3>{m.title}</h3>
                       <p>{m.desc}</p>
                     </>

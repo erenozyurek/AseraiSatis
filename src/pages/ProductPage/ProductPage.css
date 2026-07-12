@@ -11,6 +11,17 @@
   border-bottom: 1px solid var(--c-border);
 }
 
+.pp-pricing-fallback {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pp-pricing-fallback p {
+  margin: 0 0 22px;
+  color: var(--c-text-muted);
+}
+
 .phero__glow {
   position: absolute;
   top: -160px;

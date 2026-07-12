@@ -456,3 +456,802 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ---------- Lisans & Fatura durum rozetleri ---------- */
+.panel-badge--active {
+  color: #1d7a45;
+  background: #e4f8ec;
+}
+
+.panel-badge--scheduled {
+  color: #805a00;
+  background: #fff3d6;
+}
+
+.panel-badge--expired {
+  color: #a12318;
+  background: #fdecea;
+}
+
+.panel-badge--issued {
+  color: #9a6a00;
+  background: #fff3d6;
+}
+
+.panel-badge--void {
+  color: var(--c-text-muted);
+  background: var(--c-bg-tint);
+}
+
+/* ---------- Bölüm başlığı (panel içi) ---------- */
+.panel-subhead {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-text);
+  margin: 26px 0 12px;
+}
+
+.panel-subhead:first-of-type {
+  margin-top: 4px;
+}
+
+/* ---------- Lisans kartları ---------- */
+.panel-licenses {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------- Yenileme aksiyonları ---------- */
+.panel-renewal__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-license__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.panel-license__product {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.panel-license__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-top: 12px;
+  font-size: 0.86rem;
+  color: var(--c-text-muted);
+}
+
+.panel-license__meta strong {
+  color: var(--c-text);
+  font-weight: 700;
+}
+
+.panel-license__addons {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-license__addons h2 {
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+  letter-spacing: 0;
+}
+
+.panel-addon-list {
+  display: grid;
+  gap: 8px;
+}
+
+.panel-addon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-soft);
+}
+
+.panel-addon--active {
+  background: #fff;
+}
+
+.panel-addon strong,
+.panel-addon span {
+  display: block;
+}
+
+.panel-addon strong {
+  color: var(--c-text);
+  font-size: 0.92rem;
+}
+
+.panel-addon span {
+  color: var(--c-text-muted);
+  font-size: 0.8rem;
+}
+
+.panel-addon__price {
+  color: var(--c-text) !important;
+  font-size: 0.92rem !important;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.panel-license__module-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--c-border);
+}
+
+.panel-license__action-buttons,
+.panel-license-cancel__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.panel-license__cancel-button {
+  color: #a61b13;
+  background: #fff;
+  border: 1.5px solid #dfaaa6;
+}
+
+.panel-license__cancel-button:hover:not(:disabled) {
+  color: #86150f;
+  background: #fff6f5;
+  border-color: #b42318;
+  transform: translateY(-2px);
+}
+
+.panel-license__scheduled-note {
+  max-width: 360px;
+  color: #805a00;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.panel-license-cancel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  padding: 16px;
+  color: #6f1711;
+  background: #fff6f5;
+  border: 1px solid #efc3bf;
+  border-radius: var(--radius-sm);
+}
+
+.panel-license-cancel__copy h2 {
+  margin: 0 0 4px;
+  color: #6f1711;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.panel-license-cancel__copy p {
+  margin: 0;
+  color: #7f3d38;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.panel-license-cancel__confirm {
+  color: #fff;
+  background: #a61b13;
+  border: 1.5px solid #a61b13;
+}
+
+.panel-license-cancel__confirm:hover:not(:disabled) {
+  background: #86150f;
+  border-color: #86150f;
+  transform: translateY(-2px);
+}
+
+.panel-module-picker {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-bg-soft);
+}
+
+.panel-module-option {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.panel-module-option strong,
+.panel-module-option span {
+  display: block;
+}
+
+.panel-module-option strong {
+  color: var(--c-text);
+  font-size: 0.95rem;
+}
+
+.panel-module-option span {
+  color: var(--c-text-muted);
+  font-size: 0.84rem;
+}
+
+.panel-module-option__action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-module-option__action > span {
+  color: var(--c-text);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .panel-license__module-actions,
+  .panel-addon,
+  .panel-module-option__action {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-license__action-buttons,
+  .panel-license-cancel__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .panel-license-cancel {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-license__scheduled-note {
+    max-width: none;
+    text-align: left;
+  }
+
+  .panel-module-option {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Fatura tablosu ---------- */
+.panel-invoices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-invoice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 20px;
+}
+
+.panel-invoice__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.panel-invoice__no {
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.panel-invoice__date {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+}
+
+.panel-invoice__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.panel-invoice__amount {
+  font-weight: 800;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+
+/* ---------- Bildirimler ---------- */
+.panel-notifs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-notif {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  width: 100%;
+  border: none;
+  cursor: default;
+  font: inherit;
+  color: inherit;
+}
+
+.panel-notif.is-link {
+  cursor: pointer;
+}
+
+.panel-notif__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.panel-notif.is-unread .panel-notif__dot {
+  background: var(--c-primary, #2563eb);
+}
+
+.panel-notif.is-unread {
+  border-left: 3px solid var(--c-primary, #2563eb);
+}
+
+.panel-notif__main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.panel-notif__title {
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.panel-notif.is-unread .panel-notif__title {
+  color: var(--c-text);
+}
+
+.panel-notif__body {
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+}
+
+.panel-notif__date {
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+}
+
+.panel-error {
+  color: #a12318;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.panel-note {
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.panel-note--success {
+  color: #1d7a45;
+  background: #e4f8ec;
+  border-color: #b8ebce;
+}
+
+.panel-note--error {
+  color: #a12318;
+  background: #fdecea;
+  border-color: #f4c3bd;
+}
+
+/* ---------- Müşteri listesi ---------- */
+.panel-customers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-customer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.panel-customer__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.panel-customer__name {
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.panel-customer__sub {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel-customer__stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.panel-chip {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  white-space: nowrap;
+}
+
+/* ---------- Yazdırılabilir fatura ---------- */
+.invoice-doc {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.invoice-doc__paper {
+  padding: 34px 38px;
+}
+
+.invoice-doc__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--c-navy);
+}
+
+.invoice-doc__brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.invoice-doc__brand {
+  font-size: 1.65rem;
+  line-height: 1;
+  font-weight: 900;
+  color: var(--c-primary, var(--c-text));
+}
+
+.invoice-doc__brand-block span {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.invoice-doc__brand-block small {
+  color: var(--c-text-muted);
+  font-size: 0.82rem;
+}
+
+.invoice-doc__no {
+  text-align: right;
+  min-width: 220px;
+}
+
+.invoice-doc__no span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--c-bg-tint);
+  color: var(--c-text-muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.invoice-doc__no strong {
+  display: block;
+  font-size: 1.18rem;
+  color: var(--c-text);
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+.invoice-doc__info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.invoice-doc__box {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  background: #fff;
+}
+
+.invoice-doc__box h2 {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  color: var(--c-text);
+}
+
+.invoice-doc__details {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+
+.invoice-doc__details div {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.46fr) 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.invoice-doc__details dt {
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.invoice-doc__details dd {
+  margin: 0;
+  color: var(--c-text);
+  font-size: 0.88rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.invoice-doc__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+}
+
+.invoice-doc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.invoice-doc__table th,
+.invoice-doc__table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: top;
+}
+
+.invoice-doc__table th {
+  background: var(--c-bg-soft);
+  color: var(--c-text-muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.invoice-doc__table tr:last-child td {
+  border-bottom: 0;
+}
+
+.invoice-doc__table th:nth-child(n + 3),
+.invoice-doc__table td:nth-child(n + 3) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.invoice-doc__table th:last-child,
+.invoice-doc__table td:last-child {
+  font-weight: 900;
+  color: var(--c-text);
+}
+
+.invoice-doc__summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.invoice-doc__note {
+  max-width: 390px;
+  color: var(--c-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.invoice-doc__note strong,
+.invoice-doc__note span {
+  display: block;
+}
+
+.invoice-doc__note strong {
+  color: var(--c-text);
+  margin-bottom: 4px;
+}
+
+.invoice-doc__total {
+  min-width: 260px;
+  margin-left: auto;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  text-align: right;
+}
+
+.invoice-doc__total span,
+.invoice-doc__total small {
+  display: block;
+}
+
+.invoice-doc__total span {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.invoice-doc__total strong {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.invoice-doc__total small {
+  margin-top: 8px;
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+}
+
+.invoice-doc__actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+  .invoice-doc__paper {
+    padding: 24px 20px;
+  }
+
+  .invoice-doc__head,
+  .invoice-doc__summary {
+    flex-direction: column;
+  }
+
+  .invoice-doc__no {
+    text-align: left;
+    min-width: 0;
+  }
+
+  .invoice-doc__info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-doc__total {
+    width: 100%;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-doc,
+  .invoice-doc * {
+    visibility: visible;
+  }
+
+  .invoice-doc {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    color: #1c3444;
+  }
+
+  .invoice-doc__paper {
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .invoice-doc__actions,
+  .panel__side {
+    display: none !important;
+  }
+
+  .invoice-doc__head,
+  .invoice-doc__box,
+  .invoice-doc__table-wrap,
+  .invoice-doc__summary {
+    break-inside: avoid;
+  }
+
+  .invoice-doc__box,
+  .invoice-doc__table-wrap {
+    border-color: #d9dadb;
+  }
+
+  .invoice-doc__table th {
+    background: #f8f5ef !important;
+    color: #6b7580 !important;
+  }
+
+  .invoice-doc__total {
+    background: #fff !important;
+    color: #1c3444 !important;
+    border-color: #d9dadb !important;
+  }
+}

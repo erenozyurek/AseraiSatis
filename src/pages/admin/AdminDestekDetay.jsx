@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
+import { useNotifications } from '../../context/NotificationsContext.jsx'
 import '../panel/panel.css'
 
 const statusLabels = { open: 'Açık', answered: 'Yanıtlandı', closed: 'Kapalı' }
@@ -19,21 +20,25 @@ export default function AdminDestekDetay() {
   const { id } = useParams()
   const { user } = useAuth()
   const { refreshTickets } = useAdminData()
+  const { refreshSupport } = useNotifications()
   const [ticket, setTicket] = useState(null)
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
 
   const load = async () => {
     if (!supabase) return
-    const [{ data: t }, { data: msgs }] = await Promise.all([
+    const [{ data: t, error: ticketError }, { data: msgs, error: messageError }] =
+      await Promise.all([
       supabase.from('support_tickets').select('*').eq('id', id).single(),
       supabase
         .from('ticket_messages')
         .select('*')
         .eq('ticket_id', id)
         .order('created_at', { ascending: true }),
-    ])
+      ])
+    setError(ticketError?.message || messageError?.message || '')
     setTicket(t || null)
     setMessages(msgs || [])
     setLoading(false)
@@ -49,26 +54,39 @@ export default function AdminDestekDetay() {
     const body = e.target.mesaj.value.trim()
     if (!body) return
     setSending(true)
-    await supabase.from('ticket_messages').insert({
-      ticket_id: id,
-      author_id: user.id,
-      is_staff: true,
-      body,
-    })
-    await supabase
-      .from('support_tickets')
-      .update({ status: 'answered', updated_at: new Date().toISOString() })
-      .eq('id', id)
+    setError('')
+    const { error: replyError } = await supabase.rpc(
+      'admin_reply_support_ticket',
+      {
+        p_ticket_id: id,
+        p_body: body,
+      },
+    )
+    if (replyError) {
+      setError(replyError.message || 'Yanıt gönderilemedi.')
+      setSending(false)
+      return
+    }
     e.target.reset()
     setSending(false)
     load()
     refreshTickets()
+    refreshSupport()
   }
 
   const closeTicket = async () => {
-    await supabase.from('support_tickets').update({ status: 'closed' }).eq('id', id)
+    setError('')
+    const { error: closeError } = await supabase
+      .from('support_tickets')
+      .update({ status: 'closed', updated_at: new Date().toISOString() })
+      .eq('id', id)
+    if (closeError) {
+      setError(closeError.message || 'Talep kapatılamadı.')
+      return
+    }
     load()
     refreshTickets()
+    refreshSupport()
   }
 
   if (loading) return <div className="panel-card panel-muted">Yükleniyor…</div>
@@ -99,6 +117,11 @@ export default function AdminDestekDetay() {
       </div>
 
       <div className="panel-card">
+        {error && (
+          <div className="login-note login-note--error" role="alert">
+            {error}
+          </div>
+        )}
         <div className="panel-thread">
           {messages.map((m) => (
             <div

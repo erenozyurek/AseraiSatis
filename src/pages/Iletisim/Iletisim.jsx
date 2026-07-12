@@ -64,10 +64,9 @@ export default function Iletisim() {
                 <span className="il-success__icon" aria-hidden="true">
                   ✓
                 </span>
-                <h2>Mesajınız alındı!</h2>
+                <h2>Form önizlemesi tamamlandı</h2>
                 <p>
-                  En kısa sürede size geri dönüş yapacağız. İlginiz için
-                  teşekkür ederiz.
+                  Bu demo sürümünde mesajınız herhangi bir yere gönderilmedi.
                 </p>
                 <button
                   type="button"

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
-import { useAuth } from '../../context/AuthContext.jsx'
 import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
@@ -19,7 +18,6 @@ const formatDate = (iso) =>
   })
 
 export default function DestekTaleplerim() {
-  const { user } = useAuth()
   const { tickets, refreshTickets } = usePanelData()
   const navigate = useNavigate()
   const loading = tickets === null
@@ -37,11 +35,10 @@ export default function DestekTaleplerim() {
     if (!subject || !body) return
 
     setSubmitting(true)
-    const { data: ticket, error: tErr } = await supabase
-      .from('support_tickets')
-      .insert({ user_id: user.id, subject, status: 'open' })
-      .select('id')
-      .single()
+    const { data: ticketId, error: tErr } = await supabase.rpc(
+      'create_support_ticket',
+      { p_subject: subject, p_body: body },
+    )
 
     if (tErr) {
       setSubmitting(false)
@@ -49,14 +46,9 @@ export default function DestekTaleplerim() {
       return
     }
 
-    await supabase.from('ticket_messages').insert({
-      ticket_id: ticket.id,
-      author_id: user.id,
-      body,
-    })
     setSubmitting(false)
-    refreshTickets()
-    navigate(`/panel/destek/${ticket.id}`)
+    await refreshTickets()
+    navigate(`/panel/destek/${ticketId}`)
   }
 
   return (

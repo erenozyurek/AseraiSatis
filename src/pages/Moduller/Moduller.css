@@ -24,6 +24,45 @@
   border-color: transparent;
 }
 
+.mod-card__img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: var(--c-bg-tint);
+}
+
+.mod-img-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 6px;
+}
+
+.mod-img-edit__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mod-upload {
+  cursor: pointer;
+}
+
+.mod-card__img--preview {
+  height: 110px;
+  margin-bottom: 0;
+}
+
+.mod-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .mod-card__icon {
   display: grid;
   place-items: center;

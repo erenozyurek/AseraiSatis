@@ -424,6 +424,7 @@ export default function Home() {
     <>
       {/* ---------- HERO: LAPTOP MOCKUP ---------- */}
       <section className="lhero">
+        <h1 className="sr-only">Aserai E-Ticaret Çözümleri</h1>
         <div className="container lhero__inner">
           <img
             src={mokupImg}
@@ -897,8 +898,8 @@ export default function Home() {
           {formSent ? (
             <div className="callme__done">
               <span className="callme__done-mark">✓</span>
-              <h3>Talebiniz alındı!</h3>
-              <p>Ekibimiz en kısa sürede sizi arayacak. Teşekkürler.</p>
+              <h3>Form önizlemesi tamamlandı</h3>
+              <p>Bu demo sürümünde bilgileriniz herhangi bir yere gönderilmedi.</p>
             </div>
           ) : (
             <form className="callme__form" onSubmit={handleSubmit}>

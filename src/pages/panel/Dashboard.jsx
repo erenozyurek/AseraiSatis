@@ -10,10 +10,14 @@ const statusLabels = {
 }
 
 export default function Dashboard() {
-  const { orders } = usePanelData()
+  const { orders, licenses } = usePanelData()
   const loading = orders === null
   const list = orders || []
   const latest = list[0]
+
+  const activeLicenses = (licenses || []).filter(
+    (l) => l.status === 'active' && new Date(l.expires_at) > new Date(),
+  ).length
 
   const stats = [
     { label: 'Toplam Sipariş', value: loading ? '…' : list.length },
@@ -21,7 +25,10 @@ export default function Dashboard() {
       label: 'Son Sipariş',
       value: loading ? '…' : latest ? statusLabels[latest.status] : '—',
     },
-    { label: 'Aktif Lisans', value: '0' },
+    {
+      label: 'Aktif Lisans',
+      value: licenses === null ? '…' : activeLicenses,
+    },
     { label: 'Açık Destek', value: '0' },
   ]
 
