@@ -7,6 +7,10 @@ import {
   yearlySaving,
 } from '../../data/pricing.js'
 import { useCart } from '../../context/CartContext.jsx'
+import { useCatalog } from '../../context/CatalogContext.jsx'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { useEditMode } from '../../context/EditModeContext.jsx'
+import { supabase } from '../../lib/supabase.js'
 import BillingToggle from '../BillingToggle/BillingToggle.jsx'
 import './ComparisonTable.css'
 
@@ -47,14 +51,41 @@ export default function ComparisonTable() {
   const yearly = billing === 'yearly'
   const navigate = useNavigate()
   const { selectPackage } = useCart()
+  const { getPackage, refresh } = useCatalog()
+  const { isAdmin } = useAuth()
+  const { editMode } = useEditMode()
+  const editing = editMode && isAdmin
+  const [savingSlug, setSavingSlug] = useState(null)
 
   const handleSelect = (tierId) => {
     selectPackage(tierId, billing)
     navigate('/sepet')
   }
 
-  const tiers = comparison.tierIds.map((id) =>
-    pricing.aserai.tiers.find((t) => t.id === id),
+  const savePackage = async (slug, e) => {
+    e.preventDefault()
+    const f = e.target
+    setSavingSlug(slug)
+    await supabase
+      .from('packages')
+      .update({
+        name: f.name.value,
+        summary: f.summary.value,
+        monthly: Number(f.monthly.value),
+        yearly_monthly: Number(f.yearly_monthly.value),
+        badge: f.badge.value.trim() || null,
+        highlight: f.highlight.checked,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('slug', slug)
+    await refresh()
+    setSavingSlug(null)
+  }
+
+  // Sütunlar sabit karşılaştırma sırasında; paket bilgisi DB katalogundan gelir
+  // (bulunamazsa statik veriye düşer, matris hizası korunur).
+  const tiers = comparison.tierIds.map(
+    (id) => getPackage(id) || pricing.aserai.tiers.find((t) => t.id === id),
   )
 
   return (
@@ -80,43 +111,110 @@ export default function ComparisonTable() {
                     scope="col"
                     className={`cmp__col-head ${
                       tier.highlight ? 'is-highlight' : ''
-                    }`}
+                    } ${editing ? 'is-editing' : ''}`}
                   >
-                    {tier.badge && (
-                      <span className="cmp__col-badge">{tier.badge}</span>
-                    )}
-                    <span className="cmp__col-name">{tier.name}</span>
-                    <span className="cmp__col-summary">{tier.summary}</span>
-
-                    <span className="cmp__price">
-                      <span className="cmp__price-cur">₺</span>
-                      <span className="cmp__price-val">{formatTL(price)}</span>
-                      <span className="cmp__price-per">/ ay</span>
-                    </span>
-
-                    {yearly ? (
-                      <span className="cmp__save cmp__save--yes">
-                        <s>₺{formatTL(tier.monthly)}/ay</s> yerine · yıllık
-                        faturalandırılır
-                        <strong>Yılda ₺{formatTL(saving)} tasarruf</strong>
-                      </span>
+                    {editing ? (
+                      <form
+                        className="cmp__edit"
+                        onSubmit={(e) => savePackage(tier.id, e)}
+                      >
+                        <input
+                          name="name"
+                          defaultValue={tier.name}
+                          className="cmp__edit-in cmp__edit-in--name"
+                          required
+                        />
+                        <input
+                          name="summary"
+                          defaultValue={tier.summary || ''}
+                          className="cmp__edit-in"
+                          placeholder="Açıklama"
+                        />
+                        <div className="cmp__edit-prices">
+                          <label>
+                            Aylık ₺
+                            <input
+                              name="monthly"
+                              type="number"
+                              min="0"
+                              defaultValue={tier.monthly}
+                              required
+                            />
+                          </label>
+                          <label>
+                            Yıllık ₺
+                            <input
+                              name="yearly_monthly"
+                              type="number"
+                              min="0"
+                              defaultValue={tier.yearlyMonthly}
+                              required
+                            />
+                          </label>
+                        </div>
+                        <input
+                          name="badge"
+                          defaultValue={tier.badge || ''}
+                          className="cmp__edit-in cmp__edit-in--sm"
+                          placeholder="Rozet (ör. En popüler)"
+                        />
+                        <label className="cmp__edit-check">
+                          <input
+                            type="checkbox"
+                            name="highlight"
+                            defaultChecked={tier.highlight}
+                          />
+                          Vurgulu sütun
+                        </label>
+                        <button
+                          type="submit"
+                          className="btn btn--primary btn--block"
+                          disabled={savingSlug === tier.id}
+                        >
+                          {savingSlug === tier.id ? 'Kaydediliyor…' : 'Kaydet'}
+                        </button>
+                      </form>
                     ) : (
-                      <span className="cmp__save">
-                        Yıllık ödeyin, ayda{' '}
-                        <strong>₺{formatTL(tier.yearlyMonthly)}</strong>’ye
-                        düşsün
-                      </span>
-                    )}
+                      <>
+                        {tier.badge && (
+                          <span className="cmp__col-badge">{tier.badge}</span>
+                        )}
+                        <span className="cmp__col-name">{tier.name}</span>
+                        <span className="cmp__col-summary">{tier.summary}</span>
 
-                    <button
-                      type="button"
-                      onClick={() => handleSelect(tier.id)}
-                      className={`btn btn--block ${
-                        tier.highlight ? 'btn--dark' : 'btn--ghost'
-                      } cmp__col-cta`}
-                    >
-                      Paketi Seç
-                    </button>
+                        <span className="cmp__price">
+                          <span className="cmp__price-cur">₺</span>
+                          <span className="cmp__price-val">
+                            {formatTL(price)}
+                          </span>
+                          <span className="cmp__price-per">/ ay</span>
+                        </span>
+
+                        {yearly ? (
+                          <span className="cmp__save cmp__save--yes">
+                            <s>₺{formatTL(tier.monthly)}/ay</s> yerine · yıllık
+                            faturalandırılır
+                            <strong>Yılda ₺{formatTL(saving)} tasarruf</strong>
+                          </span>
+                        ) : (
+                          <span className="cmp__save">
+                            Yıllık ödeyin, ayda{' '}
+                            <strong>₺{formatTL(tier.yearlyMonthly)}</strong>’ye
+                            düşsün
+                          </span>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => handleSelect(tier.id)}
+                          className={`btn btn--block ${
+                            tier.highlight ? 'btn--dark' : 'btn--ghost'
+                          } cmp__col-cta`}
+                        >
+                          Paketi Seç
+                        </button>
+                      </>
+                    )}
                   </th>
                 )
               })}

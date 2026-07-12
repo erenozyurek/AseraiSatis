@@ -84,3 +84,47 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   İnline düzenleme (admin, düzenleme modu)
+   ============================================================ */
+.oz-card { position: relative; }
+.oz-card.is-editable { outline: 1.5px dashed var(--c-border-strong); outline-offset: 3px; }
+.oz-card.is-editing { outline: 2px dashed #04acfc; }
+
+.oz-card__pencil {
+  position: absolute; top: 10px; right: 10px;
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--c-navy); color: #fff;
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.16s ease, transform 0.16s ease; z-index: 2;
+}
+.oz-card.is-editable:hover .oz-card__pencil { opacity: 1; transform: scale(1); }
+
+.oz-card__edit { display: flex; flex-direction: column; gap: 9px; width: 100%; }
+.oz-edit-in {
+  width: 100%; font-family: inherit; font-size: 0.92rem;
+  padding: 8px 10px; border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm); background: #fff; resize: vertical;
+}
+.oz-edit-in--title { font-weight: 700; }
+.oz-edit-in--h2 { font-size: 1.3rem; font-weight: 800; }
+
+.oz-card__edit-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.oz-card__edit-actions .btn { padding: 7px 14px; font-size: 0.84rem; }
+.oz-card__del { margin-right: auto; color: var(--c-red); font-weight: 700; font-size: 0.84rem; }
+.oz-card__del:hover { text-decoration: underline; }
+
+.oz-cat__edit { display: flex; flex-direction: column; gap: 10px; max-width: 640px; margin: 0 auto; }
+.oz-cat__edit .btn { align-self: center; }
+
+.oz-card--add {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; min-height: 140px;
+  border: 2px dashed var(--c-border-strong); background: var(--c-bg-soft);
+  color: var(--c-text-muted); font-weight: 700; cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.oz-card--add:hover { border-color: var(--c-primary); color: var(--c-primary); background: #fff; }
+.oz-card__plus { font-size: 2.2rem; line-height: 1; font-weight: 300; }

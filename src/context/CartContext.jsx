@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { pricing } from '../data/pricing.js'
-import { getModule } from '../data/modules.js'
+import { useCatalog } from './CatalogContext.jsx'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'aserai_cart'
@@ -15,6 +14,7 @@ function loadCart() {
 }
 
 export function CartProvider({ children }) {
+  const { getPackage, getModule } = useCatalog()
   // localStorage'dan senkron başlangıç (effect'te yüklemek StrictMode'da veriyi ezer)
   const [packageId, setPackageId] = useState(() => loadCart().packageId ?? null)
   const [moduleIds, setModuleIds] = useState(() => {
@@ -45,9 +45,7 @@ export function CartProvider({ children }) {
     setModuleIds([])
   }
 
-  const tier = packageId
-    ? pricing.aserai.tiers.find((t) => t.id === packageId) ?? null
-    : null
+  const tier = packageId ? getPackage(packageId) : null
   const packagePrice = tier
     ? billing === 'yearly'
       ? tier.yearlyMonthly

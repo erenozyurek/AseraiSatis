@@ -2,12 +2,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import BillingToggle from '../../components/BillingToggle/BillingToggle.jsx'
 import { formatTL } from '../../data/pricing.js'
-import { addonModules } from '../../data/modules.js'
+import { useCatalog } from '../../context/CatalogContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
 import './Sepet.css'
 
 export default function Sepet() {
   const navigate = useNavigate()
+  const { modules: addonModules } = useCatalog()
   const {
     tier,
     billing,

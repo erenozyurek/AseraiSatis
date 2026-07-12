@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
+import { useEditMode } from '../../context/EditModeContext.jsx'
 import './Navbar.css'
 
 import aseraiLogo from '../../assets/aserai.png'
@@ -74,6 +75,19 @@ const Caret = () => (
   </svg>
 )
 
+const EditPencil = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M4 20h4L18 10l-4-4L4 16v4zM14 6l4 4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 function Dropdown({ label, items, openKey, active, setActive }) {
   const isOpen = active === openKey
   return (
@@ -107,8 +121,10 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null)
   const location = useLocation()
   const navigate = useNavigate()
-  const { user, signOut } = useAuth()
+  const { user, isAdmin, signOut } = useAuth()
   const { count } = useCart()
+  const { editMode, toggle: toggleEdit } = useEditMode()
+  const accountTo = isAdmin ? '/yonetim' : '/panel'
 
   const handleLogout = async () => {
     await signOut()
@@ -148,15 +164,26 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__actions">
+          {isAdmin && (
+            <button
+              type="button"
+              className={`nav__edit ${editMode ? 'is-active' : ''}`}
+              onClick={toggleEdit}
+              title={editMode ? 'Düzenleme modunu kapat' : 'Düzenleme modu'}
+              aria-pressed={editMode}
+            >
+              <EditPencil />
+            </button>
+          )}
           <Link to="/sepet" className="nav__cart" aria-label="Sepet">
             <CartIcon />
             {count > 0 && <span className="nav__cart-badge">{count}</span>}
           </Link>
           {user ? (
             <>
-              <Link to="/panel" className="nav__login" title={user.email}>
+              <Link to={accountTo} className="nav__login" title={user.email}>
                 <PersonIcon />
-                Hesabım
+                {isAdmin ? 'Yönetim' : 'Hesabım'}
               </Link>
               <button
                 type="button"
@@ -200,8 +227,8 @@ export default function Navbar() {
         ))}
         {user ? (
           <>
-            <NavLink to="/panel" className="nav__mobile-link">
-              Hesabım
+            <NavLink to={accountTo} className="nav__mobile-link">
+              {isAdmin ? 'Yönetim' : 'Hesabım'}
             </NavLink>
             <button
               type="button"

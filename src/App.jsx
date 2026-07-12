@@ -29,7 +29,15 @@ import Siparislerim from './pages/panel/Siparislerim.jsx'
 import DestekTaleplerim from './pages/panel/DestekTaleplerim.jsx'
 import DestekDetay from './pages/panel/DestekDetay.jsx'
 import Profil from './pages/panel/Profil.jsx'
+import AdminLayout from './components/AdminLayout/AdminLayout.jsx'
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import AdminSiparisler from './pages/admin/AdminSiparisler.jsx'
+import AdminPaketler from './pages/admin/AdminPaketler.jsx'
+import AdminModuller from './pages/admin/AdminModuller.jsx'
+import AdminDestek from './pages/admin/AdminDestek.jsx'
+import AdminDestekDetay from './pages/admin/AdminDestekDetay.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
 import Legal from './pages/Legal/Legal.jsx'
 import Placeholder from './pages/Placeholder/Placeholder.jsx'
 
@@ -137,6 +145,21 @@ export default function App() {
           <Route path="profil" element={<Profil />} />
         </Route>
         <Route path="/hesabim" element={<Navigate to="/panel" replace />} />
+        <Route
+          path="/yonetim"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="siparisler" element={<AdminSiparisler />} />
+          <Route path="paketler" element={<AdminPaketler />} />
+          <Route path="moduller" element={<AdminModuller />} />
+          <Route path="destek" element={<AdminDestek />} />
+          <Route path="destek/:id" element={<AdminDestekDetay />} />
+        </Route>
         <Route path="/sepet" element={<Sepet />} />
         <Route
           path="/odeme"

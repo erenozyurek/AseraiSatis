@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { supabase } from '../../lib/supabase.js'
 import './Giris.css'
 
 const asideBullets = [
@@ -27,9 +28,9 @@ export default function Giris() {
       email: e.target.email.value,
       password: e.target.sifre.value,
     })
-    setLoading(false)
 
     if (err) {
+      setLoading(false)
       const msg =
         err.message === 'Invalid login credentials'
           ? 'E-posta veya şifre hatalı.'
@@ -39,7 +40,11 @@ export default function Giris() {
       setError(msg)
       return
     }
-    navigate(from, { replace: true })
+
+    // Admin ise doğrudan yönetim paneline, değilse gelinen sayfaya/ana panele
+    const { data: admin } = await supabase.rpc('is_platform_admin')
+    setLoading(false)
+    navigate(admin ? '/yonetim' : from, { replace: true })
   }
 
   return (

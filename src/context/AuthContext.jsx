@@ -13,6 +13,7 @@ const notConfigured = {
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(null) // null = henüz kontrol edilmedi
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -32,10 +33,25 @@ export function AuthProvider({ children }) {
     return () => sub.subscription.unsubscribe()
   }, [])
 
+  // Platform admin kontrolü — yalnızca kullanıcı DEĞİŞTİĞİNDE (giriş/çıkış).
+  // token yenileme gibi olaylarda tekrar sıfırlanmasını (flicker) önler.
+  const userId = session?.user?.id
+  useEffect(() => {
+    if (!isSupabaseConfigured || !userId) {
+      setIsAdmin(false)
+      return
+    }
+    setIsAdmin(null) // kontrol edilene kadar bilinmiyor
+    supabase.rpc('is_platform_admin').then(({ data }) => {
+      setIsAdmin(Boolean(data))
+    })
+  }, [userId])
+
   const value = {
     session,
     user: session?.user ?? null,
     loading,
+    isAdmin,
     isConfigured: isSupabaseConfigured,
 
     signUp: ({ email, password, fullName, phone, company }) =>
