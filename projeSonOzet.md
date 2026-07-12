@@ -158,6 +158,7 @@ Son doğrulama: `npm run build` başarılı geçti.
 | Destek güvenliği | Müşteri/personel mesajları atomik RPC'lere taşındı; müşteri `is_staff` taklidi ve yarım talep oluşması kapatıldı. | `0016`, müşteri/admin destek detayları |
 | Bildirim güvenliği | Bildirim bağlantıları yalnızca aynı site içindeki güvenli `/...` yollarını kabul eder. | `navigation.js`, Bildirim ekranları, `0016` |
 | Görsel güvenliği | Kart yüklemeleri JPG/PNG/WebP/AVIF ve en fazla 5 MB ile sınırlandı; yalnız HTTPS URL kabul edilir. | `imageUpload.js`, Modüller, Özellikler, `0016` |
+| Modül görsel standardı | Sonradan yüklenen modül görselleri kaynak ölçüsü ve en-boy oranından bağımsız olarak yerleşik ikonlarla aynı `52×52` kutuda gösterilir. Görsel `24×24`, ortalanmış `object-fit: contain` ile ölçeklenir; kart yüksekliğini değiştirmez. Düzenleme önizlemesi `110×110` kalır. | `Moduller.css` |
 | Yardım araması | Arama alanı kategori ve SSS sonuçlarını gerçekten filtreler; kategori kartları klavyeyle kullanılabilir. | `Yardim.jsx`, `Yardim.css` |
 | Sessiz hata düzeltmesi | Panel/admin veri hataları ve temel yazma hataları kullanıcıya görünür hale getirildi. | Data context'leri, Profil, Sipariş/Destek ekranları |
 | Kimlik güvenliği | Kayıt ve parola yenilemede en az 8 karakter + parola tekrar kontrolü eklendi. | `Kayit`, `SifreYenile` |
@@ -167,6 +168,9 @@ Son doğrulama: `npm run build` başarılı geçti.
 | Dev sunucu | Yerel geliştirme sunucusu `127.0.0.1` ve yerel origin CORS ile sınırlandı. | `vite.config.js` |
 | Dönem sonu paket iptali | `Lisanslarım` ekranındaki iki aşamalı iptal, mevcut fatura dönemi sonuna planlanır. Paket ve bağlı modüller `expires_at` tarihine kadar kullanılabilir; bu tarihte kapanır ve yenilenmez. | `Lisanslarim`, `panel.css`, `0018` |
 | İptal yarış koşulları | İptali planlanan pakete yeni modül/yenileme açılması veya eski admin ekranından bekleyen işlemin `paid` yapılması DB tetikleriyle engellendi. | `0017`, `0018` |
+
+Son doğrulama: Üretim build'i 192 modülle başarılı geçti; modül kartları tarayıcıda
+eşit yükseklikte görüntülendi ve konsol hatası bulunmadı.
 
 > Ödeme, yıllık fiyat/KDV hesabı, gateway ve gerçek sipariş tahsilatı bu turda özellikle
 > değiştirilmedi. Kullanıcı isteğiyle demo olarak bırakıldı; gerçek ödeme sayfası ayrı fazdır.
