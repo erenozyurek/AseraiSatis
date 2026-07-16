@@ -18,6 +18,9 @@
 .panel__side {
   position: sticky;
   top: calc(var(--nav-height) + 24px);
+  max-height: calc(100vh - var(--nav-height) - 48px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   background: #fff;
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
@@ -174,5 +177,8 @@
   }
   .panel__side {
     position: static;
+    max-height: none;
+    overflow-y: visible;
+    scrollbar-gutter: auto;
   }
 }

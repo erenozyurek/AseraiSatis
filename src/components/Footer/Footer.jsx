@@ -56,7 +56,7 @@ const columns = [
       { label: 'Kariyer', to: '/hakkimizda' },
       { label: 'Blog', to: '/blog' },
       { label: 'Destek Merkezi', to: '/yardim' },
-      { label: 'KVKK', to: '/kvkk' },
+      { label: 'Hukuki Sayfalar', to: '/kvkk' },
     ],
   },
 ]
@@ -64,7 +64,7 @@ const columns = [
 const legalLinks = [
   { label: 'Yasal Uyarı', to: '/yasal-uyari' },
   { label: 'Kullanım Şartları', to: '/kullanim-sartlari' },
-  { label: 'KVKK', to: '/kvkk' },
+  { label: 'Hukuki Sayfalar', to: '/kvkk' },
   { label: 'Çerez Politikası', to: '/cerez-politikasi' },
   { label: 'Gizlilik Politikası', to: '/gizlilik' },
 ]

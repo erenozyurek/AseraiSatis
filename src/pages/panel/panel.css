@@ -169,6 +169,26 @@
   background: #fdecea;
 }
 
+.panel-badge--failed,
+.panel-badge--rejected,
+.panel-badge--revoked {
+  color: #a12318;
+  background: #fdecea;
+}
+
+.panel-badge--refunded {
+  color: #5f4b00;
+  background: #fff7c2;
+}
+
+.panel-badge--not_sent,
+.panel-badge--queued,
+.panel-badge--sent,
+.panel-badge--accepted {
+  color: #1d7a45;
+  background: #e4f8ec;
+}
+
 /* ---------- Boş durum ---------- */
 .panel-empty {
   display: flex;
@@ -445,8 +465,70 @@
   gap: 12px;
 }
 
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.admin-permissions {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-soft);
+}
+
+.panel-attachments {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 16px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.panel-attachments h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.panel-attachment {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  font-weight: 700;
+}
+
+.panel-attachment small {
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+.panel-log-json {
+  display: block;
+  max-width: 100%;
+  margin-top: 6px;
+  color: var(--c-text-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 560px) {
   .admin-edit__row {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -791,6 +873,12 @@
   font-weight: 800;
   color: var(--c-text);
   white-space: nowrap;
+}
+
+/* ---------- Profil e-posta doğrulama rozeti ---------- */
+.profil-mail-badge {
+  margin-left: 10px;
+  vertical-align: middle;
 }
 
 /* ---------- Bildirimler ---------- */

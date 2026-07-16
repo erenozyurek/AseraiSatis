@@ -8,15 +8,22 @@ import '../PanelLayout/PanelLayout.css'
 const activeItems = [
   { to: '/yonetim', label: 'Dashboard', end: true },
   { to: '/yonetim/siparisler', label: 'Sipariş Yönetimi' },
+  { to: '/yonetim/odemeler', label: 'Ödeme Yönetimi' },
+  { to: '/yonetim/faturalar', label: 'Fatura Yönetimi' },
+  { to: '/yonetim/lisanslar', label: 'Lisans Yönetimi' },
   { to: '/yonetim/yenilemeler', label: 'Yenileme Yönetimi' },
   { to: '/yonetim/musteriler', label: 'Müşteri Yönetimi' },
   { to: '/yonetim/bildirimler', label: 'Bildirim Yönetimi' },
   { to: '/yonetim/paketler', label: 'Paket Yönetimi' },
   { to: '/yonetim/moduller', label: 'Modül Yönetimi' },
+  { to: '/yonetim/blog', label: 'Blog Yönetimi' },
   { to: '/yonetim/destek', label: 'Destek Yönetimi' },
+  { to: '/yonetim/ayarlar', label: 'Sistem Ayarları' },
+  { to: '/yonetim/roller', label: 'Rol ve Yetki' },
+  { to: '/yonetim/loglar', label: 'İşlem Logları' },
 ]
 
-const soonItems = ['CMS', 'Ayarlar']
+const soonItems = ['CMS']
 
 export default function AdminLayout() {
   const { user, signOut } = useAuth()

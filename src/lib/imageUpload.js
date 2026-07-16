@@ -8,27 +8,75 @@ const IMAGE_EXTENSIONS = {
   'image/webp': 'webp',
 }
 
-export async function uploadCardImage(folder, file) {
-  if (!supabase) throw new Error('Gorsel servisi yapilandirilmamis.')
+export function validateImageFile(file) {
+  if (!file || !Number.isFinite(file.size) || file.size <= 0) {
+    throw new Error('Geçerli bir görsel dosyası seçin.')
+  }
 
-  const extension = IMAGE_EXTENSIONS[file?.type]
+  const extension = IMAGE_EXTENSIONS[file.type]
   if (!extension) {
-    throw new Error('Yalnizca JPG, PNG, WebP veya AVIF gorsel yukleyebilirsiniz.')
+    throw new Error('Yalnızca JPG, PNG, WebP veya AVIF görsel yükleyebilirsiniz.')
   }
   if (file.size > MAX_IMAGE_SIZE) {
-    throw new Error('Gorsel boyutu en fazla 5 MB olabilir.')
+    throw new Error('Görsel boyutu en fazla 5 MB olabilir.')
   }
 
+  return extension
+}
+
+async function uploadPublicImage(bucket, folder, file) {
+  if (!supabase) throw new Error('Gorsel servisi yapilandirilmamis.')
+
+  const extension = validateImageFile(file)
   const path = `${folder}/${crypto.randomUUID()}.${extension}`
   const { error } = await supabase.storage
-    .from('card-images')
+    .from(bucket)
     .upload(path, file, { cacheControl: '3600' })
 
   if (error) throw error
 
-  const { data } = supabase.storage.from('card-images').getPublicUrl(path)
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path)
   if (!data?.publicUrl) throw new Error('Gorsel adresi olusturulamadi.')
   return data.publicUrl
+}
+
+export function uploadCardImage(folder, file) {
+  return uploadPublicImage('card-images', folder, file)
+}
+
+export function uploadBlogImage(file) {
+  return uploadPublicImage('blog-images', 'covers', file)
+}
+
+export async function removeBlogImage(publicUrl) {
+  if (!supabase || !publicUrl) return false
+
+  let url
+  try {
+    url = new URL(publicUrl)
+  } catch {
+    return false
+  }
+
+  const marker = '/storage/v1/object/public/blog-images/'
+  const markerIndex = url.pathname.indexOf(marker)
+  if (markerIndex === -1) return false
+
+  const encodedPath = url.pathname.slice(markerIndex + marker.length)
+  let path
+  try {
+    path = decodeURIComponent(encodedPath)
+  } catch {
+    return false
+  }
+
+  if (!/^covers\/[0-9a-f-]+\.(avif|jpg|png|webp)$/.test(path)) {
+    return false
+  }
+
+  const { error } = await supabase.storage.from('blog-images').remove([path])
+  if (error) throw error
+  return true
 }
 
 export function normalizeImageUrl(value) {

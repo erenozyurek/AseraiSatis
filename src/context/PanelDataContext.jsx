@@ -25,6 +25,7 @@ export function PanelDataProvider({ children }) {
   const [licenses, setLicenses] = useState(null)
   const [invoices, setInvoices] = useState(null)
   const [renewals, setRenewals] = useState(null)
+  const [payments, setPayments] = useState(null)
   const [errors, setErrors] = useState({})
 
   const fetchOrders = useCallback(async () => {
@@ -72,6 +73,16 @@ export function PanelDataProvider({ children }) {
     setRenewals(data || [])
   }, [])
 
+  const fetchPayments = useCallback(async () => {
+    if (!supabase) return
+    const { data, error } = await supabase
+      .from('payments')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setErrors((current) => ({ ...current, payments: error?.message || '' }))
+    setPayments(data || [])
+  }, [])
+
   const fetchTickets = useCallback(async () => {
     if (!supabase) return
     const { data, error } = await supabase
@@ -105,6 +116,7 @@ export function PanelDataProvider({ children }) {
     fetchLicenses()
     fetchInvoices()
     fetchRenewals()
+    fetchPayments()
   }, [
     user,
     fetchOrders,
@@ -113,6 +125,7 @@ export function PanelDataProvider({ children }) {
     fetchLicenses,
     fetchInvoices,
     fetchRenewals,
+    fetchPayments,
   ])
 
   const value = {
@@ -123,12 +136,14 @@ export function PanelDataProvider({ children }) {
     licenses,
     invoices,
     renewals,
+    payments,
     refreshOrders: fetchOrders,
     refreshTickets: fetchTickets,
     refreshProfile: fetchProfile,
     refreshLicenses: fetchLicenses,
     refreshInvoices: fetchInvoices,
     refreshRenewals: fetchRenewals,
+    refreshPayments: fetchPayments,
   }
   const errorMessage = Object.values(errors).find(Boolean)
 

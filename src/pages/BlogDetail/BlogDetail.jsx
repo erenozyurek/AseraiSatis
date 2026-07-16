@@ -1,12 +1,56 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import CtaBand from '../../components/CtaBand/CtaBand.jsx'
-import { getPost, posts, formatDate } from '../../data/blog.js'
+import BlogCover from '../../components/BlogCover/BlogCover.jsx'
+import {
+  fetchPublishedPost,
+  fetchRelatedPosts,
+  formatDate,
+} from '../../data/blog.js'
 import './BlogDetail.css'
 
 export default function BlogDetail() {
   const { slug } = useParams()
-  const post = getPost(slug)
+  const [post, setPost] = useState(null)
+  const [related, setRelated] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let active = true
+    setLoading(true)
+    setPost(null)
+    setRelated([])
+
+    Promise.all([fetchPublishedPost(slug), fetchRelatedPosts(slug)])
+      .then(([nextPost, nextRelated]) => {
+        if (!active) return
+        setPost(nextPost)
+        setRelated(nextPost ? nextRelated : [])
+      })
+      .catch(() => {
+        if (!active) return
+        setPost(null)
+        setRelated([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [slug])
+
+  if (loading) {
+    return (
+      <PageHeader
+        eyebrow="Blog"
+        title="Yazı yükleniyor…"
+        text="Blog içeriği hazırlanıyor."
+      />
+    )
+  }
 
   if (!post) {
     return (
@@ -18,14 +62,19 @@ export default function BlogDetail() {
     )
   }
 
-  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3)
-
   return (
     <>
       <PageHeader eyebrow={post.category} title={post.title} text={post.excerpt} />
 
       <article className="section">
         <div className="container blog-post">
+          <BlogCover
+            post={post}
+            className="blog-post__cover"
+            showCategory={false}
+            loading="eager"
+          />
+
           <div className="blog-post__meta">
             <Link to="/blog" className="blog-post__back">
               <span aria-hidden="true">←</span> Tüm yazılar
@@ -62,13 +111,19 @@ export default function BlogDetail() {
                   key={p.slug}
                   to={`/blog/${p.slug}`}
                   className="blog-related__card"
-                  style={{ '--accent': p.accent }}
                 >
-                  <span className="blog-related__cat">{p.category}</span>
-                  <h3>{p.title}</h3>
-                  <span className="blog-related__meta">
-                    {formatDate(p.date)} · {p.readingTime}
-                  </span>
+                  <BlogCover
+                    post={p}
+                    className="blog-related__cover"
+                    showCategory={false}
+                  />
+                  <div className="blog-related__body">
+                    <span className="blog-related__cat">{p.category}</span>
+                    <h3>{p.title}</h3>
+                    <span className="blog-related__meta">
+                      {formatDate(p.date)} · {p.readingTime}
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>

@@ -21,6 +21,7 @@ const simpleLinks = [
   { label: 'Modüller', to: '/moduller' },
   { label: 'Tüm Özellikler', to: '/ozellikler' },
   { label: 'Kurumsal', to: '/kurumsal' },
+  { label: 'Akademi', to: '/akademi' },
 ]
 
 function Logo() {

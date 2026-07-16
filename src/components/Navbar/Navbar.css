@@ -55,7 +55,7 @@
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 22px;
   margin-left: auto;
 }
 
@@ -168,9 +168,9 @@
 .nav__actions {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 20px;
   flex-shrink: 0;
-  margin-left: 40px;
+  margin-left: 24px;
 }
 
 .nav__edit {

@@ -17,6 +17,8 @@ export function AdminDataProvider({ children }) {
   const [tickets, setTickets] = useState(null)
   const [licenses, setLicenses] = useState(null)
   const [renewals, setRenewals] = useState(null)
+  const [invoices, setInvoices] = useState(null)
+  const [payments, setPayments] = useState(null)
   const [customers, setCustomers] = useState(null)
   const [errors, setErrors] = useState({})
 
@@ -61,6 +63,26 @@ export function AdminDataProvider({ children }) {
     setRenewals(data || [])
   }, [])
 
+  const fetchInvoices = useCallback(async () => {
+    if (!supabase) return
+    const { data, error } = await supabase
+      .from('invoices')
+      .select('*')
+      .order('issued_at', { ascending: false })
+    setErrors((current) => ({ ...current, invoices: error?.message || '' }))
+    setInvoices(data || [])
+  }, [])
+
+  const fetchPayments = useCallback(async () => {
+    if (!supabase) return
+    const { data, error } = await supabase
+      .from('payments')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setErrors((current) => ({ ...current, payments: error?.message || '' }))
+    setPayments(data || [])
+  }, [])
+
   // admin_list_customers RPC (0010). Yoksa boş listeye düşer, kırılmaz.
   const fetchCustomers = useCallback(async () => {
     if (!supabase) return
@@ -74,19 +96,33 @@ export function AdminDataProvider({ children }) {
     fetchTickets()
     fetchLicenses()
     fetchRenewals()
+    fetchInvoices()
+    fetchPayments()
     fetchCustomers()
-  }, [fetchOrders, fetchTickets, fetchLicenses, fetchRenewals, fetchCustomers])
+  }, [
+    fetchOrders,
+    fetchTickets,
+    fetchLicenses,
+    fetchRenewals,
+    fetchInvoices,
+    fetchPayments,
+    fetchCustomers,
+  ])
 
   const value = {
     orders,
     tickets,
     licenses,
     renewals,
+    invoices,
+    payments,
     customers,
     refreshOrders: fetchOrders,
     refreshTickets: fetchTickets,
     refreshLicenses: fetchLicenses,
     refreshRenewals: fetchRenewals,
+    refreshInvoices: fetchInvoices,
+    refreshPayments: fetchPayments,
     refreshCustomers: fetchCustomers,
   }
   const errorMessage = Object.values(errors).find(Boolean)

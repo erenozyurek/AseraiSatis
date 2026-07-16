@@ -5,7 +5,7 @@ import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
 export default function Profil() {
-  const { user } = useAuth()
+  const { user, emailVerified } = useAuth()
   const { profile, tenants, refreshProfile } = usePanelData()
   const loading = profile === null
   const tenantList = tenants || []
@@ -82,7 +82,16 @@ export default function Profil() {
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="eposta">E-posta</label>
+                <label htmlFor="eposta">
+                  E-posta
+                  <span
+                    className={`panel-badge panel-badge--${
+                      emailVerified ? 'active' : 'pending'
+                    } profil-mail-badge`}
+                  >
+                    {emailVerified ? '✓ Doğrulandı' : 'Doğrulanmadı'}
+                  </span>
+                </label>
                 <input
                   id="eposta"
                   type="email"

@@ -9,6 +9,7 @@ const Cozumler = lazy(() => import('./pages/Cozumler/Cozumler.jsx'))
 const Moduller = lazy(() => import('./pages/Moduller/Moduller.jsx'))
 const Ozellikler = lazy(() => import('./pages/Ozellikler/Ozellikler.jsx'))
 const Kurumsal = lazy(() => import('./pages/Kurumsal/Kurumsal.jsx'))
+const Akademi = lazy(() => import('./pages/Akademi/Akademi.jsx'))
 const ProductPage = lazy(() => import('./pages/ProductPage/ProductPage.jsx'))
 const Paketler = lazy(() => import('./pages/Paketler/Paketler.jsx'))
 const Hakkimizda = lazy(() => import('./pages/Hakkimizda/Hakkimizda.jsx'))
@@ -38,7 +39,11 @@ const Siparislerim = lazy(() => import('./pages/panel/Siparislerim.jsx'))
 const Lisanslarim = lazy(() => import('./pages/panel/Lisanslarim.jsx'))
 const Faturalarim = lazy(() => import('./pages/panel/Faturalarim.jsx'))
 const FaturaDetay = lazy(() => import('./pages/panel/FaturaDetay.jsx'))
+const Odemelerim = lazy(() => import('./pages/panel/Odemelerim.jsx'))
 const Yenilemelerim = lazy(() => import('./pages/panel/Yenilemelerim.jsx'))
+const ApiAnahtarlari = lazy(
+  () => import('./pages/panel/ApiAnahtarlari.jsx'),
+)
 const Bildirimlerim = lazy(() => import('./pages/panel/Bildirimlerim.jsx'))
 const DestekTaleplerim = lazy(
   () => import('./pages/panel/DestekTaleplerim.jsx'),
@@ -50,6 +55,9 @@ const AdminLayout = lazy(
 )
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'))
 const AdminSiparisler = lazy(() => import('./pages/admin/AdminSiparisler.jsx'))
+const AdminOdemeler = lazy(() => import('./pages/admin/AdminOdemeler.jsx'))
+const AdminFaturalar = lazy(() => import('./pages/admin/AdminFaturalar.jsx'))
+const AdminLisanslar = lazy(() => import('./pages/admin/AdminLisanslar.jsx'))
 const AdminYenilemeler = lazy(
   () => import('./pages/admin/AdminYenilemeler.jsx'),
 )
@@ -62,10 +70,14 @@ const AdminBildirimler = lazy(
 )
 const AdminPaketler = lazy(() => import('./pages/admin/AdminPaketler.jsx'))
 const AdminModuller = lazy(() => import('./pages/admin/AdminModuller.jsx'))
+const AdminBlog = lazy(() => import('./pages/admin/AdminBlog.jsx'))
 const AdminDestek = lazy(() => import('./pages/admin/AdminDestek.jsx'))
 const AdminDestekDetay = lazy(
   () => import('./pages/admin/AdminDestekDetay.jsx'),
 )
+const AdminAyarlar = lazy(() => import('./pages/admin/AdminAyarlar.jsx'))
+const AdminRoller = lazy(() => import('./pages/admin/AdminRoller.jsx'))
+const AdminLoglar = lazy(() => import('./pages/admin/AdminLoglar.jsx'))
 const Legal = lazy(() => import('./pages/Legal/Legal.jsx'))
 const Placeholder = lazy(() => import('./pages/Placeholder/Placeholder.jsx'))
 
@@ -150,6 +162,8 @@ export default function App() {
         <Route path="/moduller" element={<Moduller />} />
         <Route path="/ozellikler" element={<Ozellikler />} />
         <Route path="/kurumsal" element={<Kurumsal />} />
+        <Route path="/akademi" element={<Akademi />} />
+        <Route path="/akademi/:slug" element={<Akademi />} />
         <Route path="/aserai" element={<ProductPage slug="aserai" />} />
         <Route path="/iberai" element={<ProductPage slug="iberai" />} />
         <Route path="/paketler" element={<Paketler />} />
@@ -178,7 +192,9 @@ export default function App() {
           <Route path="lisanslarim" element={<Lisanslarim />} />
           <Route path="faturalarim" element={<Faturalarim />} />
           <Route path="faturalarim/:id" element={<FaturaDetay />} />
+          <Route path="odemelerim" element={<Odemelerim />} />
           <Route path="yenilemelerim" element={<Yenilemelerim />} />
+          <Route path="api-anahtarlari" element={<ApiAnahtarlari />} />
           <Route path="bildirimlerim" element={<Bildirimlerim />} />
           <Route path="destek" element={<DestekTaleplerim />} />
           <Route path="destek/:id" element={<DestekDetay />} />
@@ -195,14 +211,21 @@ export default function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="siparisler" element={<AdminSiparisler />} />
+          <Route path="odemeler" element={<AdminOdemeler />} />
+          <Route path="faturalar" element={<AdminFaturalar />} />
+          <Route path="lisanslar" element={<AdminLisanslar />} />
           <Route path="yenilemeler" element={<AdminYenilemeler />} />
           <Route path="musteriler" element={<AdminMusteriler />} />
           <Route path="musteriler/:id" element={<AdminMusteriDetay />} />
           <Route path="bildirimler" element={<AdminBildirimler />} />
           <Route path="paketler" element={<AdminPaketler />} />
           <Route path="moduller" element={<AdminModuller />} />
+          <Route path="blog" element={<AdminBlog />} />
           <Route path="destek" element={<AdminDestek />} />
           <Route path="destek/:id" element={<AdminDestekDetay />} />
+          <Route path="ayarlar" element={<AdminAyarlar />} />
+          <Route path="roller" element={<AdminRoller />} />
+          <Route path="loglar" element={<AdminLoglar />} />
         </Route>
         <Route path="/sepet" element={<Sepet />} />
         <Route
@@ -221,8 +244,29 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/mesafeli-satis-sozlesmesi"
+          element={<Legal slug="mesafeli-satis-sozlesmesi" />}
+        />
         <Route path="/kvkk" element={<Legal slug="kvkk" />} />
         <Route path="/gizlilik" element={<Legal slug="gizlilik" />} />
+        <Route
+          path="/kvkk-gizlilik-sozlesmesi"
+          element={<Legal slug="kvkk-gizlilik-sozlesmesi" />}
+        />
+        <Route
+          path="/uyelik-sozlesmesi"
+          element={<Legal slug="uyelik-sozlesmesi" />}
+        />
+        <Route
+          path="/verilerin-silinmesi"
+          element={<Legal slug="verilerin-silinmesi" />}
+        />
+        <Route
+          path="/iade-politikasi"
+          element={<Legal slug="iade-politikasi" />}
+        />
+        <Route path="/iade-formu" element={<Legal slug="iade-formu" />} />
         <Route
           path="/kullanim-sartlari"
           element={<Legal slug="kullanim-sartlari" />}

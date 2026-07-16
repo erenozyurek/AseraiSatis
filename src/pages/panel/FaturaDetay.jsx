@@ -16,6 +16,15 @@ const statusLabels = {
   void: 'İptal',
 }
 
+const eInvoiceLabels = {
+  not_sent: 'Gönderilmedi',
+  queued: 'Kuyrukta',
+  sent: 'Gönderildi',
+  accepted: 'Kabul edildi',
+  rejected: 'Reddedildi',
+  cancelled: 'İptal',
+}
+
 const itemTypeLabels = {
   package: 'Paket',
   module: 'Modül',
@@ -81,6 +90,16 @@ export default function FaturaDetay() {
         >
           Yazdır / PDF
         </button>
+        {invoice.pdf_url && (
+          <a
+            href={invoice.pdf_url}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn--ghost"
+          >
+            PDF Dosyasını Aç
+          </a>
+        )}
       </div>
 
       <div className="panel-card invoice-doc__paper">
@@ -116,6 +135,20 @@ export default function FaturaDetay() {
                 <dt>Ödeme yöntemi</dt>
                 <dd>{paymentMethod}</dd>
               </div>
+              <div>
+                <dt>E-fatura</dt>
+                <dd>
+                  {eInvoiceLabels[invoice.e_invoice_status] ||
+                    invoice.e_invoice_status ||
+                    'Gönderilmedi'}
+                </dd>
+              </div>
+              {invoice.e_invoice_uuid && (
+                <div>
+                  <dt>UUID</dt>
+                  <dd>{invoice.e_invoice_uuid}</dd>
+                </div>
+              )}
             </dl>
           </section>
 

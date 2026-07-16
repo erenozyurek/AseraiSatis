@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useNotifications } from '../../context/NotificationsContext.jsx'
 import { PanelDataProvider } from '../../context/PanelDataContext.jsx'
+import EmailVerifyNotice from '../EmailVerifyNotice/EmailVerifyNotice.jsx'
 import './PanelLayout.css'
 
 const activeItems = [
@@ -9,12 +10,13 @@ const activeItems = [
   { to: '/panel/siparislerim', label: 'Siparişlerim' },
   { to: '/panel/lisanslarim', label: 'Lisanslarım' },
   { to: '/panel/faturalarim', label: 'Faturalarım' },
+  { to: '/panel/odemelerim', label: 'Ödemelerim' },
+  { to: '/panel/yenilemelerim', label: 'Yenilemelerim' },
+  { to: '/panel/api-anahtarlari', label: 'API Anahtarlarım' },
   { to: '/panel/bildirimlerim', label: 'Bildirimlerim' },
   { to: '/panel/destek', label: 'Destek Taleplerim' },
   { to: '/panel/profil', label: 'Profilim' },
 ]
-
-const soonItems = ['Yenilemelerim']
 
 export default function PanelLayout() {
   const { user, signOut } = useAuth()
@@ -58,12 +60,6 @@ export default function PanelLayout() {
                 )}
               </NavLink>
             ))}
-            {soonItems.map((label) => (
-              <span key={label} className="panel__nav-link is-soon">
-                {label}
-                <span className="panel__soon">Yakında</span>
-              </span>
-            ))}
           </nav>
 
           <button
@@ -76,6 +72,7 @@ export default function PanelLayout() {
         </aside>
 
         <main className="panel__main">
+          <EmailVerifyNotice />
           <PanelDataProvider>
             <Outlet />
           </PanelDataProvider>

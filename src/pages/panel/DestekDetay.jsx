@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
+import { uploadSupportAttachment } from '../../lib/fileUpload.js'
+import { useAuth } from '../../context/AuthContext.jsx'
 import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
@@ -20,16 +22,22 @@ const formatTime = (iso) =>
 
 export default function DestekDetay() {
   const { id } = useParams()
+  const { user } = useAuth()
   const { refreshTickets } = usePanelData()
   const [ticket, setTicket] = useState(null)
   const [messages, setMessages] = useState([])
+  const [attachments, setAttachments] = useState([])
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
 
   const load = async () => {
     if (!supabase) return
-    const [{ data: t, error: ticketError }, { data: msgs, error: messageError }] =
+    const [
+      { data: t, error: ticketError },
+      { data: msgs, error: messageError },
+      { data: files, error: attachmentError },
+    ] =
       await Promise.all([
       supabase.from('support_tickets').select('*').eq('id', id).single(),
       supabase
@@ -37,10 +45,21 @@ export default function DestekDetay() {
         .select('*')
         .eq('ticket_id', id)
         .order('created_at', { ascending: true }),
+      supabase
+        .from('support_attachments')
+        .select('*')
+        .eq('ticket_id', id)
+        .order('created_at', { ascending: true }),
       ])
-    setError(ticketError?.message || messageError?.message || '')
+    setError(
+      ticketError?.message ||
+        messageError?.message ||
+        attachmentError?.message ||
+        '',
+    )
     setTicket(t || null)
     setMessages(msgs || [])
+    setAttachments(files || [])
     setLoading(false)
   }
 
@@ -55,14 +74,36 @@ export default function DestekDetay() {
     if (!body) return
     setSending(true)
     setError('')
-    const { error: replyError } = await supabase.rpc('reply_support_ticket', {
+    const { data: messageId, error: replyError } = await supabase.rpc(
+      'reply_support_ticket',
+      {
       p_ticket_id: id,
       p_body: body,
-    })
+      },
+    )
     if (replyError) {
       setError(replyError.message || 'Yanıt gönderilemedi.')
       setSending(false)
       return
+    }
+
+    const file = e.target.dosya.files?.[0]
+    if (file) {
+      try {
+        const fileUrl = await uploadSupportAttachment(user.id, id, file)
+        await supabase.rpc('register_support_attachment', {
+          p_ticket_id: id,
+          p_message_id: messageId,
+          p_file_name: file.name,
+          p_file_url: fileUrl,
+          p_file_size: file.size,
+          p_mime_type: file.type,
+        })
+      } catch (fileError) {
+        setError(fileError.message || 'Dosya yüklenemedi.')
+        setSending(false)
+        return
+      }
     }
     e.target.reset()
     setSending(false)
@@ -121,12 +162,38 @@ export default function DestekDetay() {
           ))}
         </div>
 
+        {attachments.length > 0 && (
+          <div className="panel-attachments">
+            <h2>Dosya ekleri</h2>
+            {attachments.map((file) => (
+              <a
+                key={file.id}
+                href={file.file_url}
+                target="_blank"
+                rel="noreferrer"
+                className="panel-attachment"
+              >
+                <span>{file.file_name}</span>
+                <small>
+                  {Math.ceil(Number(file.file_size || 0) / 1024)} KB
+                </small>
+              </a>
+            ))}
+          </div>
+        )}
+
         <form onSubmit={handleReply} className="panel-reply">
           <textarea
             name="mesaj"
             rows="3"
             placeholder="Yanıtınızı yazın…"
             required
+            disabled={ticket.status === 'closed'}
+          />
+          <input
+            name="dosya"
+            type="file"
+            accept="application/pdf,image/jpeg,image/png,image/webp,text/plain"
             disabled={ticket.status === 'closed'}
           />
           <button type="submit" className="btn btn--primary" disabled={sending}>

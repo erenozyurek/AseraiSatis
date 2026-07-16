@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
+import { uploadSupportAttachment } from '../../lib/fileUpload.js'
+import { useAuth } from '../../context/AuthContext.jsx'
 import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
@@ -18,6 +20,7 @@ const formatDate = (iso) =>
   })
 
 export default function DestekTaleplerim() {
+  const { user } = useAuth()
   const { tickets, refreshTickets } = usePanelData()
   const navigate = useNavigate()
   const loading = tickets === null
@@ -44,6 +47,25 @@ export default function DestekTaleplerim() {
       setSubmitting(false)
       setError(tErr.message || 'Talep oluşturulamadı.')
       return
+    }
+
+    const file = e.target.dosya.files?.[0]
+    if (file) {
+      try {
+        const fileUrl = await uploadSupportAttachment(user.id, ticketId, file)
+        await supabase.rpc('register_support_attachment', {
+          p_ticket_id: ticketId,
+          p_message_id: null,
+          p_file_name: file.name,
+          p_file_url: fileUrl,
+          p_file_size: file.size,
+          p_mime_type: file.type,
+        })
+      } catch (fileError) {
+        setSubmitting(false)
+        setError(fileError.message || 'Dosya yüklenemedi.')
+        return
+      }
     }
 
     setSubmitting(false)
@@ -83,6 +105,15 @@ export default function DestekTaleplerim() {
             <div className="field">
               <label htmlFor="mesaj">Mesajınız</label>
               <textarea id="mesaj" name="mesaj" rows="4" required />
+            </div>
+            <div className="field">
+              <label htmlFor="dosya">Dosya eki (opsiyonel)</label>
+              <input
+                id="dosya"
+                name="dosya"
+                type="file"
+                accept="application/pdf,image/jpeg,image/png,image/webp,text/plain"
+              />
             </div>
             <div className="panel-form__foot">
               <button
