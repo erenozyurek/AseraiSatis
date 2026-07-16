@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { productContent } from '../../data/products.js'
+import { pricing } from '../../data/pricing.js'
 import Icon from '../../components/Icon/Icon.jsx'
 import PricingPlans from '../../components/PricingPlans/PricingPlans.jsx'
 import Faq from '../../components/Faq/Faq.jsx'
@@ -188,7 +189,24 @@ export default function ProductPage({ slug }) {
             <h2>{data.pricingTitle}</h2>
             <p>{data.pricingText}</p>
           </div>
-          <PricingPlans productKeys={[slug]} />
+          {pricing[slug] ? (
+            <PricingPlans productKeys={[slug]} />
+          ) : (
+            <div className="pp-pricing-fallback">
+              <p>
+                Iberai paketleri ve güncel fiyatlandırma ayrı ürün sayfasında
+                yayınlanmaktadır.
+              </p>
+              <a
+                href="https://www.iberai.com.tr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn--primary btn--lg"
+              >
+                Iberai Paketlerini İncele
+              </a>
+            </div>
+          )}
         </div>
       </section>
 

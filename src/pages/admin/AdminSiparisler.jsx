@@ -19,10 +19,20 @@ export default function AdminSiparisler() {
   const loading = orders === null
   const list = orders || []
   const [updating, setUpdating] = useState(null)
+  const [error, setError] = useState('')
 
   const changeStatus = async (id, status) => {
     setUpdating(id)
-    await supabase.from('orders').update({ status }).eq('id', id)
+    setError('')
+    const { error: updateError } = await supabase
+      .from('orders')
+      .update({ status })
+      .eq('id', id)
+    if (updateError) {
+      setError(updateError.message || 'Sipariş durumu güncellenemedi.')
+      setUpdating(null)
+      return
+    }
     await refreshOrders()
     setUpdating(null)
   }
@@ -33,6 +43,12 @@ export default function AdminSiparisler() {
         <h1>Sipariş Yönetimi</h1>
         <p>Tüm siparişleri görüntüleyin ve durumlarını güncelleyin.</p>
       </div>
+
+      {error && (
+        <div className="panel-card panel-note panel-note--error" role="alert">
+          {error}
+        </div>
+      )}
 
       {loading ? (
         <div className="panel-card panel-muted">Yükleniyor…</div>

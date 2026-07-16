@@ -9,7 +9,7 @@ import './Odeme.css'
 
 export default function Odeme() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, isAdmin, loading: authLoading } = useAuth()
   const {
     tier,
     billing,
@@ -23,12 +23,26 @@ export default function Odeme() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  if (authLoading || (user && isAdmin === null)) {
+    return (
+      <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center' }}>
+        <span style={{ color: 'var(--c-text-muted)' }}>Yükleniyor…</span>
+      </div>
+    )
+  }
+
+  if (isAdmin) return <Navigate to="/yonetim" replace />
+
   // Sepet boşsa sepete dön
   if (!tier) return <Navigate to="/sepet" replace />
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    if (isAdmin) {
+      setError('Yönetim kullanıcıları sipariş oluşturamaz.')
+      return
+    }
 
     const items = [
       {

@@ -1,45 +1,85 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { useEffect, useLayoutEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import Layout from './components/Layout/Layout.jsx'
-import Home from './pages/Home/Home.jsx'
-import Cozumler from './pages/Cozumler/Cozumler.jsx'
-import Moduller from './pages/Moduller/Moduller.jsx'
-import Ozellikler from './pages/Ozellikler/Ozellikler.jsx'
-import Kurumsal from './pages/Kurumsal/Kurumsal.jsx'
-import ProductPage from './pages/ProductPage/ProductPage.jsx'
-import Paketler from './pages/Paketler/Paketler.jsx'
-import Hakkimizda from './pages/Hakkimizda/Hakkimizda.jsx'
-import Referanslar from './pages/Referanslar/Referanslar.jsx'
-import Iletisim from './pages/Iletisim/Iletisim.jsx'
-import Demo from './pages/Demo/Demo.jsx'
-import Teklif from './pages/Teklif/Teklif.jsx'
-import Yardim from './pages/Yardim/Yardim.jsx'
-import Blog from './pages/Blog/Blog.jsx'
-import BlogDetail from './pages/BlogDetail/BlogDetail.jsx'
-import Giris from './pages/Giris/Giris.jsx'
-import Kayit from './pages/Kayit/Kayit.jsx'
-import SifremiUnuttum from './pages/SifremiUnuttum/SifremiUnuttum.jsx'
-import SifreYenile from './pages/SifreYenile/SifreYenile.jsx'
-import Sepet from './pages/Sepet/Sepet.jsx'
-import Odeme from './pages/Odeme/Odeme.jsx'
-import SiparisTamamlandi from './pages/SiparisTamamlandi/SiparisTamamlandi.jsx'
-import PanelLayout from './components/PanelLayout/PanelLayout.jsx'
-import Dashboard from './pages/panel/Dashboard.jsx'
-import Siparislerim from './pages/panel/Siparislerim.jsx'
-import DestekTaleplerim from './pages/panel/DestekTaleplerim.jsx'
-import DestekDetay from './pages/panel/DestekDetay.jsx'
-import Profil from './pages/panel/Profil.jsx'
-import AdminLayout from './components/AdminLayout/AdminLayout.jsx'
-import AdminDashboard from './pages/admin/AdminDashboard.jsx'
-import AdminSiparisler from './pages/admin/AdminSiparisler.jsx'
-import AdminPaketler from './pages/admin/AdminPaketler.jsx'
-import AdminModuller from './pages/admin/AdminModuller.jsx'
-import AdminDestek from './pages/admin/AdminDestek.jsx'
-import AdminDestekDetay from './pages/admin/AdminDestekDetay.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
-import Legal from './pages/Legal/Legal.jsx'
-import Placeholder from './pages/Placeholder/Placeholder.jsx'
+
+const Home = lazy(() => import('./pages/Home/Home.jsx'))
+const Cozumler = lazy(() => import('./pages/Cozumler/Cozumler.jsx'))
+const Moduller = lazy(() => import('./pages/Moduller/Moduller.jsx'))
+const Ozellikler = lazy(() => import('./pages/Ozellikler/Ozellikler.jsx'))
+const Kurumsal = lazy(() => import('./pages/Kurumsal/Kurumsal.jsx'))
+const Akademi = lazy(() => import('./pages/Akademi/Akademi.jsx'))
+const ProductPage = lazy(() => import('./pages/ProductPage/ProductPage.jsx'))
+const Paketler = lazy(() => import('./pages/Paketler/Paketler.jsx'))
+const Hakkimizda = lazy(() => import('./pages/Hakkimizda/Hakkimizda.jsx'))
+const Referanslar = lazy(() => import('./pages/Referanslar/Referanslar.jsx'))
+const Iletisim = lazy(() => import('./pages/Iletisim/Iletisim.jsx'))
+const Demo = lazy(() => import('./pages/Demo/Demo.jsx'))
+const Teklif = lazy(() => import('./pages/Teklif/Teklif.jsx'))
+const Yardim = lazy(() => import('./pages/Yardim/Yardim.jsx'))
+const Blog = lazy(() => import('./pages/Blog/Blog.jsx'))
+const BlogDetail = lazy(() => import('./pages/BlogDetail/BlogDetail.jsx'))
+const Giris = lazy(() => import('./pages/Giris/Giris.jsx'))
+const Kayit = lazy(() => import('./pages/Kayit/Kayit.jsx'))
+const SifremiUnuttum = lazy(
+  () => import('./pages/SifremiUnuttum/SifremiUnuttum.jsx'),
+)
+const SifreYenile = lazy(() => import('./pages/SifreYenile/SifreYenile.jsx'))
+const Sepet = lazy(() => import('./pages/Sepet/Sepet.jsx'))
+const Odeme = lazy(() => import('./pages/Odeme/Odeme.jsx'))
+const SiparisTamamlandi = lazy(
+  () => import('./pages/SiparisTamamlandi/SiparisTamamlandi.jsx'),
+)
+const PanelLayout = lazy(
+  () => import('./components/PanelLayout/PanelLayout.jsx'),
+)
+const Dashboard = lazy(() => import('./pages/panel/Dashboard.jsx'))
+const Siparislerim = lazy(() => import('./pages/panel/Siparislerim.jsx'))
+const Lisanslarim = lazy(() => import('./pages/panel/Lisanslarim.jsx'))
+const Faturalarim = lazy(() => import('./pages/panel/Faturalarim.jsx'))
+const FaturaDetay = lazy(() => import('./pages/panel/FaturaDetay.jsx'))
+const Odemelerim = lazy(() => import('./pages/panel/Odemelerim.jsx'))
+const Yenilemelerim = lazy(() => import('./pages/panel/Yenilemelerim.jsx'))
+const ApiAnahtarlari = lazy(
+  () => import('./pages/panel/ApiAnahtarlari.jsx'),
+)
+const Bildirimlerim = lazy(() => import('./pages/panel/Bildirimlerim.jsx'))
+const DestekTaleplerim = lazy(
+  () => import('./pages/panel/DestekTaleplerim.jsx'),
+)
+const DestekDetay = lazy(() => import('./pages/panel/DestekDetay.jsx'))
+const Profil = lazy(() => import('./pages/panel/Profil.jsx'))
+const AdminLayout = lazy(
+  () => import('./components/AdminLayout/AdminLayout.jsx'),
+)
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'))
+const AdminSiparisler = lazy(() => import('./pages/admin/AdminSiparisler.jsx'))
+const AdminOdemeler = lazy(() => import('./pages/admin/AdminOdemeler.jsx'))
+const AdminFaturalar = lazy(() => import('./pages/admin/AdminFaturalar.jsx'))
+const AdminLisanslar = lazy(() => import('./pages/admin/AdminLisanslar.jsx'))
+const AdminYenilemeler = lazy(
+  () => import('./pages/admin/AdminYenilemeler.jsx'),
+)
+const AdminMusteriler = lazy(() => import('./pages/admin/AdminMusteriler.jsx'))
+const AdminMusteriDetay = lazy(
+  () => import('./pages/admin/AdminMusteriDetay.jsx'),
+)
+const AdminBildirimler = lazy(
+  () => import('./pages/admin/AdminBildirimler.jsx'),
+)
+const AdminPaketler = lazy(() => import('./pages/admin/AdminPaketler.jsx'))
+const AdminModuller = lazy(() => import('./pages/admin/AdminModuller.jsx'))
+const AdminBlog = lazy(() => import('./pages/admin/AdminBlog.jsx'))
+const AdminDestek = lazy(() => import('./pages/admin/AdminDestek.jsx'))
+const AdminDestekDetay = lazy(
+  () => import('./pages/admin/AdminDestekDetay.jsx'),
+)
+const AdminAyarlar = lazy(() => import('./pages/admin/AdminAyarlar.jsx'))
+const AdminRoller = lazy(() => import('./pages/admin/AdminRoller.jsx'))
+const AdminLoglar = lazy(() => import('./pages/admin/AdminLoglar.jsx'))
+const Legal = lazy(() => import('./pages/Legal/Legal.jsx'))
+const Placeholder = lazy(() => import('./pages/Placeholder/Placeholder.jsx'))
 
 const REVEAL_SELECTOR = [
   '.section-head',
@@ -73,7 +113,7 @@ export default function App() {
     window.scrollTo(0, 0)
   }, [pathname])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return
     }
@@ -107,14 +147,23 @@ export default function App() {
     }
   }, [pathname])
 
+  const loading = (
+    <div className="route-loading" role="status" aria-live="polite">
+      Yükleniyor…
+    </div>
+  )
+
   return (
     <Layout>
-      <Routes>
+      <Suspense fallback={loading}>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cozumler" element={<Cozumler />} />
         <Route path="/moduller" element={<Moduller />} />
         <Route path="/ozellikler" element={<Ozellikler />} />
         <Route path="/kurumsal" element={<Kurumsal />} />
+        <Route path="/akademi" element={<Akademi />} />
+        <Route path="/akademi/:slug" element={<Akademi />} />
         <Route path="/aserai" element={<ProductPage slug="aserai" />} />
         <Route path="/iberai" element={<ProductPage slug="iberai" />} />
         <Route path="/paketler" element={<Paketler />} />
@@ -140,6 +189,13 @@ export default function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="siparislerim" element={<Siparislerim />} />
+          <Route path="lisanslarim" element={<Lisanslarim />} />
+          <Route path="faturalarim" element={<Faturalarim />} />
+          <Route path="faturalarim/:id" element={<FaturaDetay />} />
+          <Route path="odemelerim" element={<Odemelerim />} />
+          <Route path="yenilemelerim" element={<Yenilemelerim />} />
+          <Route path="api-anahtarlari" element={<ApiAnahtarlari />} />
+          <Route path="bildirimlerim" element={<Bildirimlerim />} />
           <Route path="destek" element={<DestekTaleplerim />} />
           <Route path="destek/:id" element={<DestekDetay />} />
           <Route path="profil" element={<Profil />} />
@@ -155,23 +211,62 @@ export default function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="siparisler" element={<AdminSiparisler />} />
+          <Route path="odemeler" element={<AdminOdemeler />} />
+          <Route path="faturalar" element={<AdminFaturalar />} />
+          <Route path="lisanslar" element={<AdminLisanslar />} />
+          <Route path="yenilemeler" element={<AdminYenilemeler />} />
+          <Route path="musteriler" element={<AdminMusteriler />} />
+          <Route path="musteriler/:id" element={<AdminMusteriDetay />} />
+          <Route path="bildirimler" element={<AdminBildirimler />} />
           <Route path="paketler" element={<AdminPaketler />} />
           <Route path="moduller" element={<AdminModuller />} />
+          <Route path="blog" element={<AdminBlog />} />
           <Route path="destek" element={<AdminDestek />} />
           <Route path="destek/:id" element={<AdminDestekDetay />} />
+          <Route path="ayarlar" element={<AdminAyarlar />} />
+          <Route path="roller" element={<AdminRoller />} />
+          <Route path="loglar" element={<AdminLoglar />} />
         </Route>
         <Route path="/sepet" element={<Sepet />} />
         <Route
           path="/odeme"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowAdmin={false}>
               <Odeme />
             </ProtectedRoute>
           }
         />
-        <Route path="/siparis-tamamlandi" element={<SiparisTamamlandi />} />
+        <Route
+          path="/siparis-tamamlandi"
+          element={
+            <ProtectedRoute allowAdmin={false}>
+              <SiparisTamamlandi />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mesafeli-satis-sozlesmesi"
+          element={<Legal slug="mesafeli-satis-sozlesmesi" />}
+        />
         <Route path="/kvkk" element={<Legal slug="kvkk" />} />
         <Route path="/gizlilik" element={<Legal slug="gizlilik" />} />
+        <Route
+          path="/kvkk-gizlilik-sozlesmesi"
+          element={<Legal slug="kvkk-gizlilik-sozlesmesi" />}
+        />
+        <Route
+          path="/uyelik-sozlesmesi"
+          element={<Legal slug="uyelik-sozlesmesi" />}
+        />
+        <Route
+          path="/verilerin-silinmesi"
+          element={<Legal slug="verilerin-silinmesi" />}
+        />
+        <Route
+          path="/iade-politikasi"
+          element={<Legal slug="iade-politikasi" />}
+        />
+        <Route path="/iade-formu" element={<Legal slug="iade-formu" />} />
         <Route
           path="/kullanim-sartlari"
           element={<Legal slug="kullanim-sartlari" />}
@@ -185,7 +280,8 @@ export default function App() {
           path="*"
           element={<Placeholder title="Sayfa bulunamadı" stage="404" />}
         />
-      </Routes>
+        </Routes>
+      </Suspense>
     </Layout>
   )
 }

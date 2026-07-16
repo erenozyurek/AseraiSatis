@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Icon from '../../components/Icon/Icon.jsx'
 import Faq from '../../components/Faq/Faq.jsx'
 import CtaBand from '../../components/CtaBand/CtaBand.jsx'
@@ -66,6 +67,20 @@ const faq = [
 ]
 
 export default function Yardim() {
+  const [query, setQuery] = useState('')
+  const normalizedQuery = query.trim().toLocaleLowerCase('tr-TR')
+  const includesQuery = (...values) =>
+    !normalizedQuery ||
+    values.some((value) =>
+      String(value || '')
+        .toLocaleLowerCase('tr-TR')
+        .includes(normalizedQuery),
+    )
+  const visibleCategories = categories.filter((category) =>
+    includesQuery(category.title, category.desc),
+  )
+  const visibleFaq = faq.filter((item) => includesQuery(item.q, item.a))
+
   return (
     <>
       {/* ---------- HERO + ARAMA ---------- */}
@@ -88,6 +103,8 @@ export default function Yardim() {
             </span>
             <input
               type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               placeholder="Örneğin: ürün yükleme, kargo entegrasyonu…"
               aria-label="Yardım konusu ara"
             />
@@ -107,17 +124,27 @@ export default function Yardim() {
             <p>İhtiyacınıza en uygun başlığı seçin, ilgili rehberlere ulaşın.</p>
           </div>
           <div className="yardim-cats">
-            {categories.map((c) => (
-              <article key={c.title} className="yardim-cat">
+            {visibleCategories.map((c) => (
+              <button
+                key={c.title}
+                type="button"
+                className="yardim-cat"
+                onClick={() => setQuery(c.title)}
+              >
                 <span className="yardim-cat__icon">
                   <Icon path={c.iconPath} />
                 </span>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
                 <span className="yardim-cat__count">{c.count} makale</span>
-              </article>
+              </button>
             ))}
           </div>
+          {visibleCategories.length === 0 && (
+            <p className="yardim-empty" role="status">
+              Bu aramayla eşleşen yardım kategorisi bulunamadı.
+            </p>
+          )}
         </div>
       </section>
 
@@ -128,7 +155,13 @@ export default function Yardim() {
             <span className="eyebrow">Sık Sorulanlar</span>
             <h2>En çok merak edilenler</h2>
           </div>
-          <Faq items={faq} />
+          {visibleFaq.length > 0 ? (
+            <Faq items={visibleFaq} />
+          ) : (
+            <p className="yardim-empty" role="status">
+              Bu aramayla eşleşen sık sorulan soru bulunamadı.
+            </p>
+          )}
         </div>
       </section>
 

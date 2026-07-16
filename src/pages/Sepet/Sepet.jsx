@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import BillingToggle from '../../components/BillingToggle/BillingToggle.jsx'
 import { formatTL } from '../../data/pricing.js'
 import { useCatalog } from '../../context/CatalogContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
+import { useAuth } from '../../context/AuthContext.jsx'
 import './Sepet.css'
 
 export default function Sepet() {
   const navigate = useNavigate()
   const { modules: addonModules } = useCatalog()
+  const { user, isAdmin, loading } = useAuth()
   const {
     tier,
     billing,
@@ -20,6 +22,18 @@ export default function Sepet() {
     modulesTotal,
     total,
   } = useCart()
+
+  if (loading || (user && isAdmin === null)) {
+    return (
+      <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center' }}>
+        <span style={{ color: 'var(--c-text-muted)' }}>Yükleniyor…</span>
+      </div>
+    )
+  }
+
+  if (isAdmin) {
+    return <Navigate to="/yonetim" replace />
+  }
 
   if (!tier) {
     return (

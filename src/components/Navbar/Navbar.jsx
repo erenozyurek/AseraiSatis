@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
+import { useNotifications } from '../../context/NotificationsContext.jsx'
 import './Navbar.css'
 
 import aseraiLogo from '../../assets/aserai.png'
@@ -20,6 +21,7 @@ const simpleLinks = [
   { label: 'Modüller', to: '/moduller' },
   { label: 'Tüm Özellikler', to: '/ozellikler' },
   { label: 'Kurumsal', to: '/kurumsal' },
+  { label: 'Akademi', to: '/akademi' },
 ]
 
 function Logo() {
@@ -124,7 +126,11 @@ export default function Navbar() {
   const { user, isAdmin, signOut } = useAuth()
   const { count } = useCart()
   const { editMode, toggle: toggleEdit } = useEditMode()
+  const { unreadCount, supportCount } = useNotifications()
   const accountTo = isAdmin ? '/yonetim' : '/panel'
+  // Admin için yanıt bekleyen destek talebi; müşteri için okunmamış bildirim.
+  const accountBadge = isAdmin ? supportCount : unreadCount
+  const canShop = !user || isAdmin === false
 
   const handleLogout = async () => {
     await signOut()
@@ -175,15 +181,20 @@ export default function Navbar() {
               <EditPencil />
             </button>
           )}
-          <Link to="/sepet" className="nav__cart" aria-label="Sepet">
-            <CartIcon />
-            {count > 0 && <span className="nav__cart-badge">{count}</span>}
-          </Link>
+          {canShop && (
+            <Link to="/sepet" className="nav__cart" aria-label="Sepet">
+              <CartIcon />
+              {count > 0 && <span className="nav__cart-badge">{count}</span>}
+            </Link>
+          )}
           {user ? (
             <>
               <Link to={accountTo} className="nav__login" title={user.email}>
                 <PersonIcon />
                 {isAdmin ? 'Yönetim' : 'Hesabım'}
+                {accountBadge > 0 && (
+                  <span className="nav__notif-badge">{accountBadge}</span>
+                )}
               </Link>
               <button
                 type="button"
@@ -229,6 +240,11 @@ export default function Navbar() {
           <>
             <NavLink to={accountTo} className="nav__mobile-link">
               {isAdmin ? 'Yönetim' : 'Hesabım'}
+              {accountBadge > 0 && (
+                <span className="nav__notif-badge nav__notif-badge--inline">
+                  {accountBadge}
+                </span>
+              )}
             </NavLink>
             <button
               type="button"

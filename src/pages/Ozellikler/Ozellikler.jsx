@@ -4,6 +4,10 @@ import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
+import {
+  normalizeImageUrl,
+  uploadCardImage,
+} from '../../lib/imageUpload.js'
 import './Ozellikler.css'
 
 const Icon = ({ path }) => (
@@ -71,7 +75,31 @@ export default function Ozellikler() {
 
   const [cats, setCats] = useState(null)
   const [editingItemId, setEditingItemId] = useState(null)
+  const [imageDraft, setImageDraft] = useState('')
+  const [uploading, setUploading] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [actionError, setActionError] = useState('')
+
+  const openEditItem = (item) => {
+    setImageDraft(item.imageUrl || '')
+    setActionError('')
+    setEditingItemId(item.id)
+  }
+
+  const uploadImage = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setActionError('')
+    try {
+      setImageDraft(await uploadCardImage('features', file))
+    } catch (error) {
+      setActionError(error.message || 'Görsel yüklenemedi.')
+    } finally {
+      setUploading(false)
+      e.target.value = ''
+    }
+  }
 
   const load = async () => {
     if (!supabase) return
@@ -89,7 +117,7 @@ export default function Ozellikler() {
           description: cat.description,
           items: items
             .filter((i) => i.category_id === cat.id)
-            .map((i) => ({ id: i.id, title: i.title, desc: i.description, iconPath: i.icon_path })),
+            .map((i) => ({ id: i.id, title: i.title, desc: i.description, iconPath: i.icon_path, imageUrl: i.image_url })),
         })),
       )
     }
@@ -107,9 +135,21 @@ export default function Ozellikler() {
   const saveItem = async (item, e) => {
     e.preventDefault()
     const f = e.target
+    setActionError('')
+    let imageUrl
+    try {
+      imageUrl = normalizeImageUrl(imageDraft)
+    } catch (error) {
+      setActionError(error.message)
+      return
+    }
     setBusy(true)
-    await supabase.from('feature_items').update({ title: f.title.value, description: f.description.value, updated_at: new Date().toISOString() }).eq('id', item.id)
+    const { error } = await supabase.from('feature_items').update({ title: f.title.value, description: f.description.value, image_url: imageUrl, updated_at: new Date().toISOString() }).eq('id', item.id)
     setBusy(false)
+    if (error) {
+      setActionError(error.message || 'Özellik kaydedilemedi.')
+      return
+    }
     setEditingItemId(null)
     load()
   }
@@ -125,7 +165,10 @@ export default function Ozellikler() {
     const { data } = await supabase.from('feature_items').insert({ category_id: cat.id, title: 'Yeni Özellik', description: 'Açıklama ekleyin', icon_path: DEFAULT_ICON, sort_order: cat.items.length + 1 }).select('id').single()
     setBusy(false)
     await load()
-    if (data) setEditingItemId(data.id)
+    if (data) {
+      setImageDraft('')
+      setEditingItemId(data.id)
+    }
   }
   const saveCategory = async (cat, e) => {
     e.preventDefault()
@@ -171,6 +214,30 @@ export default function Ozellikler() {
                       <form className="oz-card__edit" onSubmit={(e) => saveItem(it, e)}>
                         <input name="title" defaultValue={it.title} className="oz-edit-in oz-edit-in--title" required />
                         <textarea name="description" defaultValue={it.desc || ''} rows="3" className="oz-edit-in" />
+                        <div className="oz-img-edit">
+                          {imageDraft && (
+                            <span className="oz-card__img oz-card__img--preview">
+                              <img src={imageDraft} alt="" />
+                            </span>
+                          )}
+                          <div className="oz-img-edit__row">
+                            <label className="btn btn--ghost oz-upload">
+                              {uploading ? 'Yükleniyor…' : 'Görsel yükle'}
+                              <input type="file" accept="image/avif,image/jpeg,image/png,image/webp" onChange={uploadImage} disabled={uploading} hidden />
+                            </label>
+                            {imageDraft && (
+                              <button type="button" className="oz-card__del" onClick={() => setImageDraft('')}>
+                                Kaldır
+                              </button>
+                            )}
+                          </div>
+                          <input value={imageDraft} onChange={(e) => setImageDraft(e.target.value)} placeholder="veya görsel URL'si — boşsa ikon" className="oz-edit-in" />
+                          {actionError && (
+                            <span className="panel-error" role="alert">
+                              {actionError}
+                            </span>
+                          )}
+                        </div>
                         <div className="oz-card__edit-actions">
                           <button type="button" className="oz-card__del" onClick={() => deleteItem(it)} disabled={busy}>Sil</button>
                           <button type="button" className="btn btn--ghost" onClick={() => setEditingItemId(null)}>Vazgeç</button>
@@ -180,13 +247,19 @@ export default function Ozellikler() {
                     ) : (
                       <>
                         {editing && it.id && (
-                          <button type="button" className="oz-card__pencil" onClick={() => setEditingItemId(it.id)} aria-label="Özelliği düzenle">
+                          <button type="button" className="oz-card__pencil" onClick={() => openEditItem(it)} aria-label="Özelliği düzenle">
                             <PencilIcon />
                           </button>
                         )}
-                        <span className="oz-card__icon" aria-hidden="true">
-                          <Icon path={it.iconPath} />
-                        </span>
+                        {it.imageUrl ? (
+                          <span className="oz-card__img">
+                            <img src={it.imageUrl} alt={it.title} loading="lazy" />
+                          </span>
+                        ) : (
+                          <span className="oz-card__icon" aria-hidden="true">
+                            <Icon path={it.iconPath} />
+                          </span>
+                        )}
                         <div>
                           <h3>{it.title}</h3>
                           <p>{it.desc}</p>

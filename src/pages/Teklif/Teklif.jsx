@@ -60,10 +60,10 @@ export default function Teklif() {
                 <span className="teklif-success__icon" aria-hidden="true">
                   ✓
                 </span>
-                <h2>Teklif talebiniz alındı!</h2>
+                <h2>Teklif formu önizlemesi tamamlandı</h2>
                 <p>
-                  Ekibimiz talebinizi inceleyip en kısa sürede size özel bir
-                  teklifle geri dönecek. İlginiz için teşekkürler.
+                  Bu demo sürümünde bilgileriniz herhangi bir yere
+                  gönderilmedi.
                 </p>
                 <button
                   type="button"

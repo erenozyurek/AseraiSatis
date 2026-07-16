@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
+import { uploadSupportAttachment } from '../../lib/fileUpload.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
@@ -37,11 +38,10 @@ export default function DestekTaleplerim() {
     if (!subject || !body) return
 
     setSubmitting(true)
-    const { data: ticket, error: tErr } = await supabase
-      .from('support_tickets')
-      .insert({ user_id: user.id, subject, status: 'open' })
-      .select('id')
-      .single()
+    const { data: ticketId, error: tErr } = await supabase.rpc(
+      'create_support_ticket',
+      { p_subject: subject, p_body: body },
+    )
 
     if (tErr) {
       setSubmitting(false)
@@ -49,14 +49,28 @@ export default function DestekTaleplerim() {
       return
     }
 
-    await supabase.from('ticket_messages').insert({
-      ticket_id: ticket.id,
-      author_id: user.id,
-      body,
-    })
+    const file = e.target.dosya.files?.[0]
+    if (file) {
+      try {
+        const fileUrl = await uploadSupportAttachment(user.id, ticketId, file)
+        await supabase.rpc('register_support_attachment', {
+          p_ticket_id: ticketId,
+          p_message_id: null,
+          p_file_name: file.name,
+          p_file_url: fileUrl,
+          p_file_size: file.size,
+          p_mime_type: file.type,
+        })
+      } catch (fileError) {
+        setSubmitting(false)
+        setError(fileError.message || 'Dosya yüklenemedi.')
+        return
+      }
+    }
+
     setSubmitting(false)
-    refreshTickets()
-    navigate(`/panel/destek/${ticket.id}`)
+    await refreshTickets()
+    navigate(`/panel/destek/${ticketId}`)
   }
 
   return (
@@ -91,6 +105,15 @@ export default function DestekTaleplerim() {
             <div className="field">
               <label htmlFor="mesaj">Mesajınız</label>
               <textarea id="mesaj" name="mesaj" rows="4" required />
+            </div>
+            <div className="field">
+              <label htmlFor="dosya">Dosya eki (opsiyonel)</label>
+              <input
+                id="dosya"
+                name="dosya"
+                type="file"
+                accept="application/pdf,image/jpeg,image/png,image/webp,text/plain"
+              />
             </div>
             <div className="panel-form__foot">
               <button

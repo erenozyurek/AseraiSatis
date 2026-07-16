@@ -45,6 +45,45 @@
   box-shadow: var(--shadow-md);
 }
 
+.oz-card__img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--c-bg-tint);
+}
+
+.oz-img-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 6px;
+}
+
+.oz-img-edit__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.oz-upload {
+  cursor: pointer;
+}
+
+.oz-card__img--preview {
+  width: 96px;
+  height: 96px;
+}
+
+.oz-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .oz-card__icon {
   display: grid;
   place-items: center;

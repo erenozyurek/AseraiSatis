@@ -55,7 +55,7 @@
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 22px;
   margin-left: auto;
 }
 
@@ -168,9 +168,9 @@
 .nav__actions {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 20px;
   flex-shrink: 0;
-  margin-left: 40px;
+  margin-left: 24px;
 }
 
 .nav__edit {
@@ -231,6 +231,7 @@
 }
 
 .nav__login {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -238,6 +239,30 @@
   font-weight: 700;
   color: #1a1a1a;
   transition: color var(--transition);
+}
+
+.nav__notif-badge {
+  position: absolute;
+  top: -9px;
+  right: -12px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+/* Mobil menüde metnin yanında akışta dursun */
+.nav__notif-badge--inline {
+  position: static;
+  margin-left: 8px;
+  display: inline-grid;
 }
 
 .nav__login svg {

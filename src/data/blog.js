@@ -2,6 +2,8 @@
    Blog yazıları
    ============================================================ */
 
+import { supabase } from '../lib/supabase.js'
+
 export const posts = [
   {
     slug: 'e-ticarete-baslarken-7-adim',
@@ -93,9 +95,132 @@ export const posts = [
 
 export const getPost = (slug) => posts.find((p) => p.slug === slug)
 
-export const formatDate = (iso) =>
-  new Date(iso).toLocaleDateString('tr-TR', {
+const BLOG_CARD_FIELDS = [
+  'id',
+  'slug',
+  'title',
+  'excerpt',
+  'category',
+  'author',
+  'reading_time',
+  'image_url',
+  'accent',
+  'is_published',
+  'published_on',
+  'created_at',
+  'updated_at',
+].join(',')
+
+const BLOG_DETAIL_FIELDS = `${BLOG_CARD_FIELDS},content`
+
+export const mapBlogRow = (row) => ({
+  id: row.id,
+  slug: row.slug,
+  title: row.title,
+  excerpt: row.excerpt,
+  category: row.category,
+  date: row.published_on,
+  publishedOn: row.published_on,
+  readingTime: `${row.reading_time} dk`,
+  readingTimeMinutes: row.reading_time,
+  author: row.author,
+  imageUrl: row.image_url || null,
+  accent: row.accent || '#1c3444',
+  content: Array.isArray(row.content) ? row.content : [],
+  isPublished: row.is_published,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+})
+
+export function todayInIstanbul() {
+  const parts = new Intl.DateTimeFormat('en', {
+    timeZone: 'Europe/Istanbul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+  return `${values.year}-${values.month}-${values.day}`
+}
+
+export async function fetchPublishedPosts() {
+  if (!supabase) return posts
+
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select(BLOG_CARD_FIELDS)
+    .eq('is_published', true)
+    .lte('published_on', todayInIstanbul())
+    .order('published_on', { ascending: false })
+    .order('created_at', { ascending: false })
+
+  return error ? posts : (data || []).map(mapBlogRow)
+}
+
+export async function fetchPublishedPost(slug) {
+  if (!supabase) return getPost(slug) || null
+
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select(BLOG_DETAIL_FIELDS)
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .lte('published_on', todayInIstanbul())
+    .maybeSingle()
+
+  if (error) return getPost(slug) || null
+  return data ? mapBlogRow(data) : null
+}
+
+export async function fetchRelatedPosts(slug, limit = 3) {
+  if (!supabase) {
+    return posts.filter((post) => post.slug !== slug).slice(0, limit)
+  }
+
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select(BLOG_CARD_FIELDS)
+    .eq('is_published', true)
+    .lte('published_on', todayInIstanbul())
+    .neq('slug', slug)
+    .order('published_on', { ascending: false })
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    return posts.filter((post) => post.slug !== slug).slice(0, limit)
+  }
+  return (data || []).map(mapBlogRow)
+}
+
+export function slugifyBlogTitle(value) {
+  return String(value || '')
+    .trim()
+    .toLocaleLowerCase('tr-TR')
+    .replace(/[çÇ]/g, 'c')
+    .replace(/[ğĞ]/g, 'g')
+    .replace(/[ıİ]/g, 'i')
+    .replace(/[öÖ]/g, 'o')
+    .replace(/[şŞ]/g, 's')
+    .replace(/[üÜ]/g, 'u')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 180)
+    .replace(/-+$/g, '')
+}
+
+export const formatDate = (iso) => {
+  const input = /^\d{4}-\d{2}-\d{2}$/.test(iso || '')
+    ? `${iso}T12:00:00`
+    : iso
+  const date = new Date(input)
+  if (Number.isNaN(date.getTime())) return ''
+
+  return date.toLocaleDateString('tr-TR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
   })
+}

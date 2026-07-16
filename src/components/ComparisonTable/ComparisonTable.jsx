@@ -52,12 +52,17 @@ export default function ComparisonTable() {
   const navigate = useNavigate()
   const { selectPackage } = useCart()
   const { getPackage, refresh } = useCatalog()
-  const { isAdmin } = useAuth()
+  const { user, isAdmin } = useAuth()
   const { editMode } = useEditMode()
   const editing = editMode && isAdmin
+  const canShop = !user || isAdmin === false
   const [savingSlug, setSavingSlug] = useState(null)
 
   const handleSelect = (tierId) => {
+    if (!canShop) {
+      if (isAdmin) navigate('/yonetim')
+      return
+    }
     selectPackage(tierId, billing)
     navigate('/sepet')
   }
@@ -204,15 +209,17 @@ export default function ComparisonTable() {
                           </span>
                         )}
 
-                        <button
-                          type="button"
-                          onClick={() => handleSelect(tier.id)}
-                          className={`btn btn--block ${
-                            tier.highlight ? 'btn--dark' : 'btn--ghost'
-                          } cmp__col-cta`}
-                        >
-                          Paketi Seç
-                        </button>
+                        {canShop && (
+                          <button
+                            type="button"
+                            onClick={() => handleSelect(tier.id)}
+                            className={`btn btn--block ${
+                              tier.highlight ? 'btn--dark' : 'btn--ghost'
+                            } cmp__col-cta`}
+                          >
+                            Paketi Seç
+                          </button>
+                        )}
                       </>
                     )}
                   </th>

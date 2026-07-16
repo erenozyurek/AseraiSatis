@@ -5,7 +5,7 @@ import { usePanelData } from '../../context/PanelDataContext.jsx'
 import './panel.css'
 
 export default function Profil() {
-  const { user } = useAuth()
+  const { user, emailVerified } = useAuth()
   const { profile, tenants, refreshProfile } = usePanelData()
   const loading = profile === null
   const tenantList = tenants || []
@@ -13,12 +13,14 @@ export default function Profil() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [creating, setCreating] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSave = async (e) => {
     e.preventDefault()
     setSaved(false)
+    setError('')
     setSaving(true)
-    await supabase
+    const { error: saveError } = await supabase
       .from('profiles')
       .update({
         full_name: e.target.ad.value,
@@ -26,6 +28,10 @@ export default function Profil() {
       })
       .eq('id', user.id)
     setSaving(false)
+    if (saveError) {
+      setError(saveError.message || 'Profil kaydedilemedi.')
+      return
+    }
     setSaved(true)
     refreshProfile()
   }
@@ -34,12 +40,15 @@ export default function Profil() {
     e.preventDefault()
     const name = e.target.firma.value.trim()
     if (!name) return
+    setError('')
     setCreating(true)
     const { error } = await supabase.rpc('create_tenant', { tenant_name: name })
     setCreating(false)
     if (!error) {
       e.target.reset()
       refreshProfile()
+    } else {
+      setError(error.message || 'Firma oluşturulamadı.')
     }
   }
 
@@ -49,6 +58,12 @@ export default function Profil() {
         <h1>Profilim</h1>
         <p>Kişisel ve firma bilgilerinizi yönetin.</p>
       </div>
+
+      {error && (
+        <div className="panel-card panel-note panel-note--error" role="alert">
+          {error}
+        </div>
+      )}
 
       <div className="panel-card" style={{ marginBottom: 22 }}>
         <h2 className="panel-card__title">Kişisel bilgiler</h2>
@@ -67,7 +82,16 @@ export default function Profil() {
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="eposta">E-posta</label>
+                <label htmlFor="eposta">
+                  E-posta
+                  <span
+                    className={`panel-badge panel-badge--${
+                      emailVerified ? 'active' : 'pending'
+                    } profil-mail-badge`}
+                  >
+                    {emailVerified ? '✓ Doğrulandı' : 'Doğrulanmadı'}
+                  </span>
+                </label>
                 <input
                   id="eposta"
                   type="email"

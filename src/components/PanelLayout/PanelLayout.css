@@ -18,6 +18,9 @@
 .panel__side {
   position: sticky;
   top: calc(var(--nav-height) + 24px);
+  max-height: calc(100vh - var(--nav-height) - 48px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   background: #fff;
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
@@ -84,10 +87,15 @@
   font-size: 0.94rem;
   font-weight: 600;
   color: var(--c-text-soft);
-  transition: background var(--transition), color var(--transition);
+  min-height: 44px;
+  transition:
+    background-color 90ms ease,
+    color 90ms ease,
+    box-shadow 90ms ease;
+  will-change: background-color, color;
 }
 
-.panel__nav-link:hover:not(.is-soon) {
+.panel__nav-link:hover:not(.is-soon):not(.is-active) {
   background: var(--c-bg-soft);
   color: var(--c-text);
 }
@@ -95,6 +103,7 @@
 .panel__nav-link.is-active {
   background: var(--c-navy);
   color: #fff;
+  box-shadow: 0 8px 18px rgba(28, 52, 68, 0.16);
 }
 
 .panel__nav-link.is-soon {
@@ -109,6 +118,26 @@
   background: var(--c-bg-tint);
   padding: 2px 8px;
   border-radius: var(--radius-pill);
+}
+
+.panel__nav-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+/* Aktif (lacivert) linkte okunur kalsın */
+.panel__nav-link.is-active .panel__nav-badge {
+  background: #fff;
+  color: var(--c-navy);
 }
 
 .panel__logout {
@@ -148,5 +177,8 @@
   }
   .panel__side {
     position: static;
+    max-height: none;
+    overflow-y: visible;
+    scrollbar-gutter: auto;
   }
 }

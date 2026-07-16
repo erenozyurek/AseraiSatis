@@ -23,8 +23,12 @@ export default function Kayit() {
     setError('')
     const form = e.target
     const password = form.sifre.value
-    if (password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır.')
+    if (password.length < 8) {
+      setError('Şifre en az 8 karakter olmalıdır.')
+      return
+    }
+    if (password !== form.sifreTekrar.value) {
+      setError('Şifreler birbiriyle eşleşmiyor.')
       return
     }
     setLoading(true)
@@ -122,7 +126,8 @@ export default function Kayit() {
                         id="sifre"
                         name="sifre"
                         type={showPw ? 'text' : 'password'}
-                        placeholder="En az 6 karakter"
+                        placeholder="En az 8 karakter"
+                        minLength={8}
                         required
                       />
                       <button
@@ -132,6 +137,19 @@ export default function Kayit() {
                       >
                         {showPw ? 'Gizle' : 'Göster'}
                       </button>
+                    </div>
+                  </div>
+                  <div className="field login-pw">
+                    <label htmlFor="sifreTekrar">Şifre Tekrar</label>
+                    <div className="login-pw__wrap">
+                      <input
+                        id="sifreTekrar"
+                        name="sifreTekrar"
+                        type={showPw ? 'text' : 'password'}
+                        placeholder="Şifrenizi yeniden girin"
+                        minLength={8}
+                        required
+                      />
                     </div>
                   </div>
 

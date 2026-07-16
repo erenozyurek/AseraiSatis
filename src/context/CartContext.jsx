@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useCatalog } from './CatalogContext.jsx'
+import { useAuth } from './AuthContext.jsx'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'aserai_cart'
@@ -15,6 +16,8 @@ function loadCart() {
 
 export function CartProvider({ children }) {
   const { getPackage, getModule } = useCatalog()
+  const { isAdmin } = useAuth()
+  const shoppingDisabled = isAdmin === true
   // localStorage'dan senkron başlangıç (effect'te yüklemek StrictMode'da veriyi ezer)
   const [packageId, setPackageId] = useState(() => loadCart().packageId ?? null)
   const [moduleIds, setModuleIds] = useState(() => {
@@ -23,46 +26,67 @@ export function CartProvider({ children }) {
   })
   const [billing, setBilling] = useState(() => loadCart().billing ?? 'yearly')
 
+  useEffect(() => {
+    if (!shoppingDisabled) return
+    localStorage.removeItem(STORAGE_KEY)
+    setPackageId(null)
+    setModuleIds([])
+  }, [shoppingDisabled])
+
   // localStorage'a kaydet
   useEffect(() => {
+    if (shoppingDisabled) {
+      localStorage.removeItem(STORAGE_KEY)
+      return
+    }
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({ packageId, moduleIds, billing }),
     )
-  }, [packageId, moduleIds, billing])
+  }, [packageId, moduleIds, billing, shoppingDisabled])
 
   const selectPackage = (id, period) => {
+    if (shoppingDisabled) return
     setPackageId(id)
     if (period) setBilling(period)
   }
-  const removePackage = () => setPackageId(null)
-  const toggleModule = (id) =>
+  const setCartBilling = (period) => {
+    if (!shoppingDisabled) setBilling(period)
+  }
+  const removePackage = () => {
+    if (!shoppingDisabled) setPackageId(null)
+  }
+  const toggleModule = (id) => {
+    if (shoppingDisabled) return
     setModuleIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     )
+  }
   const clearCart = () => {
     setPackageId(null)
     setModuleIds([])
   }
 
-  const tier = packageId ? getPackage(packageId) : null
+  const activePackageId = shoppingDisabled ? null : packageId
+  const activeModuleIds = shoppingDisabled ? [] : moduleIds
+  const tier = activePackageId ? getPackage(activePackageId) : null
   const packagePrice = tier
     ? billing === 'yearly'
       ? tier.yearlyMonthly
       : tier.monthly
     : 0
-  const moduleItems = moduleIds.map(getModule).filter(Boolean)
+  const moduleItems = activeModuleIds.map(getModule).filter(Boolean)
   const modulesTotal = moduleItems.reduce((s, m) => s + m.monthly, 0)
   const total = packagePrice + modulesTotal
-  const count = (packageId ? 1 : 0) + moduleIds.length
+  const count = (activePackageId ? 1 : 0) + activeModuleIds.length
 
   const value = {
-    packageId,
+    packageId: activePackageId,
     tier,
-    moduleIds,
+    moduleIds: activeModuleIds,
     moduleItems,
     billing,
-    setBilling,
+    setBilling: setCartBilling,
     selectPackage,
     removePackage,
     toggleModule,

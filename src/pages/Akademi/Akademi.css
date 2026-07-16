@@ -1,0 +1,293 @@
+/* ============================================================
+   Aserai Akademi
+   ============================================================ */
+
+.akademi-section {
+  background: #fff;
+}
+
+.akademi-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.akademi-side {
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+}
+
+.akademi-side__title {
+  display: block;
+  margin: 2px 8px 12px;
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.akademi-side nav {
+  display: grid;
+  gap: 6px;
+}
+
+.akademi-side__link {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--c-text-soft);
+  font-size: 0.92rem;
+  font-weight: 750;
+  transition: color var(--transition), background var(--transition);
+}
+
+.akademi-side__link:hover {
+  color: var(--c-text);
+  background: var(--c-bg-soft);
+}
+
+.akademi-side__link.active {
+  color: #fff;
+  background: var(--c-navy);
+}
+
+.akademi-content {
+  min-width: 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  padding: 36px;
+}
+
+.akademi-content h1 {
+  max-width: 820px;
+  margin: 8px 0 12px;
+  color: var(--c-navy);
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.akademi-lead {
+  max-width: 780px;
+  color: var(--c-text-soft);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.akademi-block,
+.akademi-note,
+.akademi-list,
+.akademi-video-grid,
+.akademi-codes,
+.akademi-next {
+  margin-top: 28px;
+}
+
+.akademi-block h2,
+.akademi-note h2,
+.akademi-card h2 {
+  margin-bottom: 14px;
+  font-size: 1.08rem;
+  color: var(--c-text);
+}
+
+.akademi-steps {
+  display: grid;
+  gap: 12px;
+  counter-reset: akademi-step;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.akademi-steps li {
+  position: relative;
+  min-height: 48px;
+  padding: 14px 16px 14px 58px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-bg-soft);
+  color: var(--c-text-soft);
+  line-height: 1.55;
+}
+
+.akademi-steps li::before {
+  counter-increment: akademi-step;
+  content: counter(akademi-step);
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--c-navy);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.akademi-note {
+  padding: 20px 22px;
+  border: 1px solid #ead8ad;
+  border-radius: var(--radius-md);
+  background: #fff9ea;
+}
+
+.akademi-note ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: #6b4b05;
+}
+
+.akademi-list {
+  display: grid;
+  gap: 14px;
+}
+
+.akademi-card {
+  padding: 20px 22px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-bg-soft);
+}
+
+.akademi-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--c-primary);
+  font-weight: 900;
+}
+
+.akademi-card p {
+  margin: 0;
+  color: var(--c-text-soft);
+  line-height: 1.65;
+}
+
+.akademi-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.akademi-video {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 82px;
+  padding: 18px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.akademi-video span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--c-bg-tint);
+  color: var(--c-primary);
+  font-weight: 900;
+}
+
+.akademi-video strong {
+  color: var(--c-text);
+  line-height: 1.4;
+}
+
+.akademi-codes {
+  display: grid;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.akademi-code {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 16px 18px;
+  background: #fff;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.akademi-code:last-child {
+  border-bottom: 0;
+}
+
+.akademi-code code {
+  color: var(--c-primary);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.akademi-code span {
+  color: var(--c-text-soft);
+  line-height: 1.55;
+}
+
+.akademi-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: var(--c-navy);
+  color: #fff;
+}
+
+.akademi-next span {
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .akademi-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .akademi-side {
+    position: static;
+  }
+
+  .akademi-side nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .akademi-content {
+    padding: 24px 20px;
+  }
+
+  .akademi-side nav,
+  .akademi-video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .akademi-code {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .akademi-next {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

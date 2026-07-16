@@ -16,8 +16,12 @@ export default function SifreYenile() {
     e.preventDefault()
     setError('')
     const password = e.target.sifre.value
-    if (password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır.')
+    if (password.length < 8) {
+      setError('Şifre en az 8 karakter olmalıdır.')
+      return
+    }
+    if (password !== e.target.sifreTekrar.value) {
+      setError('Şifreler birbiriyle eşleşmiyor.')
       return
     }
     setLoading(true)
@@ -69,7 +73,8 @@ export default function SifreYenile() {
                         id="sifre"
                         name="sifre"
                         type={showPw ? 'text' : 'password'}
-                        placeholder="En az 6 karakter"
+                        placeholder="En az 8 karakter"
+                        minLength={8}
                         required
                       />
                       <button
@@ -79,6 +84,19 @@ export default function SifreYenile() {
                       >
                         {showPw ? 'Gizle' : 'Göster'}
                       </button>
+                    </div>
+                  </div>
+                  <div className="field login-pw">
+                    <label htmlFor="sifreTekrar">Yeni Şifre Tekrar</label>
+                    <div className="login-pw__wrap">
+                      <input
+                        id="sifreTekrar"
+                        name="sifreTekrar"
+                        type={showPw ? 'text' : 'password'}
+                        placeholder="Şifrenizi yeniden girin"
+                        minLength={8}
+                        required
+                      />
                     </div>
                   </div>
                   <button

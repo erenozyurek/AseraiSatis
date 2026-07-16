@@ -10,6 +10,8 @@ export default function PricingPlans({ productKeys, showTabs = false }) {
 
   const product = pricing[active]
 
+  if (!product) return null
+
   return (
     <div className="plans">
       {showTabs && (

@@ -68,10 +68,10 @@ export default function Demo() {
                 <span className="demo-success__icon" aria-hidden="true">
                   ✓
                 </span>
-                <h2>Demo talebiniz alındı!</h2>
+                <h2>Demo formu önizlemesi tamamlandı</h2>
                 <p>
-                  Ekibimiz aynı gün içinde sizinle iletişime geçerek size
-                  uygun bir zaman belirleyecek. İlginiz için teşekkürler.
+                  Bu demo sürümünde bilgileriniz herhangi bir yere
+                  gönderilmedi.
                 </p>
                 <button
                   type="button"
