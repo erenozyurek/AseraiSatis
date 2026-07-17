@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
 import { normalizeImageUrl, uploadCardImage } from '../../lib/imageUpload.js'
 import { logAdminAction } from '../../lib/auditLog.js'
+import BlogCover from '../../components/BlogCover/BlogCover.jsx'
 import '../../components/PageHeader/PageHeader.css'
 import './Akademi.css'
 
@@ -130,6 +131,15 @@ const academySections = [
     },
   },
   {
+    slug: 'rehberler',
+    label: 'Rehberler',
+    eyebrow: 'Kaynak',
+    title: 'Aserai Rehberleri',
+    intro:
+      'Kurulum, operasyon, entegrasyon ve büyüme konularında Akademi’ye özel uygulama rehberleri.',
+    content: {},
+  },
+  {
     slug: 'yol-haritasi',
     label: 'Yol Haritaları',
     eyebrow: 'Plan',
@@ -232,6 +242,7 @@ const academySections = [
 ]
 
 const defaultSlug = academySections[0].slug
+const guideRootSlug = 'rehberler'
 const textTemplates = { steps: 'Yeni adım', notes: 'Yeni not' }
 const objectTemplates = {
   qa: { q: 'Yeni soru', a: 'Yanıtı yazın', imageUrl: '' },
@@ -239,6 +250,215 @@ const objectTemplates = {
   videos: { title: 'Yeni video', url: '', imageUrl: '' },
   issues: { issue: 'Yeni hata', solution: 'Çözüm adımlarını yazın', imageUrl: '' },
   codes: { code: 'KOD-000', text: 'Açıklama yazın', imageUrl: '' },
+}
+
+const academyGuides = [
+  {
+    slug: 'ilk-kurulum-rehberi',
+    title: 'Aserai İlk Kurulum Rehberi',
+    excerpt:
+      'Firma profilinden lisans kontrolüne kadar Aserai panelini kullanıma hazır hale getiren temel kurulum akışı.',
+    category: 'Başlangıç',
+    date: '2026-07-17',
+    readingTime: '6 dk',
+    author: 'Aserai Akademi',
+    accent: '#1c3444',
+    content: [
+      {
+        type: 'p',
+        text: 'Aserai’de verimli bir başlangıç için önce hesabınızı, firma bilgilerinizi ve aktif lisans durumunuzu kontrol edin. Bu hazırlık sonraki tüm operasyon ekranlarının doğru çalışmasını sağlar.',
+      },
+      { type: 'h', text: 'Firma ve kullanıcı bilgileri' },
+      {
+        type: 'p',
+        text: 'Profilim ekranında firma adı, yetkili kişi, telefon ve e-posta alanlarını tamamlayın. Yönetim ve müşteri panellerinde görünen bildirimlerin doğru kişilere ulaşması için bu bilgiler güncel kalmalıdır.',
+      },
+      { type: 'h', text: 'Lisans kontrolü' },
+      {
+        type: 'p',
+        text: 'Lisanslarım ekranından aktif paket, dönem sonu tarihi ve ek modül durumlarını inceleyin. Bekleyen ödeme veya yenileme varsa önce bu işlemleri tamamlayın.',
+      },
+      { type: 'h', text: 'Destek ve doğrulama' },
+      {
+        type: 'p',
+        text: 'E-posta doğrulama uyarısı görünüyorsa doğrulama kodunu girin. Kurulum sırasında takıldığınız adımlar için Destek Taleplerim ekranından dosya ekleyerek talep oluşturabilirsiniz.',
+      },
+    ],
+  },
+  {
+    slug: 'urun-operasyon-rehberi',
+    title: 'Ürün Operasyon Rehberi',
+    excerpt:
+      'Ürün yükleme, güncelleme, pasife alma ve silme kararlarında izlenecek güvenli operasyon yaklaşımı.',
+    category: 'Operasyon',
+    date: '2026-07-17',
+    readingTime: '5 dk',
+    author: 'Aserai Akademi',
+    accent: '#234d63',
+    content: [
+      {
+        type: 'p',
+        text: 'Ürün operasyonlarında amaç sadece ürünü yayına almak değil; fiyat, stok, görsel ve geçmiş sipariş bütünlüğünü koruyarak satış kanallarını düzenli yönetmektir.',
+      },
+      { type: 'h', text: 'Ürün yayınlamadan önce' },
+      {
+        type: 'p',
+        text: 'Ürün adı, kategori, SKU, fiyat, stok ve görsel alanlarını eksiksiz hazırlayın. Benzer ürünlerde aynı görsel oranını kullanmak vitrin kalitesini yükseltir.',
+      },
+      { type: 'h', text: 'Güncelleme ve pasife alma' },
+      {
+        type: 'p',
+        text: 'Satışı durdurmak istediğiniz ürünlerde önce pasife alma yaklaşımını kullanın. Geçmiş siparişlerde referans gereken ürünleri kalıcı silmek yerine arşivlemek daha güvenlidir.',
+      },
+      { type: 'h', text: 'Hata kontrolü' },
+      {
+        type: 'p',
+        text: 'Eksik varyant, hatalı stok veya desteklenmeyen görsel formatı gibi durumlarda ürün yayın akışını tamamlamadan önce uyarıları giderin.',
+      },
+    ],
+  },
+  {
+    slug: 'api-entegrasyon-rehberi',
+    title: 'API Hesapları ve Entegrasyon Rehberi',
+    excerpt:
+      'API anahtarı oluşturma, saklama, iptal etme ve entegrasyon güvenliğini yönetme adımları.',
+    category: 'Entegrasyon',
+    date: '2026-07-17',
+    readingTime: '4 dk',
+    author: 'Aserai Akademi',
+    accent: '#04acfc',
+    content: [
+      {
+        type: 'p',
+        text: 'API anahtarları harici sistemlerin Aserai verilerine kontrollü erişmesini sağlar. Her entegrasyon için ayrı anahtar kullanmak güvenlik ve takip açısından daha sağlıklı bir modeldir.',
+      },
+      { type: 'h', text: 'Anahtar oluşturma' },
+      {
+        type: 'p',
+        text: 'API Anahtarlarım ekranında anlaşılır bir ad girerek yeni anahtar oluşturun. Oluşturulan anahtar yalnızca ilk gösterimde tam olarak görülebilir.',
+      },
+      { type: 'h', text: 'Güvenli saklama' },
+      {
+        type: 'p',
+        text: 'Anahtarı yalnızca yetkili entegrasyon ortamında saklayın. E-posta, mesajlaşma uygulaması veya ekran görüntüsüyle paylaşmaktan kaçının.',
+      },
+      { type: 'h', text: 'İptal ve yenileme' },
+      {
+        type: 'p',
+        text: 'Kullanılmayan veya paylaşıldığından şüphelenilen anahtarları iptal edin. Yeni entegrasyonlar için eski anahtarları yeniden kullanmak yerine yeni anahtar üretin.',
+      },
+    ],
+  },
+]
+
+function todayInIstanbul() {
+  const parts = new Intl.DateTimeFormat('en', {
+    timeZone: 'Europe/Istanbul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+  return `${values.year}-${values.month}-${values.day}`
+}
+
+function normalizeGuide(row) {
+  const readingTimeMinutes = Number(row.reading_time || row.readingTimeMinutes || 5)
+  return {
+    id: row.id || null,
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt,
+    category: row.category,
+    date: row.published_on || row.date || todayInIstanbul(),
+    publishedOn: row.published_on || row.date || todayInIstanbul(),
+    readingTime: `${readingTimeMinutes} dk`,
+    readingTimeMinutes,
+    author: row.author || 'Aserai Akademi',
+    imageUrl: row.image_url || row.imageUrl || null,
+    accent: row.accent || '#1c3444',
+    content: Array.isArray(row.content) ? row.content : [],
+    sortOrder: row.sort_order || row.sortOrder || 0,
+    isActive: row.is_active !== false,
+    isNew: Boolean(row.isNew),
+    updatedAt: row.updated_at || row.updatedAt || null,
+  }
+}
+
+function createGuideDraft(guides) {
+  const title = 'Yeni Rehber'
+  return normalizeGuide({
+    slug: uniqueSlug(title, guides),
+    title,
+    excerpt: 'Bu rehberin kısa açıklamasını yazın.',
+    category: 'Rehber',
+    author: 'Aserai Akademi',
+    reading_time: 5,
+    published_on: todayInIstanbul(),
+    accent: '#1c3444',
+    sort_order: guides.length + 1,
+    content: [{ type: 'p', text: 'Rehber giriş metnini yazın.' }],
+    isNew: true,
+  })
+}
+
+function validateGuideDraft(draft, guides) {
+  const title = cleanString(draft.title)
+  const slug = uniqueSlug(draft.slug || title, guides, draft.originalSlug || draft.slug)
+  const excerpt = cleanString(draft.excerpt)
+  const category = cleanString(draft.category)
+  const author = cleanString(draft.author)
+  const readingTime = Number(draft.readingTimeMinutes)
+  const publishedOn = draft.publishedOn || draft.date
+  const imageUrl = normalizeOptionalUrl(draft.imageUrl)
+  const content = draft.content.map((block) => ({
+    type: block.type === 'h' ? 'h' : 'p',
+    text: cleanString(block.text),
+  }))
+
+  if (title.length < 3 || title.length > 180) {
+    throw new Error('Rehber başlığı 3-180 karakter arasında olmalıdır.')
+  }
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length < 3) {
+    throw new Error('Rehber bağlantı adresi en az 3 karakter olmalıdır.')
+  }
+  if (excerpt.length < 10 || excerpt.length > 600) {
+    throw new Error('Rehber özeti 10-600 karakter arasında olmalıdır.')
+  }
+  if (category.length < 2 || category.length > 80) {
+    throw new Error('Kategori 2-80 karakter arasında olmalıdır.')
+  }
+  if (author.length < 2 || author.length > 100) {
+    throw new Error('Yazar adı 2-100 karakter arasında olmalıdır.')
+  }
+  if (!Number.isInteger(readingTime) || readingTime < 1 || readingTime > 180) {
+    throw new Error('Okuma süresi 1-180 dakika arasında olmalıdır.')
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(publishedOn)) {
+    throw new Error('Geçerli bir yayın tarihi seçin.')
+  }
+  if (
+    content.length < 1 ||
+    content.length > 100 ||
+    content.some((block) => !block.text || block.text.length > 10000)
+  ) {
+    throw new Error('Her rehber içerik bloğunu doldurun.')
+  }
+
+  return {
+    slug,
+    title,
+    excerpt,
+    category,
+    author,
+    reading_time: readingTime,
+    published_on: publishedOn,
+    image_url: imageUrl || null,
+    accent: draft.accent || '#1c3444',
+    content,
+    sort_order: draft.sortOrder || guides.findIndex((guide) => guide.slug === draft.slug) + 1,
+    is_active: true,
+  }
 }
 
 const PencilIcon = () => (
@@ -569,8 +789,275 @@ function CardImage({ src, alt }) {
   return <img className="akademi-card__image" src={src} alt={alt} loading="lazy" />
 }
 
+function formatGuideDate(iso) {
+  const date = new Date(`${iso}T12:00:00`)
+  if (Number.isNaN(date.getTime())) return ''
+  return date.toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+function GuideList({ guides, editing, onNew }) {
+  return (
+    <div className="akademi-guides">
+      <span className="eyebrow">Rehberler</span>
+      <h1>Aserai Rehberleri</h1>
+      <p className="akademi-lead">
+        Kurulum, operasyon ve entegrasyon süreçlerini blog formatında okuyun.
+        Bu içerikler Akademi’ye özeldir ve blog yazılarıyla karışmaz.
+      </p>
+
+      {editing && (
+        <div className="akademi-guide-actions">
+          <button type="button" className="btn btn--primary" onClick={onNew}>
+            Yeni rehber ekle
+          </button>
+        </div>
+      )}
+
+      <div className="akademi-guide-grid">
+        {guides.map((guide) => (
+          <Link
+            key={guide.slug}
+            to={`/akademi/${guideRootSlug}/${guide.slug}`}
+            className="akademi-guide-card"
+          >
+            <BlogCover post={guide} className="akademi-guide-card__cover" />
+            <div className="akademi-guide-card__body">
+              <span className="akademi-guide-card__meta">
+                {formatGuideDate(guide.date)} · {guide.readingTime}
+              </span>
+              <h3>{guide.title}</h3>
+              <p>{guide.excerpt}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function GuideDetail({ guide }) {
+  if (!guide) {
+    return (
+      <div className="akademi-guides">
+        <span className="eyebrow">Rehberler</span>
+        <h1>Rehber bulunamadı</h1>
+        <p className="akademi-lead">
+          Aradığınız rehber mevcut değil. Tüm rehberlere geri dönebilirsiniz.
+        </p>
+        <Link to={`/akademi/${guideRootSlug}`} className="btn btn--primary">
+          Tüm rehberler
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="akademi-guide-post">
+      <span className="eyebrow">{guide.category}</span>
+      <h1>{guide.title}</h1>
+      <p className="akademi-lead">{guide.excerpt}</p>
+
+      <BlogCover
+        post={guide}
+        className="akademi-guide-post__cover"
+        showCategory={false}
+        loading="eager"
+      />
+
+      <div className="akademi-guide-post__meta">
+        <Link to={`/akademi/${guideRootSlug}`} className="akademi-guide-post__back">
+          <span aria-hidden="true">←</span> Tüm rehberler
+        </Link>
+        <span>
+          {formatGuideDate(guide.date)} · {guide.readingTime} okuma · {guide.author}
+        </span>
+      </div>
+
+      <div className="akademi-guide-post__body">
+        {guide.content.map((block, index) =>
+          block.type === 'h' ? (
+            <h2 key={`${block.text}-${index}`}>{block.text}</h2>
+          ) : (
+            <p key={`${block.text}-${index}`}>{block.text}</p>
+          ),
+        )}
+      </div>
+    </div>
+  )
+}
+
+function GuideEditor({
+  draft,
+  busy,
+  uploading,
+  actionError,
+  onSave,
+  onCancel,
+  onChange,
+  onUpload,
+  onBlockChange,
+  onBlockAdd,
+  onBlockRemove,
+  onBlockMove,
+}) {
+  return (
+    <form className="akademi-section-editor akademi-guide-editor" onSubmit={onSave}>
+      <div className="akademi-editor-block">
+        <h3>{draft.id ? 'Rehberi düzenle' : 'Yeni rehber'}</h3>
+        <input
+          value={draft.title}
+          placeholder="Rehber başlığı"
+          className="akademi-edit-in akademi-edit-in--title"
+          onChange={(e) => onChange('title', e.target.value)}
+        />
+        <input
+          value={draft.slug}
+          placeholder="URL slug"
+          className="akademi-edit-in"
+          onChange={(e) => onChange('slug', e.target.value)}
+        />
+        <textarea
+          value={draft.excerpt}
+          rows="3"
+          placeholder="Rehber özeti"
+          className="akademi-edit-in"
+          onChange={(e) => onChange('excerpt', e.target.value)}
+        />
+        <div className="akademi-guide-editor__grid">
+          <input
+            value={draft.category}
+            placeholder="Kategori"
+            className="akademi-edit-in"
+            onChange={(e) => onChange('category', e.target.value)}
+          />
+          <input
+            value={draft.author}
+            placeholder="Yazar"
+            className="akademi-edit-in"
+            onChange={(e) => onChange('author', e.target.value)}
+          />
+          <input
+            type="number"
+            min="1"
+            max="180"
+            value={draft.readingTimeMinutes}
+            placeholder="Okuma süresi"
+            className="akademi-edit-in"
+            onChange={(e) => onChange('readingTimeMinutes', Number(e.target.value))}
+          />
+          <input
+            type="date"
+            value={draft.publishedOn || draft.date}
+            className="akademi-edit-in"
+            onChange={(e) => onChange('publishedOn', e.target.value)}
+          />
+        </div>
+        <div className="akademi-image-edit">
+          {draft.imageUrl && (
+            <span className="akademi-image-preview">
+              <img src={draft.imageUrl} alt="" />
+            </span>
+          )}
+          <input
+            value={draft.imageUrl || ''}
+            placeholder="Kapak görseli HTTPS URL'si"
+            className="akademi-edit-in"
+            onChange={(e) => onChange('imageUrl', e.target.value)}
+          />
+          <label className="btn btn--ghost akademi-upload">
+            {uploading === 'guide' ? 'Yükleniyor...' : 'Kapak görseli yükle'}
+            <input
+              type="file"
+              accept="image/avif,image/jpeg,image/png,image/webp"
+              hidden
+              onChange={onUpload}
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="akademi-editor-block">
+        <div className="akademi-editor-block__head">
+          <h3>Rehber içeriği</h3>
+          <div className="akademi-editor-actions">
+            <button type="button" className="btn btn--ghost" onClick={() => onBlockAdd('h')}>
+              Başlık ekle
+            </button>
+            <button type="button" className="btn btn--ghost" onClick={() => onBlockAdd('p')}>
+              Paragraf ekle
+            </button>
+          </div>
+        </div>
+        {draft.content.map((block, index) => (
+          <div key={index} className="akademi-editor-item">
+            <select
+              value={block.type}
+              className="akademi-edit-in"
+              onChange={(e) => onBlockChange(index, 'type', e.target.value)}
+            >
+              <option value="p">Paragraf</option>
+              <option value="h">Başlık</option>
+            </select>
+            <textarea
+              value={block.text}
+              rows={block.type === 'h' ? 2 : 5}
+              placeholder={block.type === 'h' ? 'Alt başlık' : 'Paragraf metni'}
+              className="akademi-edit-in"
+              onChange={(e) => onBlockChange(index, 'text', e.target.value)}
+            />
+            <div className="akademi-editor-actions">
+              <button
+                type="button"
+                className="btn btn--ghost"
+                onClick={() => onBlockMove(index, -1)}
+                disabled={index === 0}
+              >
+                Yukarı
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost"
+                onClick={() => onBlockMove(index, 1)}
+                disabled={index === draft.content.length - 1}
+              >
+                Aşağı
+              </button>
+              <button
+                type="button"
+                className="akademi-card__del"
+                onClick={() => onBlockRemove(index)}
+                disabled={draft.content.length <= 1}
+              >
+                Sil
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {actionError && (
+        <span className="panel-error akademi-editor-error" role="alert">
+          {actionError}
+        </span>
+      )}
+      <div className="akademi-editor-actions">
+        <button type="button" className="btn btn--ghost" onClick={onCancel} disabled={busy}>
+          Vazgeç
+        </button>
+        <button type="submit" className="btn btn--primary" disabled={busy || uploading}>
+          Kaydet
+        </button>
+      </div>
+    </form>
+  )
+}
+
 export default function Akademi() {
-  const { slug } = useParams()
+  const { slug, guideSlug } = useParams()
   const navigate = useNavigate()
   const { isAdmin } = useAuth()
   const { editMode } = useEditMode()
@@ -579,25 +1066,39 @@ export default function Akademi() {
 
   const [header, setHeader] = useState(DEFAULT_HEADER)
   const [pages, setPages] = useState(academySections.map(normalizePage))
+  const [guides, setGuides] = useState(academyGuides.map(normalizeGuide))
   const [draft, setDraft] = useState(null)
+  const [guideDraft, setGuideDraft] = useState(null)
   const [busy, setBusy] = useState(false)
   const [uploading, setUploading] = useState('')
   const [actionError, setActionError] = useState('')
+  const [draggedPage, setDraggedPage] = useState(null)
+  const [dragOverSlug, setDragOverSlug] = useState('')
 
   const activeSlug = slug || defaultSlug
   const active = pages.find((section) => section.slug === activeSlug)
   const { roots, childrenByParent } = useMemo(() => buildAcademyTree(pages), [pages])
   const [openGroups, setOpenGroups] = useState(() => new Set())
+  const isGuidesPage = active?.slug === guideRootSlug
+  const selectedGuide = isGuidesPage && guideSlug
+    ? guides.find((guide) => guide.slug === guideSlug)
+    : null
 
   const load = async () => {
     if (!supabase) return
 
-    const [settingsResult, pagesResult] = await Promise.all([
+    const [settingsResult, pagesResult, guidesResult] = await Promise.all([
       supabase.from('academy_settings').select('*').eq('key', 'main').maybeSingle(),
       supabase
         .from('academy_pages')
         .select('*')
         .order('sort_order', { ascending: true }),
+      supabase
+        .from('academy_guides')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+        .order('published_on', { ascending: false }),
     ])
 
     if (settingsResult.data) {
@@ -621,6 +1122,10 @@ export default function Akademi() {
         ),
       )
     }
+
+    if (!guidesResult.error && guidesResult.data?.length) {
+      setGuides(guidesResult.data.map(normalizeGuide))
+    }
   }
 
   useEffect(() => {
@@ -629,6 +1134,7 @@ export default function Akademi() {
 
   useEffect(() => {
     setDraft(null)
+    setGuideDraft(null)
     setActionError('')
     if (editing && pendingEditSlug.current && pendingEditSlug.current === active?.slug) {
       pendingEditSlug.current = ''
@@ -686,6 +1192,139 @@ export default function Akademi() {
     setActionError('')
   }
 
+  const openNewGuide = () => {
+    setGuideDraft(createGuideDraft(guides))
+    setActionError('')
+  }
+
+  const openEditGuide = (guide) => {
+    if (!guide) return
+    setGuideDraft({
+      ...guide,
+      originalSlug: guide.slug,
+      imageUrl: guide.imageUrl || '',
+      content: guide.content.length
+        ? guide.content.map((block) => ({ ...block }))
+        : [{ type: 'p', text: '' }],
+    })
+    setActionError('')
+  }
+
+  const closeGuideDraft = () => {
+    setGuideDraft(null)
+    setActionError('')
+  }
+
+  const updateGuideBlock = (index, field, value) => {
+    setGuideDraft((current) => ({
+      ...current,
+      content: current.content.map((block, blockIndex) =>
+        blockIndex === index ? { ...block, [field]: value } : block,
+      ),
+    }))
+  }
+
+  const addGuideBlock = (type) => {
+    setGuideDraft((current) => ({
+      ...current,
+      content: [...current.content, { type, text: '' }],
+    }))
+  }
+
+  const removeGuideBlock = (index) => {
+    setGuideDraft((current) => ({
+      ...current,
+      content: current.content.filter((_, blockIndex) => blockIndex !== index),
+    }))
+  }
+
+  const moveGuideBlock = (index, direction) => {
+    setGuideDraft((current) => {
+      const nextIndex = index + direction
+      if (nextIndex < 0 || nextIndex >= current.content.length) return current
+      const content = [...current.content]
+      const movingBlock = content[index]
+      content[index] = content[nextIndex]
+      content[nextIndex] = movingBlock
+      return { ...current, content }
+    })
+  }
+
+  const uploadGuideImage = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading('guide')
+    setActionError('')
+    try {
+      const url = await uploadCardImage('academy-guides', file)
+      setGuideDraft((current) => ({ ...current, imageUrl: url }))
+    } catch (error) {
+      setActionError(error.message || 'Rehber kapak görseli yüklenemedi.')
+    } finally {
+      setUploading('')
+      e.target.value = ''
+    }
+  }
+
+  const saveGuide = async (e) => {
+    e.preventDefault()
+    setBusy(true)
+    setActionError('')
+
+    let payload
+    try {
+      payload = validateGuideDraft(
+        guideDraft,
+        guides,
+      )
+    } catch (error) {
+      setBusy(false)
+      setActionError(error.message)
+      return
+    }
+
+    if (!supabase) {
+      const nextGuide = normalizeGuide({ ...payload, id: guideDraft.id || crypto.randomUUID() })
+      setGuides((current) =>
+        guideDraft.id || guideDraft.originalSlug
+          ? current.map((guide) =>
+              guide.slug === (guideDraft.originalSlug || guideDraft.slug) ? nextGuide : guide,
+            )
+          : [...current, nextGuide],
+      )
+      setGuideDraft(null)
+      setBusy(false)
+      navigate(`/akademi/${guideRootSlug}/${nextGuide.slug}`, { replace: true })
+      return
+    }
+
+    const query = guideDraft.id
+      ? supabase.from('academy_guides').update(payload).eq('id', guideDraft.id)
+      : supabase.from('academy_guides').insert(payload).select('id').single()
+
+    const { data, error } = await query
+    setBusy(false)
+
+    if (error) {
+      setActionError(
+        error.code === '42P01' || error.code === 'PGRST205'
+          ? 'Rehberleri kaydetmek için 0027_academy_guides_table.sql migrationını çalıştırın.'
+          : error.message || 'Rehber kaydedilemedi.',
+      )
+      return
+    }
+
+    await logAdminAction(
+      guideDraft.id ? 'academy.guide_update' : 'academy.guide_create',
+      'academy_guide',
+      guideDraft.id || data?.id || null,
+      { slug: payload.slug, title: payload.title },
+    )
+    setGuideDraft(null)
+    await load()
+    navigate(`/akademi/${guideRootSlug}/${payload.slug}`, { replace: true })
+  }
+
   const addPage = () => {
     const page = createNewAcademyPage(pages)
     pendingEditSlug.current = page.slug
@@ -707,6 +1346,94 @@ export default function Akademi() {
     })
     setPages((current) => [...current, page])
     navigate(`/akademi/${page.slug}`)
+  }
+
+  const canDragPage = (page) => Boolean(editing && !busy && !draft && page)
+
+  const startPageDrag = (e, page) => {
+    if (!canDragPage(page)) return
+    setDraggedPage({ slug: page.slug, parentId: page.parentId || null })
+    setDragOverSlug('')
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', page.slug)
+  }
+
+  const endPageDrag = () => {
+    setDraggedPage(null)
+    setDragOverSlug('')
+  }
+
+  const handlePageDragOver = (e, targetPage) => {
+    if (!draggedPage || !targetPage || draggedPage.slug === targetPage.slug) return
+    if ((draggedPage.parentId || null) !== (targetPage.parentId || null)) return
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    setDragOverSlug(targetPage.slug)
+  }
+
+  const reorderPages = async (dragSlug, targetSlug) => {
+    if (!dragSlug || !targetSlug || dragSlug === targetSlug) return
+
+    const dragging = pages.find((page) => page.slug === dragSlug)
+    const target = pages.find((page) => page.slug === targetSlug)
+    if (!dragging || !target) return
+    if ((dragging.parentId || null) !== (target.parentId || null)) return
+
+    const siblings = (dragging.parentId
+      ? childrenByParent.get(dragging.parentId) || []
+      : roots
+    ).filter((page) => page.slug !== dragSlug)
+    const targetIndex = siblings.findIndex((page) => page.slug === targetSlug)
+    if (targetIndex < 0) return
+
+    const reordered = [...siblings]
+    reordered.splice(targetIndex, 0, dragging)
+    const sortMap = new Map(
+      reordered.map((page, index) => [page.slug, index + 1]),
+    )
+    const previousPages = pages
+    const nextPages = pages.map((page) =>
+      sortMap.has(page.slug) ? { ...page, sortOrder: sortMap.get(page.slug) } : page,
+    )
+
+    setPages(nextPages)
+    setDraggedPage(null)
+    setDragOverSlug('')
+
+    if (!supabase) return
+
+    const updates = reordered.filter((page) => page.id && !page.isNew)
+    if (!updates.length) return
+
+    setBusy(true)
+    setActionError('')
+    const results = await Promise.all(
+      updates.map((page, index) =>
+        supabase
+          .from('academy_pages')
+          .update({ sort_order: index + 1, updated_at: new Date().toISOString() })
+          .eq('id', page.id),
+      ),
+    )
+    setBusy(false)
+
+    const failed = results.find((result) => result.error)
+    if (failed) {
+      setPages(previousPages)
+      setActionError(failed.error.message || 'Başlık sıralaması kaydedilemedi.')
+      return
+    }
+
+    await logAdminAction('academy.page_reorder', 'academy_page', dragging.id || null, {
+      slug: dragging.slug,
+      parentId: dragging.parentId || null,
+    })
+  }
+
+  const dropPage = (e, targetPage) => {
+    e.preventDefault()
+    const dragSlug = draggedPage?.slug || e.dataTransfer.getData('text/plain')
+    void reorderPages(dragSlug, targetPage.slug)
   }
 
   const toggleGroup = (pageId) => {
@@ -938,7 +1665,16 @@ export default function Akademi() {
                 return (
                   <div
                     key={section.slug}
-                    className={`akademi-side__group ${groupActive ? 'is-active' : ''}`}
+                    className={`akademi-side__group ${
+                      groupActive ? 'is-active' : ''
+                    } ${draggedPage?.slug === section.slug ? 'is-dragging' : ''} ${
+                      dragOverSlug === section.slug ? 'is-drop-target' : ''
+                    }`}
+                    draggable={canDragPage(section)}
+                    onDragStart={(e) => startPageDrag(e, section)}
+                    onDragEnd={endPageDrag}
+                    onDragOver={(e) => handlePageDragOver(e, section)}
+                    onDrop={(e) => dropPage(e, section)}
                   >
                     <div className="akademi-side__item">
                       {hasChildren ? (
@@ -963,7 +1699,7 @@ export default function Akademi() {
                           <span>{section.label}</span>
                         </NavLink>
                       )}
-                      {editing && (
+                      {editing && section.slug !== guideRootSlug && (
                         <button
                           type="button"
                           className="akademi-side__delete"
@@ -976,7 +1712,7 @@ export default function Akademi() {
                       )}
                     </div>
 
-                    {editing && (
+                    {editing && section.slug !== guideRootSlug && (
                       <button
                         type="button"
                         className="akademi-side__subadd"
@@ -990,7 +1726,29 @@ export default function Akademi() {
                     {hasChildren && isOpen && (
                       <div className="akademi-side__children">
                         {children.map((child) => (
-                          <div key={child.slug} className="akademi-side__item akademi-side__item--child">
+                          <div
+                            key={child.slug}
+                            className={`akademi-side__item akademi-side__item--child ${
+                              draggedPage?.slug === child.slug ? 'is-dragging' : ''
+                            } ${dragOverSlug === child.slug ? 'is-drop-target' : ''}`}
+                            draggable={canDragPage(child)}
+                            onDragStart={(e) => {
+                              e.stopPropagation()
+                              startPageDrag(e, child)
+                            }}
+                            onDragEnd={(e) => {
+                              e.stopPropagation()
+                              endPageDrag()
+                            }}
+                            onDragOver={(e) => {
+                              e.stopPropagation()
+                              handlePageDragOver(e, child)
+                            }}
+                            onDrop={(e) => {
+                              e.stopPropagation()
+                              dropPage(e, child)
+                            }}
+                          >
                             <NavLink
                               to={`/akademi/${child.slug}`}
                               className="akademi-side__link akademi-side__link--child"
@@ -1034,18 +1792,53 @@ export default function Akademi() {
           </aside>
 
           <article className={`akademi-content ${editing ? 'is-editable' : ''}`}>
-            {editing && !draft && (
+            {editing && !draft && !guideDraft && (
               <button
                 type="button"
                 className="akademi-content__pencil"
-                onClick={startEdit}
-                aria-label="Akademi içeriğini düzenle"
+                onClick={() =>
+                  isGuidesPage
+                    ? guideSlug
+                      ? openEditGuide(selectedGuide)
+                      : openNewGuide()
+                    : startEdit()
+                }
+                aria-label={
+                  isGuidesPage
+                    ? guideSlug
+                      ? 'Rehberi düzenle'
+                      : 'Yeni rehber ekle'
+                    : 'Akademi içeriğini düzenle'
+                }
               >
                 <PencilIcon />
               </button>
             )}
 
-            {draft ? (
+            {guideDraft ? (
+              <GuideEditor
+                draft={guideDraft}
+                busy={busy}
+                uploading={uploading}
+                actionError={actionError}
+                onSave={saveGuide}
+                onCancel={closeGuideDraft}
+                onChange={(field, value) =>
+                  setGuideDraft((current) => ({ ...current, [field]: value }))
+                }
+                onUpload={uploadGuideImage}
+                onBlockChange={updateGuideBlock}
+                onBlockAdd={addGuideBlock}
+                onBlockRemove={removeGuideBlock}
+                onBlockMove={moveGuideBlock}
+              />
+            ) : isGuidesPage && !draft ? (
+              guideSlug ? (
+                <GuideDetail guide={selectedGuide} />
+              ) : (
+                <GuideList guides={guides} editing={editing} onNew={openNewGuide} />
+              )
+            ) : draft ? (
               <form className="akademi-section-editor" onSubmit={saveSection}>
                 <div className="akademi-editor-block">
                   <h3>Sayfa bilgileri</h3>

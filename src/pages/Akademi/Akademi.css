@@ -61,6 +61,28 @@
   gap: 4px;
 }
 
+.akademi-side__group[draggable='true'],
+.akademi-side__item--child[draggable='true'] {
+  cursor: grab;
+}
+
+.akademi-side__group[draggable='true']:active,
+.akademi-side__item--child[draggable='true']:active {
+  cursor: grabbing;
+}
+
+.akademi-side__group.is-dragging,
+.akademi-side__item--child.is-dragging {
+  opacity: 0.55;
+}
+
+.akademi-side__group.is-drop-target,
+.akademi-side__item--child.is-drop-target {
+  border-radius: 7px;
+  outline: 2px solid rgba(4, 172, 252, 0.32);
+  outline-offset: 2px;
+}
+
 .akademi-side__item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -487,6 +509,170 @@
   font-weight: 800;
 }
 
+.akademi-guides,
+.akademi-guide-post {
+  min-width: 0;
+}
+
+.akademi-guide-featured {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  margin-top: 26px;
+  margin-bottom: 28px;
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.akademi-guide-featured:hover,
+.akademi-guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.akademi-guide-featured__cover,
+.akademi-guide-card__cover {
+  min-height: 220px;
+}
+
+.akademi-guide-featured__body {
+  align-self: center;
+  padding: 34px 32px;
+}
+
+.akademi-guide-featured__body h2 {
+  margin: 10px 0 12px;
+  color: var(--c-text);
+  font-size: 1.55rem;
+}
+
+.akademi-guide-featured__body p,
+.akademi-guide-card__body p {
+  margin: 0;
+  color: var(--c-text-soft);
+  line-height: 1.65;
+}
+
+.akademi-guide-featured__link {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--c-primary);
+  font-weight: 800;
+}
+
+.akademi-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.akademi-guide-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.akademi-guide-card {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.akademi-guide-card__cover {
+  min-height: 92px;
+}
+
+.akademi-guide-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 14px 14px 16px;
+}
+
+.akademi-guide-card__meta {
+  color: var(--c-text-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.akademi-guide-card__body h3 {
+  margin: 7px 0 7px;
+  color: var(--c-text);
+  font-size: 0.96rem;
+  line-height: 1.28;
+}
+
+.akademi-guide-card__body p {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.akademi-guide-post__cover {
+  width: 100%;
+  min-height: 300px;
+  margin: 28px 0 28px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 16 / 8;
+}
+
+.akademi-guide-post__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-text-muted);
+  font-size: 0.88rem;
+}
+
+.akademi-guide-post__back {
+  color: var(--c-primary);
+  font-weight: 800;
+}
+
+.akademi-guide-post__back:hover {
+  text-decoration: underline;
+}
+
+.akademi-guide-post__body {
+  max-width: 800px;
+}
+
+.akademi-guide-post__body h2 {
+  margin: 30px 0 12px;
+  color: var(--c-text);
+  font-size: 1.35rem;
+}
+
+.akademi-guide-post__body p {
+  margin-bottom: 16px;
+  color: var(--c-text-soft);
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+
+.akademi-guide-editor__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .akademi-edit-head .page-head__inner {
   max-width: 860px;
 }
@@ -649,6 +835,10 @@
     max-width: none;
     margin: 0 0 32px;
   }
+
+  .akademi-guide-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
@@ -657,8 +847,19 @@
   }
 
   .akademi-side nav,
+  .akademi-guide-featured,
+  .akademi-guide-grid,
   .akademi-video-grid {
     grid-template-columns: 1fr;
+  }
+
+  .akademi-guide-featured__body {
+    padding: 26px 22px;
+  }
+
+  .akademi-guide-post__cover {
+    min-height: 220px;
+    aspect-ratio: 16 / 10;
   }
 
   .akademi-code {
@@ -678,6 +879,10 @@
   }
 
   .akademi-editor-row {
+    grid-template-columns: 1fr;
+  }
+
+  .akademi-guide-editor__grid {
     grid-template-columns: 1fr;
   }
 

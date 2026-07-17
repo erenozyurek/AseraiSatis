@@ -170,6 +170,7 @@ export default function App() {
         <Route path="/kurumsal" element={<Kurumsal />} />
         <Route path="/akademi" element={<Akademi />} />
         <Route path="/akademi/:slug" element={<Akademi />} />
+        <Route path="/akademi/:slug/:guideSlug" element={<Akademi />} />
         <Route path="/aserai" element={<ProductPage slug="aserai" />} />
         <Route path="/iberai" element={<ProductPage slug="iberai" />} />
         <Route path="/paketler" element={<Paketler />} />
