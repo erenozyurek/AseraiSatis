@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import '../panel/panel.css'
 
@@ -49,6 +50,11 @@ export default function AdminLisanslar() {
       setBusy(null)
       return
     }
+    await logAdminAction('license.update', 'license', license.id, {
+      status: form.status.value,
+      expires_at: expires,
+      product: license.product,
+    })
     await refreshLicenses()
     setBusy(null)
   }

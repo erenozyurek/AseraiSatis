@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
 import { uploadSupportAttachment } from '../../lib/fileUpload.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import { useNotifications } from '../../context/NotificationsContext.jsx'
@@ -103,6 +104,10 @@ export default function AdminDestekDetay() {
       }
     }
     e.target.reset()
+    await logAdminAction('support.reply', 'support_ticket', id, {
+      subject: ticket?.subject,
+      has_attachment: Boolean(file),
+    })
     setSending(false)
     load()
     refreshTickets()
@@ -119,6 +124,9 @@ export default function AdminDestekDetay() {
       setError(closeError.message || 'Talep kapatılamadı.')
       return
     }
+    await logAdminAction('support.close', 'support_ticket', id, {
+      subject: ticket?.subject,
+    })
     load()
     refreshTickets()
     refreshSupport()

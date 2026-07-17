@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import { getSafeInternalPath } from '../../lib/navigation.js'
 import '../panel/panel.css'
@@ -41,8 +42,15 @@ export default function AdminBildirimler() {
       next = error
         ? { ok: false, msg: 'Gönderilemedi: ' + error.message }
         : { ok: true, msg: `${data} müşteriye duyuru gönderildi.` }
+      if (!error) {
+        await logAdminAction('notification.broadcast', 'notification', null, {
+          title: title.trim(),
+          count: data,
+          link: safeLink,
+        })
+      }
     } else {
-      const { error } = await supabase.rpc('admin_send_notification', {
+      const { data, error } = await supabase.rpc('admin_send_notification', {
         p_user_id: target,
         p_title: title.trim(),
         p_body: body.trim() || null,
@@ -51,6 +59,13 @@ export default function AdminBildirimler() {
       next = error
         ? { ok: false, msg: 'Gönderilemedi: ' + error.message }
         : { ok: true, msg: 'Bildirim gönderildi.' }
+      if (!error) {
+        await logAdminAction('notification.send', 'notification', data, {
+          title: title.trim(),
+          user_id: target,
+          link: safeLink,
+        })
+      }
     }
 
     setResult(next)

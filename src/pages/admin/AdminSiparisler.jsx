@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { formatTL } from '../../data/pricing.js'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import '../panel/panel.css'
@@ -33,6 +34,7 @@ export default function AdminSiparisler() {
       setUpdating(null)
       return
     }
+    await logAdminAction('order.status_update', 'order', id, { status })
     await refreshOrders()
     setUpdating(null)
   }

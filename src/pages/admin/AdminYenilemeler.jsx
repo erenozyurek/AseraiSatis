@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { formatTL } from '../../data/pricing.js'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import '../panel/panel.css'
@@ -33,6 +34,7 @@ export default function AdminYenilemeler() {
     if (!supabase) return
     setBusy(id)
     await supabase.from('renewals').update({ status }).eq('id', id)
+    await logAdminAction('renewal.status_update', 'renewal', id, { status })
     await Promise.all([refreshRenewals(), refreshLicenses()])
     setBusy(null)
   }

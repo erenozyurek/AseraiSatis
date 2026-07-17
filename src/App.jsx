@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import Layout from './components/Layout/Layout.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
@@ -108,8 +108,14 @@ const REVEAL_SELECTOR = [
 
 export default function App() {
   const { pathname } = useLocation()
+  const previousPathname = useRef(null)
 
   useEffect(() => {
+    const previous = previousPathname.current
+    previousPathname.current = pathname
+    if (previous?.startsWith('/akademi') && pathname.startsWith('/akademi')) {
+      return
+    }
     window.scrollTo(0, 0)
   }, [pathname])
 

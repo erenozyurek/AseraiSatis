@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useAdminData } from '../../context/AdminDataContext.jsx'
 import '../panel/panel.css'
 
@@ -69,6 +70,10 @@ export default function AdminRoller() {
         setError(permissionError.message || 'Rol yetkileri kaydedilemedi.')
       }
     }
+    await logAdminAction('role.create', 'role', role.id, {
+      name: role.name,
+      permissions: selected.map((permission) => permission.code),
+    })
     form.reset()
     await load()
     setBusy(false)
@@ -86,6 +91,10 @@ export default function AdminRoller() {
     if (assignError) {
       setError(assignError.message || 'Rol atanamadı.')
     } else {
+      await logAdminAction('role.assign', 'user_role', null, {
+        user_id: form.user_id.value,
+        role_id: form.role_id.value,
+      })
       await load()
     }
     setBusy(false)

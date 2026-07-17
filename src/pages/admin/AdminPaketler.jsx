@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useCatalog } from '../../context/CatalogContext.jsx'
 import '../panel/panel.css'
 
@@ -27,19 +28,26 @@ export default function AdminPaketler() {
     const f = e.target
     setSavingId(pkg.id)
     setSavedId(null)
+    const payload = {
+      name: f.name.value,
+      summary: f.summary.value,
+      monthly: Number(f.monthly.value),
+      yearly_monthly: Number(f.yearly_monthly.value),
+      badge: f.badge.value.trim() || null,
+      highlight: f.highlight.checked,
+      is_active: f.is_active.checked,
+      updated_at: new Date().toISOString(),
+    }
     await supabase
       .from('packages')
-      .update({
-        name: f.name.value,
-        summary: f.summary.value,
-        monthly: Number(f.monthly.value),
-        yearly_monthly: Number(f.yearly_monthly.value),
-        badge: f.badge.value.trim() || null,
-        highlight: f.highlight.checked,
-        is_active: f.is_active.checked,
-        updated_at: new Date().toISOString(),
-      })
+      .update(payload)
       .eq('id', pkg.id)
+    await logAdminAction('package.update', 'package', pkg.id, {
+      name: payload.name,
+      monthly: payload.monthly,
+      yearly_monthly: payload.yearly_monthly,
+      is_active: payload.is_active,
+    })
     setSavingId(null)
     setSavedId(pkg.id)
     load()

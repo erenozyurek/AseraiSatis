@@ -4,6 +4,7 @@ import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
+import { logAdminAction } from '../../lib/auditLog.js'
 import {
   normalizeImageUrl,
   uploadCardImage,
@@ -150,12 +151,18 @@ export default function Ozellikler() {
       setActionError(error.message || 'Özellik kaydedilemedi.')
       return
     }
+    await logAdminAction('content.feature_item_update', 'feature_item', item.id, {
+      title: f.title.value,
+    })
     setEditingItemId(null)
     load()
   }
   const deleteItem = async (item) => {
     setBusy(true)
     await supabase.from('feature_items').delete().eq('id', item.id)
+    await logAdminAction('content.feature_item_delete', 'feature_item', item.id, {
+      title: item.title,
+    })
     setBusy(false)
     setEditingItemId(null)
     load()
@@ -165,6 +172,9 @@ export default function Ozellikler() {
     const { data } = await supabase.from('feature_items').insert({ category_id: cat.id, title: 'Yeni Özellik', description: 'Açıklama ekleyin', icon_path: DEFAULT_ICON, sort_order: cat.items.length + 1 }).select('id').single()
     setBusy(false)
     await load()
+    await logAdminAction('content.feature_item_create', 'feature_item', data?.id || null, {
+      category_id: cat.id,
+    })
     if (data) {
       setImageDraft('')
       setEditingItemId(data.id)
@@ -175,6 +185,9 @@ export default function Ozellikler() {
     const f = e.target
     setBusy(true)
     await supabase.from('feature_categories').update({ title: f.title.value, description: f.description.value, updated_at: new Date().toISOString() }).eq('id', cat.id)
+    await logAdminAction('content.feature_category_update', 'feature_category', cat.id, {
+      title: f.title.value,
+    })
     setBusy(false)
     load()
   }

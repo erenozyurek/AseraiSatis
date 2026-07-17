@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import { useCatalog } from '../../context/CatalogContext.jsx'
 import '../panel/panel.css'
 
@@ -27,16 +28,22 @@ export default function AdminModuller() {
     const f = e.target
     setSavingId(mod.id)
     setSavedId(null)
+    const payload = {
+      name: f.name.value,
+      description: f.description.value,
+      monthly: Number(f.monthly.value),
+      is_active: f.is_active.checked,
+      updated_at: new Date().toISOString(),
+    }
     await supabase
       .from('modules')
-      .update({
-        name: f.name.value,
-        description: f.description.value,
-        monthly: Number(f.monthly.value),
-        is_active: f.is_active.checked,
-        updated_at: new Date().toISOString(),
-      })
+      .update(payload)
       .eq('id', mod.id)
+    await logAdminAction('module.update', 'module', mod.id, {
+      name: payload.name,
+      monthly: payload.monthly,
+      is_active: payload.is_active,
+    })
     setSavingId(null)
     setSavedId(mod.id)
     load()

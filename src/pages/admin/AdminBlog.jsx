@@ -13,6 +13,7 @@ import {
   validateImageFile,
 } from '../../lib/imageUpload.js'
 import { supabase } from '../../lib/supabase.js'
+import { logAdminAction } from '../../lib/auditLog.js'
 import '../panel/panel.css'
 import './AdminBlog.css'
 
@@ -297,6 +298,7 @@ export default function AdminBlog() {
     setSaving(true)
     let uploadedImageUrl = null
     let databaseSaved = false
+    let savedPostId = editingPost?.id || null
 
     try {
       if (imageFile) uploadedImageUrl = await uploadBlogImage(imageFile)
@@ -319,12 +321,28 @@ export default function AdminBlog() {
           conflictError.name = 'BlogConflictError'
           throw conflictError
         }
+        savedPostId = data.id
       } else {
-        const { error } = await supabase.from('blog_posts').insert(payload)
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .insert(payload)
+          .select('id')
+          .single()
         if (error) throw error
+        savedPostId = data.id
       }
 
       databaseSaved = true
+      await logAdminAction(
+        editingPost ? 'blog.update' : 'blog.create',
+        'blog_post',
+        savedPostId,
+        {
+          title: payload.title,
+          slug: payload.slug,
+          is_published: payload.is_published,
+        },
+      )
       let cleanupWarning = false
       if (
         editingPost?.imageUrl &&
@@ -427,6 +445,10 @@ export default function AdminBlog() {
 
       if (editingPost?.id === post.id) closeEditor()
       setDeleteId(null)
+      await logAdminAction('blog.delete', 'blog_post', post.id, {
+        title: post.title,
+        slug: post.slug,
+      })
       await loadPosts({ showLoading: false })
       setNotice(
         cleanupWarning

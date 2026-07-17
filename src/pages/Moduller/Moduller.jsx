@@ -5,6 +5,7 @@ import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import { supabase } from '../../lib/supabase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useEditMode } from '../../context/EditModeContext.jsx'
+import { logAdminAction } from '../../lib/auditLog.js'
 import {
   normalizeImageUrl,
   uploadCardImage,
@@ -145,6 +146,9 @@ export default function Moduller() {
       setActionError(error.message || 'Kart kaydedilemedi.')
       return
     }
+    await logAdminAction('content.module_card_update', 'feature_card', card.id, {
+      title: f.title.value,
+    })
     setEditingId(null)
     load()
   }
@@ -161,6 +165,9 @@ export default function Moduller() {
       setActionError(error.message || 'Kart silinemedi.')
       return
     }
+    await logAdminAction('content.module_card_delete', 'feature_card', card.id, {
+      title: card.title,
+    })
     setEditingId(null)
     load()
   }
@@ -184,6 +191,9 @@ export default function Moduller() {
       return
     }
     await load()
+    await logAdminAction('content.module_card_create', 'feature_card', data?.id || null, {
+      title: 'Yeni Modül',
+    })
     if (data) {
       setImageDraft('')
       setEditingId(data.id)
