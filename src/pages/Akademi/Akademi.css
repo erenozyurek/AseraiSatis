@@ -4,6 +4,7 @@
 
 .akademi-section {
   background: #fff;
+  padding: 0;
 }
 
 .akademi-page-head .page-head__inner,
@@ -20,64 +21,96 @@
 
 .akademi-layout {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 34px;
+  grid-template-columns: minmax(220px, 276px) minmax(0, 1fr);
   align-items: start;
+  gap: 0;
+  max-width: none;
+  padding: 0;
 }
 
 .akademi-side {
   position: sticky;
-  top: calc(var(--nav-height) + 24px);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  background: #fff;
-  box-shadow: var(--shadow-sm);
-  padding: 16px;
+  z-index: 5;
+  top: var(--nav-height);
+  width: auto;
+  height: calc(100vh - var(--nav-height));
+  border-right: 1px solid var(--c-border);
+  background: #fbfcfd;
+  box-shadow: none;
+  padding: 16px 10px 22px 14px;
+  overflow-y: auto;
 }
 
 .akademi-side__title {
   display: block;
-  margin: 2px 8px 12px;
+  margin: 2px 8px 10px;
   color: var(--c-text-muted);
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 900;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .akademi-side nav {
   display: grid;
-  gap: 6px;
+  gap: 3px;
+}
+
+.akademi-side__group {
+  display: grid;
+  gap: 4px;
 }
 
 .akademi-side__item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
 }
 
 .akademi-side__link {
   display: flex;
   align-items: center;
-  min-height: 42px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  justify-content: space-between;
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
   color: var(--c-text-soft);
-  font-size: 0.92rem;
-  font-weight: 750;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-align: left;
   transition: color var(--transition), background var(--transition);
 }
 
+.akademi-side__toggle {
+  cursor: pointer;
+}
+
+.akademi-side__caret {
+  transform: rotate(90deg);
+  color: currentColor;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: transform var(--transition);
+}
+
+.akademi-side__toggle[aria-expanded='true'] .akademi-side__caret {
+  transform: rotate(-90deg);
+}
+
 .akademi-side__delete {
-  min-height: 42px;
-  padding: 0 10px;
+  min-height: 30px;
+  padding: 0 8px;
   border: 1px solid #f3c4bd;
-  border-radius: var(--radius-sm);
+  border-radius: 7px;
   background: #fff7f5;
   color: #b42318;
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 850;
   cursor: pointer;
 }
@@ -98,8 +131,53 @@
 }
 
 .akademi-side__link.active {
-  color: #fff;
-  background: var(--c-navy);
+  color: var(--c-navy);
+  background: #edf5f7;
+  box-shadow: inset 3px 0 0 var(--c-primary);
+}
+
+.akademi-side__children {
+  display: grid;
+  gap: 3px;
+  padding-left: 8px;
+  border-left: 1px solid var(--c-border);
+  margin-left: 9px;
+}
+
+.akademi-side__item--child {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.akademi-side__link--child {
+  min-height: 30px;
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.akademi-side__subadd {
+  width: calc(100% - 14px);
+  min-height: 30px;
+  margin-left: 4px;
+  border: 1px dashed var(--c-border);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--c-text-muted);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.akademi-side__subadd:hover:not(:disabled) {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  background: var(--c-bg-soft);
+}
+
+.akademi-side__subadd:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .akademi-side__add {
@@ -107,14 +185,14 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 42px;
-  margin-top: 12px;
+  min-height: 34px;
+  margin-top: 10px;
   border: 1px dashed var(--c-border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--c-bg-soft);
+  border-radius: 7px;
+  background: #fff;
   color: var(--c-navy);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 850;
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition), background var(--transition);
@@ -133,7 +211,10 @@
 
 .akademi-content {
   position: relative;
+  width: min(100% - 48px, 1040px);
   min-width: 0;
+  max-width: 1040px;
+  margin: clamp(36px, 4vw, 64px) auto;
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
   background: #fff;
@@ -543,15 +624,30 @@
 
 @media (max-width: 980px) {
   .akademi-layout {
+    display: grid;
     grid-template-columns: 1fr;
+    padding: 28px 24px 0;
+    gap: 20px;
   }
 
   .akademi-side {
     position: static;
+    height: auto;
+    width: auto;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    max-height: none;
+    padding: 14px;
   }
 
   .akademi-side nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+  }
+
+  .akademi-content {
+    width: 100%;
+    max-width: none;
+    margin: 0 0 32px;
   }
 }
 

@@ -270,6 +270,7 @@ function normalizePage(row) {
   return {
     id: row.id || null,
     slug: row.slug,
+    parentId: row.parent_id || row.parentId || null,
     label: row.label,
     eyebrow: row.eyebrow,
     title: row.title,
@@ -296,6 +297,28 @@ function mergeAcademyPages(rows = [], hiddenSlugs = new Set()) {
       .map((page) => rowMap.get(page.slug) || page),
     ...customPages,
   ]
+}
+
+function buildAcademyTree(pages) {
+  const visibleIds = new Set(pages.map((page) => page.id).filter(Boolean))
+  const childrenByParent = new Map()
+
+  pages.forEach((page) => {
+    if (!page.parentId) return
+    const list = childrenByParent.get(page.parentId) || []
+    list.push(page)
+    childrenByParent.set(page.parentId, list)
+  })
+
+  childrenByParent.forEach((children) => {
+    children.sort((a, b) => a.sortOrder - b.sortOrder)
+  })
+
+  const roots = pages
+    .filter((page) => !page.parentId || !visibleIds.has(page.parentId))
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+
+  return { roots, childrenByParent }
 }
 
 function cleanString(value) {
@@ -329,15 +352,20 @@ function uniqueSlug(value, pages, ignoredSlug = '') {
   return next
 }
 
-function createNewAcademyPage(pages) {
-  const slug = uniqueSlug('yeni-baslik', pages)
+function createNewAcademyPage(pages, parent = null) {
+  const isChild = Boolean(parent)
+  const siblingCount = pages.filter((page) =>
+    isChild ? page.parentId === parent.id : !page.parentId,
+  ).length
+  const slug = uniqueSlug(isChild ? 'yeni-alt-baslik' : 'yeni-baslik', pages)
   return normalizePage({
     slug,
-    label: 'Yeni Başlık',
+    parent_id: parent?.id || null,
+    label: isChild ? 'Yeni Alt Başlık' : 'Yeni Başlık',
     eyebrow: 'Akademi',
-    title: 'Yeni Akademi Başlığı',
-    intro: 'Bu başlığın açıklamasını yazın.',
-    sort_order: pages.length + 1,
+    title: isChild ? 'Yeni Akademi Alt Başlığı' : 'Yeni Akademi Başlığı',
+    intro: 'Bu içeriğin açıklamasını yazın.',
+    sort_order: siblingCount + 1,
     isNew: true,
     content: {
       steps: ['İlk içerik adımını yazın.'],
@@ -558,6 +586,8 @@ export default function Akademi() {
 
   const activeSlug = slug || defaultSlug
   const active = pages.find((section) => section.slug === activeSlug)
+  const { roots, childrenByParent } = useMemo(() => buildAcademyTree(pages), [pages])
+  const [openGroups, setOpenGroups] = useState(() => new Set())
 
   const load = async () => {
     if (!supabase) return
@@ -610,6 +640,15 @@ export default function Akademi() {
     }
   }, [activeSlug, editMode, active?.slug, editing])
 
+  useEffect(() => {
+    if (!active?.parentId) return
+    setOpenGroups((current) => {
+      const next = new Set(current)
+      next.add(active.parentId)
+      return next
+    })
+  }, [active?.parentId])
+
   const content = useMemo(() => normalizeContent(active?.content), [active])
 
   if (!active) return <Navigate to="/akademi" replace />
@@ -654,6 +693,31 @@ export default function Akademi() {
     navigate(`/akademi/${page.slug}`)
   }
 
+  const addSubPage = (parent) => {
+    if (!parent.id) {
+      setActionError('Alt başlık eklemek için Akademi veritabanı migrationlarını çalıştırın.')
+      return
+    }
+    const page = createNewAcademyPage(pages, parent)
+    pendingEditSlug.current = page.slug
+    setOpenGroups((current) => {
+      const next = new Set(current)
+      next.add(parent.id)
+      return next
+    })
+    setPages((current) => [...current, page])
+    navigate(`/akademi/${page.slug}`)
+  }
+
+  const toggleGroup = (pageId) => {
+    setOpenGroups((current) => {
+      const next = new Set(current)
+      if (next.has(pageId)) next.delete(pageId)
+      else next.add(pageId)
+      return next
+    })
+  }
+
   const closeDraft = () => {
     if (draft?.isNew) {
       setPages((current) => current.filter((page) => page.slug !== draft.slug))
@@ -670,9 +734,14 @@ export default function Akademi() {
     }
     if (!window.confirm(`"${page.label}" başlığını silmek istiyor musunuz?`)) return
 
-    const nextPage = pages.find((item) => item.slug !== page.slug)
+    const childIds = new Set((childrenByParent.get(page.id) || []).map((item) => item.id))
+    const nextPage = pages.find(
+      (item) => item.slug !== page.slug && !childIds.has(item.id),
+    )
     if (page.isNew) {
-      setPages((current) => current.filter((item) => item.slug !== page.slug))
+      setPages((current) =>
+        current.filter((item) => item.slug !== page.slug && item.parentId !== page.id),
+      )
       if (active.slug === page.slug && nextPage) {
         navigate(`/akademi/${nextPage.slug}`, { replace: true })
       }
@@ -694,7 +763,10 @@ export default function Akademi() {
       updated_at: new Date().toISOString(),
     }
     const query = page.id
-      ? supabase.from('academy_pages').update({ is_active: false, updated_at: payload.updated_at }).eq('id', page.id)
+      ? supabase
+          .from('academy_pages')
+          .update({ is_active: false, updated_at: payload.updated_at })
+          .or(`id.eq.${page.id},parent_id.eq.${page.id}`)
       : supabase.from('academy_pages').upsert(payload, { onConflict: 'slug' })
     const { error } = await query
     setBusy(false)
@@ -799,6 +871,7 @@ export default function Akademi() {
     const slugValue = uniqueSlug(draft.slug || draft.label, pages, active.slug)
     const payload = {
       slug: slugValue,
+      parent_id: draft.parentId || null,
       label: cleanString(draft.label) || 'Yeni Başlık',
       eyebrow: draft.eyebrow,
       title: draft.title,
@@ -854,27 +927,94 @@ export default function Akademi() {
           <aside className="akademi-side" aria-label="Aserai Akademi başlıkları">
             <span className="akademi-side__title">Başlıklar</span>
             <nav>
-              {pages.map((section) => (
-                <div key={section.slug} className="akademi-side__item">
-                  <NavLink
-                    to={`/akademi/${section.slug}`}
-                    className="akademi-side__link"
+              {roots.map((section) => {
+                const children = childrenByParent.get(section.id) || []
+                const hasChildren = children.length > 0
+                const isOpen = section.id && openGroups.has(section.id)
+                const groupActive =
+                  active?.slug === section.slug ||
+                  children.some((child) => child.slug === active?.slug)
+
+                return (
+                  <div
+                    key={section.slug}
+                    className={`akademi-side__group ${groupActive ? 'is-active' : ''}`}
                   >
-                    <span>{section.label}</span>
-                  </NavLink>
-                  {editing && (
-                    <button
-                      type="button"
-                      className="akademi-side__delete"
-                      onClick={() => deletePage(section)}
-                      disabled={busy || Boolean(draft)}
-                      aria-label={`${section.label} başlığını sil`}
-                    >
-                      Sil
-                    </button>
-                  )}
-                </div>
-              ))}
+                    <div className="akademi-side__item">
+                      {hasChildren ? (
+                        <button
+                          type="button"
+                          className={`akademi-side__link akademi-side__toggle ${
+                            groupActive ? 'active' : ''
+                          }`}
+                          onClick={() => toggleGroup(section.id)}
+                          aria-expanded={Boolean(isOpen)}
+                        >
+                          <span>{section.label}</span>
+                          <span className="akademi-side__caret" aria-hidden="true">
+                            ›
+                          </span>
+                        </button>
+                      ) : (
+                        <NavLink
+                          to={`/akademi/${section.slug}`}
+                          className="akademi-side__link"
+                        >
+                          <span>{section.label}</span>
+                        </NavLink>
+                      )}
+                      {editing && (
+                        <button
+                          type="button"
+                          className="akademi-side__delete"
+                          onClick={() => deletePage(section)}
+                          disabled={busy || Boolean(draft)}
+                          aria-label={`${section.label} başlığını sil`}
+                        >
+                          Sil
+                        </button>
+                      )}
+                    </div>
+
+                    {editing && (
+                      <button
+                        type="button"
+                        className="akademi-side__subadd"
+                        onClick={() => addSubPage(section)}
+                        disabled={busy || Boolean(draft)}
+                      >
+                        + Alt başlık ekle
+                      </button>
+                    )}
+
+                    {hasChildren && isOpen && (
+                      <div className="akademi-side__children">
+                        {children.map((child) => (
+                          <div key={child.slug} className="akademi-side__item akademi-side__item--child">
+                            <NavLink
+                              to={`/akademi/${child.slug}`}
+                              className="akademi-side__link akademi-side__link--child"
+                            >
+                              <span>{child.label}</span>
+                            </NavLink>
+                            {editing && (
+                              <button
+                                type="button"
+                                className="akademi-side__delete"
+                                onClick={() => deletePage(child)}
+                                disabled={busy || Boolean(draft)}
+                                aria-label={`${child.label} alt başlığını sil`}
+                              >
+                                Sil
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </nav>
             {editing && (
               <button
@@ -921,6 +1061,25 @@ export default function Akademi() {
                     className="akademi-edit-in"
                     onChange={(e) => setDraft((current) => ({ ...current, slug: e.target.value }))}
                   />
+                  <select
+                    value={draft.parentId || ''}
+                    className="akademi-edit-in"
+                    onChange={(e) =>
+                      setDraft((current) => ({
+                        ...current,
+                        parentId: e.target.value || null,
+                      }))
+                    }
+                  >
+                    <option value="">Üst başlık yok</option>
+                    {roots
+                      .filter((page) => page.slug !== draft.slug && page.id)
+                      .map((page) => (
+                        <option key={page.id} value={page.id}>
+                          {page.label}
+                        </option>
+                      ))}
+                  </select>
                   <input
                     value={draft.eyebrow}
                     placeholder="Üst küçük başlık"
