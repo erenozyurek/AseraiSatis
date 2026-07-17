@@ -19,7 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 18px;
 }
 
 /* ---------- Logo ---------- */
@@ -55,8 +55,9 @@
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: clamp(12px, 1.35vw, 20px);
   margin-left: auto;
+  min-width: 0;
 }
 
 .nav__link {
@@ -64,11 +65,12 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 9px 6px;
-  font-size: 0.95rem;
+  padding: 8px 4px;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #1a1a1a;
   border-radius: var(--radius-sm);
+  white-space: nowrap;
   transition: color var(--transition), background var(--transition);
 }
 
@@ -168,9 +170,9 @@
 .nav__actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
   flex-shrink: 0;
-  margin-left: 24px;
+  margin-left: 14px;
 }
 
 .nav__edit {
@@ -234,10 +236,11 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.95rem;
+  gap: 6px;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #1a1a1a;
+  white-space: nowrap;
   transition: color var(--transition);
 }
 
@@ -280,10 +283,11 @@
 .nav__cta {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.95rem;
+  gap: 6px;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #1a1a1a;
+  white-space: nowrap;
   transition: color var(--transition);
 }
 
@@ -410,7 +414,7 @@
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1040px) {
+@media (max-width: 1160px) {
   .nav__links,
   .nav__actions {
     display: none;
@@ -421,7 +425,7 @@
   }
 }
 
-@media (min-width: 1041px) {
+@media (min-width: 1161px) {
   .nav__mobile,
   .nav__overlay {
     display: none;
