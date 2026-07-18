@@ -956,9 +956,9 @@ export default function Home() {
                 <h3>{b.title}</h3>
                 <p>{b.desc}</p>
                 <span className="ebook-card__icon" aria-hidden="true" />
-                <a href="/iletisim" className="ebook-card__btn">
+                <Link to="/iletisim" className="ebook-card__btn">
                   FREE DOWNLOAD
-                </a>
+                </Link>
               </article>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Icon from '../../components/Icon/Icon.jsx'
 import PageHeader from '../../components/PageHeader/PageHeader.jsx'
 import './Iletisim.css'
@@ -177,9 +178,9 @@ export default function Iletisim() {
               <span>Sosyal medya</span>
               <div>
                 {['in', 'X', 'f', '◎'].map((s) => (
-                  <a key={s} href="/iletisim" className="il-social">
+                  <Link key={s} to="/iletisim" className="il-social">
                     {s}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
