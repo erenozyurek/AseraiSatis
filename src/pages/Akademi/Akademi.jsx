@@ -1056,6 +1056,24 @@ function GuideEditor({
   )
 }
 
+function AcademyEmptyState({ editing, onAdd }) {
+  return (
+    <div className="akademi-empty">
+      <span className="eyebrow">Akademi</span>
+      <h1>Henüz Akademi başlığı yok</h1>
+      <p className="akademi-lead">
+        Akademi içerikleri silinmiş veya henüz oluşturulmamış. Başlıklar
+        eklendiğinde sol menüde listelenir ve içerikler burada okunur.
+      </p>
+      {editing && (
+        <button type="button" className="btn btn--primary" onClick={onAdd}>
+          İlk başlığı ekle
+        </button>
+      )}
+    </div>
+  )
+}
+
 export default function Akademi() {
   const { slug, guideSlug } = useParams()
   const navigate = useNavigate()
@@ -1157,7 +1175,10 @@ export default function Akademi() {
 
   const content = useMemo(() => normalizeContent(active?.content), [active])
 
-  if (!active) return <Navigate to="/akademi" replace />
+  if (!active && pages.length > 0) {
+    const fallbackPage = roots[0] || pages[0]
+    return <Navigate to={`/akademi/${fallbackPage.slug}`} replace />
+  }
 
   const saveHeader = async (e) => {
     e.preventDefault()
@@ -1654,6 +1675,11 @@ export default function Akademi() {
           <aside className="akademi-side" aria-label="Aserai Akademi başlıkları">
             <span className="akademi-side__title">Başlıklar</span>
             <nav>
+              {roots.length === 0 && (
+                <span className="akademi-side__empty">
+                  Henüz başlık yok
+                </span>
+              )}
               {roots.map((section) => {
                 const children = childrenByParent.get(section.id) || []
                 const hasChildren = children.length > 0
@@ -1779,7 +1805,7 @@ export default function Akademi() {
                 type="button"
                 className="akademi-side__add"
                 onClick={addPage}
-                disabled={busy || Boolean(draft)}
+                disabled={busy || Boolean(draft) || Boolean(guideDraft)}
               >
                 + Yeni başlık ekle
               </button>
@@ -1792,7 +1818,7 @@ export default function Akademi() {
           </aside>
 
           <article className={`akademi-content ${editing ? 'is-editable' : ''}`}>
-            {editing && !draft && !guideDraft && (
+            {editing && active && !draft && !guideDraft && (
               <button
                 type="button"
                 className="akademi-content__pencil"
@@ -1815,7 +1841,9 @@ export default function Akademi() {
               </button>
             )}
 
-            {guideDraft ? (
+            {!active && !draft && !guideDraft ? (
+              <AcademyEmptyState editing={editing} onAdd={addPage} />
+            ) : guideDraft ? (
               <GuideEditor
                 draft={guideDraft}
                 busy={busy}
