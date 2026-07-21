@@ -14,6 +14,7 @@ import {
 } from '../../lib/imageUpload.js'
 import { supabase } from '../../lib/supabase.js'
 import { logAdminAction } from '../../lib/auditLog.js'
+import { blogBlocksToRichHtml } from '../../lib/blogRichText.js'
 import '../panel/panel.css'
 import './AdminBlog.css'
 
@@ -43,8 +44,8 @@ const friendlyError = (error) => {
   if (error?.code === '42501') {
     return 'Bu işlem için yönetici yetkisi doğrulanamadı.'
   }
-  if (migrationMissing(error)) {
-    return 'Blog altyapısı hazır değil. 0019_blog_management.sql migrationını Supabase üzerinde çalıştırın.'
+  if (migrationMissing(error) || /content_html|schema cache|column/i.test(error?.message || '')) {
+    return 'Blog altyapısı hazır değil. 0032_blog_document_html.sql migrationını Supabase üzerinde çalıştırın.'
   }
   return error?.message || 'İşlem tamamlanamadı. Lütfen tekrar deneyin.'
 }
@@ -56,10 +57,19 @@ const validateForm = (form, hasNewImage) => {
   const category = form.category.trim()
   const author = form.author.trim()
   const readingTime = Number(form.readingTimeMinutes)
-  const content = form.content.map((block) => ({
-    type: block.type,
-    text: block.text.trim(),
-  }))
+  const content = form.content.map((block) => {
+    const next = {
+      type: block.type,
+      text: block.text.trim(),
+    }
+    if (block.style && typeof block.style === 'object') {
+      next.style = block.style
+    }
+    if (block.html && typeof block.html === 'string') {
+      next.html = block.html
+    }
+    return next
+  })
 
   if (title.length < 3 || title.length > 180) {
     throw new Error('Başlık 3-180 karakter arasında olmalıdır.')
@@ -111,6 +121,7 @@ const validateForm = (form, hasNewImage) => {
     reading_time: readingTime,
     accent: form.accent,
     content,
+    content_html: blogBlocksToRichHtml(content),
     is_published: form.isPublished,
     published_on: form.publishedOn,
   }

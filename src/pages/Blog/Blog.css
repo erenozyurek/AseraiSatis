@@ -2,7 +2,52 @@
    Blog liste
    ============================================================ */
 
+.blog-adminbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.blog-adminbar h2 {
+  margin-top: 4px;
+  font-size: 1.15rem;
+}
+
+.blog-adminbar__add {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border: 1.5px solid var(--c-navy);
+  border-radius: 50%;
+  background: var(--c-navy);
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.blog-adminbar__add:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
 /* ---------- Öne çıkan ---------- */
+.blog-featured-shell {
+  position: relative;
+  margin-bottom: 40px;
+}
+
 .blog-featured {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -11,7 +56,6 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #fff;
-  margin-bottom: 40px;
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
@@ -63,9 +107,16 @@
   gap: 26px;
 }
 
+.blog-card-shell {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
 .blog-card {
   display: flex;
   flex-direction: column;
+  width: 100%;
   background: #fff;
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
@@ -104,6 +155,39 @@
   font-size: 0.92rem;
 }
 
+.blog-card__edit {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  min-height: 36px;
+  padding: 7px 13px;
+  border: 1px solid rgba(28, 52, 68, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--c-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+}
+
+.blog-card__edit:hover:not(:disabled) {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+.blog-card__edit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.blog-card__edit--featured {
+  top: 18px;
+  right: 18px;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 920px) {
   .blog-featured {
@@ -120,5 +204,8 @@
   }
   .blog-featured__body {
     padding: 26px 22px;
+  }
+  .blog-adminbar {
+    align-items: flex-start;
   }
 }

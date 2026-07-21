@@ -112,6 +112,7 @@ const BLOG_CARD_FIELDS = [
 ].join(',')
 
 const BLOG_DETAIL_FIELDS = `${BLOG_CARD_FIELDS},content`
+const BLOG_DETAIL_FIELDS_WITH_HTML = `${BLOG_DETAIL_FIELDS},content_html`
 
 export const mapBlogRow = (row) => ({
   id: row.id,
@@ -127,6 +128,7 @@ export const mapBlogRow = (row) => ({
   imageUrl: row.image_url || null,
   accent: row.accent || '#1c3444',
   content: Array.isArray(row.content) ? row.content : [],
+  contentHtml: row.content_html || null,
   isPublished: row.is_published,
   createdAt: row.created_at,
   updatedAt: row.updated_at,
@@ -160,13 +162,19 @@ export async function fetchPublishedPosts() {
 export async function fetchPublishedPost(slug) {
   if (!supabase) return getPost(slug) || null
 
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .select(BLOG_DETAIL_FIELDS)
-    .eq('slug', slug)
-    .eq('is_published', true)
-    .lte('published_on', todayInIstanbul())
-    .maybeSingle()
+  const buildQuery = (fields) =>
+    supabase
+      .from('blog_posts')
+      .select(fields)
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .lte('published_on', todayInIstanbul())
+      .maybeSingle()
+
+  let { data, error } = await buildQuery(BLOG_DETAIL_FIELDS_WITH_HTML)
+  if (error && /content_html|schema cache|column/i.test(error.message || '')) {
+    ;({ data, error } = await buildQuery(BLOG_DETAIL_FIELDS))
+  }
 
   if (error) return getPost(slug) || null
   return data ? mapBlogRow(data) : null

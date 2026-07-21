@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { productContent } from '../../data/products.js'
-import { pricing } from '../../data/pricing.js'
+import ComparisonTable from '../../components/ComparisonTable/ComparisonTable.jsx'
 import Icon from '../../components/Icon/Icon.jsx'
-import PricingPlans from '../../components/PricingPlans/PricingPlans.jsx'
 import Faq from '../../components/Faq/Faq.jsx'
 import CtaBand from '../../components/CtaBand/CtaBand.jsx'
 import './ProductPage.css'
@@ -189,8 +188,8 @@ export default function ProductPage({ slug }) {
             <h2>{data.pricingTitle}</h2>
             <p>{data.pricingText}</p>
           </div>
-          {pricing[slug] ? (
-            <PricingPlans productKeys={[slug]} />
+          {slug === 'aserai' ? (
+            <ComparisonTable />
           ) : (
             <div className="pp-pricing-fallback">
               <p>

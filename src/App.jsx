@@ -91,7 +91,6 @@ const REVEAL_SELECTOR = [
   '.pp-feature',
   '.pp-stat',
   '.pp-integration',
-  '.pcard',
   '.hk-mv__card',
   '.hk-value',
   '.hk-milestone',
