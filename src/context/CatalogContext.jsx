@@ -8,6 +8,7 @@ import {
 import { supabase } from '../lib/supabase.js'
 import { pricing } from '../data/pricing.js'
 import { addonModules } from '../data/modules.js'
+import { fallbackPackageModuleRules } from '../data/packageModules.js'
 
 /* Katalog (paketler + ek modüller) DB'den okunur; yüklenene kadar veya boşsa
    statik veri (pricing.js / modules.js) yedek olarak kullanılır. Böylece public
@@ -32,15 +33,26 @@ const mapModule = (r) => ({
   name: r.name,
   desc: r.description,
   monthly: Number(r.monthly),
+  category: r.category || 'Diğer Modüller',
+  sortOrder: r.sort_order,
+  iconPath: r.icon_path,
+  imageUrl: r.image_url,
+})
+
+const mapPackageModuleRule = (r) => ({
+  packageId: r.package_slug,
+  moduleId: r.module_slug,
+  status: r.status,
 })
 
 export function CatalogProvider({ children }) {
   const [packages, setPackages] = useState(null)
   const [modules, setModules] = useState(null)
+  const [packageModuleRules, setPackageModuleRules] = useState(null)
 
   const load = useCallback(async () => {
     if (!supabase) return
-    const [{ data: pk }, { data: md }] = await Promise.all([
+    const [packageResult, moduleResult, ruleResult] = await Promise.allSettled([
       supabase
         .from('packages')
         .select('*')
@@ -50,10 +62,21 @@ export function CatalogProvider({ children }) {
         .from('modules')
         .select('*')
         .eq('is_active', true)
+        .order('category', { ascending: true })
         .order('sort_order', { ascending: true }),
+      supabase
+        .from('package_module_rules')
+        .select('*'),
     ])
-    if (pk) setPackages(pk.map(mapPackage))
-    if (md) setModules(md.map(mapModule))
+    if (packageResult.status === 'fulfilled' && packageResult.value.data) {
+      setPackages(packageResult.value.data.map(mapPackage))
+    }
+    if (moduleResult.status === 'fulfilled' && moduleResult.value.data) {
+      setModules(moduleResult.value.data.map(mapModule))
+    }
+    if (ruleResult.status === 'fulfilled' && ruleResult.value.data) {
+      setPackageModuleRules(ruleResult.value.data.map(mapPackageModuleRule))
+    }
   }, [])
 
   useEffect(() => {
@@ -63,13 +86,27 @@ export function CatalogProvider({ children }) {
   // Yüklenene kadar / boşsa statik yedek
   const pkgs = packages && packages.length ? packages : pricing.aserai.tiers
   const mods = modules && modules.length ? modules : addonModules
+  const rules =
+    packageModuleRules && packageModuleRules.length
+      ? packageModuleRules
+      : fallbackPackageModuleRules
+
+  const getPackageModuleStatus = useCallback(
+    (packageId, moduleId) =>
+      rules.find(
+        (rule) => rule.packageId === packageId && rule.moduleId === moduleId,
+      )?.status || null,
+    [rules],
+  )
 
   const value = {
     packages: pkgs,
     modules: mods,
+    packageModuleRules: rules,
     loading: packages === null,
     getPackage: (slug) => pkgs.find((p) => p.id === slug) || null,
     getModule: (slug) => mods.find((m) => m.id === slug) || null,
+    getPackageModuleStatus,
     refresh: load,
   }
 

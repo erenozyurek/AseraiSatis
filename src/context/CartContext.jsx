@@ -15,7 +15,7 @@ function loadCart() {
 }
 
 export function CartProvider({ children }) {
-  const { getPackage, getModule } = useCatalog()
+  const { getPackage, getModule, getPackageModuleStatus } = useCatalog()
   const { isAdmin } = useAuth()
   const shoppingDisabled = isAdmin === true
   // localStorage'dan senkron başlangıç (effect'te yüklemek StrictMode'da veriyi ezer)
@@ -45,10 +45,11 @@ export function CartProvider({ children }) {
     )
   }, [packageId, moduleIds, billing, shoppingDisabled])
 
-  const selectPackage = (id, period) => {
+  const selectPackage = (id, period, selectedModuleIds) => {
     if (shoppingDisabled) return
     setPackageId(id)
     if (period) setBilling(period)
+    if (Array.isArray(selectedModuleIds)) setModuleIds(selectedModuleIds)
   }
   const setCartBilling = (period) => {
     if (!shoppingDisabled) setBilling(period)
@@ -58,6 +59,7 @@ export function CartProvider({ children }) {
   }
   const toggleModule = (id) => {
     if (shoppingDisabled) return
+    if (packageId && getPackageModuleStatus(packageId, id) === 'included') return
     setModuleIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     )
@@ -68,7 +70,11 @@ export function CartProvider({ children }) {
   }
 
   const activePackageId = shoppingDisabled ? null : packageId
-  const activeModuleIds = shoppingDisabled ? [] : moduleIds
+  const activeModuleIds = shoppingDisabled
+    ? []
+    : moduleIds.filter(
+        (id) => !activePackageId || getPackageModuleStatus(activePackageId, id) === 'addable',
+      )
   const tier = activePackageId ? getPackage(activePackageId) : null
   const packagePrice = tier
     ? billing === 'yearly'

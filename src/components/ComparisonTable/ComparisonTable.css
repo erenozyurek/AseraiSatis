@@ -145,7 +145,7 @@
   display: block;
   margin: 14px auto 20px;
   max-width: 230px;
-  min-height: 62px;
+  min-height: 82px;
   padding: 10px 12px;
   font-size: 0.8rem;
   line-height: 1.4;
@@ -156,6 +156,26 @@
 
 .cmp__save strong {
   color: var(--c-primary-dark);
+}
+
+.cmp__yearly-total {
+  display: block;
+  margin-top: 3px;
+  color: var(--c-text);
+  font-weight: 800;
+}
+
+.cmp__addon-total {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-radius: var(--radius-pill);
+  background: #f4ecfb;
+  color: #7434a4;
+  font-size: 0.76rem;
+  font-weight: 800;
 }
 
 .cmp__save s {
@@ -281,6 +301,18 @@
   border-top: 1px solid var(--c-border);
 }
 
+.cmp__row-head span {
+  display: block;
+}
+
+.cmp__row-head small {
+  display: block;
+  margin-top: 4px;
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 .cmp__table tbody td {
   text-align: center;
   padding: 15px 18px;
@@ -321,6 +353,68 @@
 .cmp__text {
   font-weight: 600;
   color: var(--c-text);
+}
+
+.cmp__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.cmp__status--included {
+  color: #236b30;
+  background: #eaf7ec;
+}
+
+.cmp__status--addable {
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--c-navy);
+  box-shadow: var(--shadow-sm);
+}
+
+button.cmp__status--addable {
+  cursor: pointer;
+  border: 1px solid var(--c-navy);
+  transition: background var(--transition), border-color var(--transition),
+    transform var(--transition), box-shadow var(--transition);
+}
+
+button.cmp__status--addable:hover {
+  transform: translateY(-1px);
+  border-color: var(--c-primary);
+  background: var(--c-primary);
+  box-shadow: var(--shadow-md);
+}
+
+button.cmp__status--addable.is-selected {
+  color: #fff;
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+}
+
+button.cmp__status--addable:disabled {
+  cursor: default;
+  opacity: 0.78;
+  transform: none;
+}
+
+.cmp__status--addable span {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .cmp__note {

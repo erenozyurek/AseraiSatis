@@ -171,9 +171,18 @@
 }
 
 .il-info__value {
+  display: inline-block;
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--c-primary-dark);
+}
+
+a.il-info__value {
+  transition: color var(--transition);
+}
+
+a.il-info__value:hover {
+  color: var(--c-primary);
 }
 
 .il-info__note {

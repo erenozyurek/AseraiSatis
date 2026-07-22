@@ -6,7 +6,7 @@ export const productContent = {
   aserai: {
     slug: 'aserai',
     name: 'Aserai',
-    eyebrow: 'Aserai · E-Ticaret Altyapısı',
+    eyebrow: 'Aserai B2C E-Ticaret',
     heroTitle: 'Markanıza özel',
     heroHighlight: 'e-ticaret mağazanızı',
     heroTitleEnd: 'dakikalar içinde kurun',
@@ -100,8 +100,8 @@ export const productContent = {
 
   iberai: {
     slug: 'iberai',
-    name: 'Iberai',
-    eyebrow: 'Iberai · Pazaryeri Entegrasyonu',
+    name: 'İberai',
+    eyebrow: 'İberai Ticari Entegrasyon Platformu',
     heroTitle: 'Tüm pazaryerlerini',
     heroHighlight: 'tek panelden',
     heroTitleEnd: 'yönetin',

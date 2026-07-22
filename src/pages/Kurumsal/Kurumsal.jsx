@@ -114,13 +114,15 @@ const testimonials = [
 const infoCards = [
   {
     title: 'E-posta',
-    value: 'merhaba@aserai.com.tr',
+    value: 'info@aserai.com.tr',
+    href: 'mailto:info@aserai.com.tr',
     note: 'Genellikle birkaç saat içinde yanıtlıyoruz.',
     iconPath: 'M3 7h18v10H3zM3 7l9 6 9-6',
   },
   {
     title: 'Telefon',
-    value: '0850 000 00 00',
+    value: '0850 303 29 08',
+    href: 'tel:+908503032908',
     note: 'Hafta içi 09:00 – 18:00 arası ulaşabilirsiniz.',
     iconPath:
       'M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z',
@@ -140,7 +142,7 @@ const infoCards = [
 ]
 
 const subjects = [
-  'Aserai E-Ticaret Altyapısı',
+  'Aserai B2C E-Ticaret',
   'Demo Talebi',
   'Paket & Fiyatlandırma',
   'Teknik Destek',
@@ -433,7 +435,13 @@ export default function Kurumsal() {
                   </span>
                   <div>
                     <h3>{c.title}</h3>
-                    <p className="il-info__value">{c.value}</p>
+                    {c.href ? (
+                      <a className="il-info__value" href={c.href}>
+                        {c.value}
+                      </a>
+                    ) : (
+                      <p className="il-info__value">{c.value}</p>
+                    )}
                     <p className="il-info__note">{c.note}</p>
                   </div>
                 </article>

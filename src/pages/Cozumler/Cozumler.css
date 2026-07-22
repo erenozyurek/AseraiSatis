@@ -53,6 +53,18 @@
   border-radius: var(--radius-pill);
 }
 
+.cz-card__status {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  background: #f0f1f3;
+  border: 1px solid var(--c-border);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
 .cz-card h2 {
   font-size: 1.5rem;
   color: var(--c-navy);
@@ -98,6 +110,17 @@
   margin-top: auto;
   align-self: flex-start;
   gap: 8px;
+}
+
+.cz-card__btn--soon {
+  cursor: default;
+  opacity: 0.72;
+  box-shadow: none;
+}
+
+.cz-card__btn--soon:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 /* ---------- Neden birlikte ---------- */

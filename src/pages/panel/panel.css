@@ -462,7 +462,34 @@
   margin-left: auto;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 12px;
+}
+
+.admin-danger {
+  border: 1px solid #efc3bf;
+  background: #fff;
+  color: #a12318;
+}
+
+.admin-danger:hover:not(:disabled) {
+  border-color: #c7352a;
+  background: #fdecea;
+}
+
+.admin-delete-confirm {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-delete-confirm > span {
+  color: #a12318;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .admin-grid {

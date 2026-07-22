@@ -23,7 +23,7 @@ const solutions = [
   {
     tag: 'Aserai',
     to: '/aserai',
-    title: 'E-Ticaret Altyapısı',
+    title: 'Aserai B2C E-Ticaret',
     desc: 'Kendi markanızla satış yapın. Hazır temalar, mobil uyumlu mağaza, ödeme ve kargo entegrasyonlarıyla dakikalar içinde yayında olun.',
     points: [
       'Sınırsız ürün ve kategori',
@@ -34,9 +34,9 @@ const solutions = [
       'M3 9l1.5-5h15L21 9M3 9h18M3 9v10a1 1 0 001 1h16a1 1 0 001-1V9M9 13h6',
   },
   {
-    tag: 'Iberai',
+    tag: 'İberai',
     to: '/iberai',
-    title: 'Pazaryeri Entegrasyonu',
+    title: 'İberai Ticari Entegrasyon Platformu',
     desc: 'Trendyol, Hepsiburada, Amazon ve daha fazlasını tek panelden yönetin. Stok ve fiyatlarınız her kanalda otomatik senkron.',
     points: [
       '20+ pazaryeri bağlantısı',
@@ -126,8 +126,8 @@ const pricePreview = [
 ]
 
 const stats = [
-  { value: '500+', label: 'Aktif Marka' },
-  { value: '1M+', label: 'Tamamlanan Sipariş' },
+  { value: '270+', label: 'Aktif Marka' },
+  { value: '710K', label: 'Tamamlanan Sipariş' },
   { value: '%99,9', label: 'Kesintisiz Hizmet' },
   { value: '7/24', label: 'Uzman Destek' },
 ]
@@ -151,6 +151,29 @@ const heroChecks = [
   {
     title: 'İşletmeni Yönet — Ödeme Al',
     desc: 'Sipariş, kargo, muhasebe ve güvenli ödeme altyapısını tek panelden yönet.',
+  },
+]
+
+const whyAserai = [
+  {
+    title: 'Kolay Yönetim',
+    desc: 'Tüm iş süreçlerinizi tek panelden zahmetsizce yönetin.',
+    iconPath: 'M4 5h16v14H4zM4 9h16M9 13h6M9 16h4',
+  },
+  {
+    title: 'Daha Hızlı Operasyon',
+    desc: 'Tekrarlayan işleri azaltın, işinize odaklanın.',
+    iconPath: 'M13 2L4 14h7l-1 8 9-12h-7z',
+  },
+  {
+    title: 'Sürdürülebilir Büyüme',
+    desc: 'İşiniz büyüdükçe altyapınız da sizinle birlikte büyür.',
+    iconPath: 'M4 19V5M4 19h16M8 15l3-3 3 2 5-7',
+  },
+  {
+    title: 'Güçlü Performans',
+    desc: 'Yoğun trafikte bile hızlı ve kesintisiz deneyim sunun.',
+    iconPath: 'M12 3a9 9 0 109 9M12 3v9l5 3M4 20l3-3',
   },
 ]
 
@@ -455,6 +478,31 @@ export default function Home() {
               <p>{c.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ---------- NEDEN ASERAI ---------- */}
+      <section className="section why-aserai">
+        <div className="container">
+          <div className="section-head why-aserai__head">
+            <span className="eyebrow">Neden Aserai?</span>
+            <h2>İşinizi Karmaşıklaştırmadan Büyütün</h2>
+            <p>
+              E-ticaret süreçleri karmaşık olmak zorunda değil. Aserai ile
+              satış, operasyon ve yönetim süreçlerinizi kolaylaştırın.
+            </p>
+          </div>
+          <div className="why-aserai__grid">
+            {whyAserai.map((item) => (
+              <article key={item.title} className="why-aserai__card">
+                <span className="why-aserai__icon" aria-hidden="true">
+                  <Icon path={item.iconPath} />
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

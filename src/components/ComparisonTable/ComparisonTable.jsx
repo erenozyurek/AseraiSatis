@@ -1,11 +1,14 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   pricing,
-  comparison,
   formatTL,
   yearlySaving,
 } from '../../data/pricing.js'
+import {
+  moduleGroups,
+  PACKAGE_MODULE_STATUSES,
+} from '../../data/packageModules.js'
 import { useCart } from '../../context/CartContext.jsx'
 import { useCatalog } from '../../context/CatalogContext.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
@@ -19,39 +22,22 @@ import './ComparisonTable.css'
    ile altındaki özellik karşılaştırma satırlarını tek tabloda birleştirir.
    Standart sütunu vurgulanır. Aylık/Yıllık geçişi fiyatları günceller. */
 
-const CheckMark = () => (
-  <span className="cmp__check" aria-label="Dahil">
-    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <path
-        d="M5 12.5l4.2 4.2L19 7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </span>
-)
-
 const Dash = () => (
   <span className="cmp__dash" aria-label="Dahil değil">
     —
   </span>
 )
 
-function Cell({ value }) {
-  if (value === true) return <CheckMark />
-  if (value === false) return <Dash />
-  return <span className="cmp__text">{value}</span>
-}
+const TIER_IDS = ['baslangic', 'standart', 'profesyonel', 'e-ihracat']
+const CATEGORY_ORDER = moduleGroups.map((group) => group.title)
 
 export default function ComparisonTable() {
   const [billing, setBilling] = useState('yearly')
+  const [selectedAddons, setSelectedAddons] = useState({})
   const yearly = billing === 'yearly'
   const navigate = useNavigate()
   const { selectPackage } = useCart()
-  const { getPackage, refresh } = useCatalog()
+  const { modules, getPackage, getPackageModuleStatus, refresh } = useCatalog()
   const { user, isAdmin } = useAuth()
   const { editMode } = useEditMode()
   const editing = editMode && isAdmin
@@ -63,9 +49,25 @@ export default function ComparisonTable() {
       if (isAdmin) navigate('/yonetim')
       return
     }
-    selectPackage(tierId, billing)
+    selectPackage(tierId, billing, selectedAddons[tierId] || [])
     navigate('/sepet')
   }
+
+  const toggleAddon = (tierId, moduleId) => {
+    setSelectedAddons((current) => {
+      const active = current[tierId] || []
+      const next = active.includes(moduleId)
+        ? active.filter((id) => id !== moduleId)
+        : [...active, moduleId]
+      return { ...current, [tierId]: next }
+    })
+  }
+
+  const getAddonTotal = (tierId) =>
+    (selectedAddons[tierId] || []).reduce((sum, moduleId) => {
+      const module = modules.find((item) => item.id === moduleId)
+      return sum + (module?.monthly || 0)
+    }, 0)
 
   const savePackage = async (slug, e) => {
     e.preventDefault()
@@ -89,9 +91,42 @@ export default function ComparisonTable() {
 
   // Sütunlar sabit karşılaştırma sırasında; paket bilgisi DB katalogundan gelir
   // (bulunamazsa statik veriye düşer, matris hizası korunur).
-  const tiers = comparison.tierIds.map(
+  const tiers = TIER_IDS.map(
     (id) => getPackage(id) || pricing.aserai.tiers.find((t) => t.id === id),
   )
+
+  const groupedModules = useMemo(() => {
+    const groups = new Map()
+    modules
+      .filter((module) =>
+        TIER_IDS.some((tierId) => getPackageModuleStatus(tierId, module.id)),
+      )
+      .forEach((module) => {
+        const category = module.category || 'Diğer Modüller'
+        if (!groups.has(category)) groups.set(category, [])
+        groups.get(category).push(module)
+      })
+
+    return Array.from(groups.entries())
+      .map(([title, rows]) => ({
+        title,
+        rows: rows
+          .slice()
+          .sort(
+            (a, b) =>
+              (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0) ||
+              a.name.localeCompare(b.name, 'tr'),
+          ),
+      }))
+      .sort((a, b) => {
+        const ai = CATEGORY_ORDER.indexOf(a.title)
+        const bi = CATEGORY_ORDER.indexOf(b.title)
+        if (ai === -1 && bi === -1) return a.title.localeCompare(b.title, 'tr')
+        if (ai === -1) return 1
+        if (bi === -1) return -1
+        return ai - bi
+      })
+  }, [modules, getPackageModuleStatus])
 
   return (
     <div className="cmp" role="region" aria-label="Paket karşılaştırma tablosu">
@@ -108,8 +143,12 @@ export default function ComparisonTable() {
                 </span>
               </th>
               {tiers.map((tier) => {
-                const price = yearly ? tier.yearlyMonthly : tier.monthly
+                const addonsTotal = getAddonTotal(tier.id)
+                const packagePrice = yearly ? tier.yearlyMonthly : tier.monthly
+                const price = packagePrice + addonsTotal
                 const saving = yearlySaving(tier)
+                const yearlyTotal = (tier.yearlyMonthly + addonsTotal) * 12
+                const selectedCount = selectedAddons[tier.id]?.length || 0
                 return (
                   <th
                     key={tier.id}
@@ -195,10 +234,20 @@ export default function ComparisonTable() {
                           <span className="cmp__price-per">/ ay</span>
                         </span>
 
+                        {selectedCount > 0 && (
+                          <span className="cmp__addon-total">
+                            {selectedCount} ek modül dahil · +₺
+                            {formatTL(addonsTotal)}/ay
+                          </span>
+                        )}
+
                         {yearly ? (
                           <span className="cmp__save cmp__save--yes">
                             <s>₺{formatTL(tier.monthly)}/ay</s> yerine · yıllık
                             faturalandırılır
+                            <span className="cmp__yearly-total">
+                              Yıllık toplam ₺{formatTL(yearlyTotal)}
+                            </span>
                             <strong>Yılda ₺{formatTL(saving)} tasarruf</strong>
                           </span>
                         ) : (
@@ -206,6 +255,9 @@ export default function ComparisonTable() {
                             Yıllık ödeyin, ayda{' '}
                             <strong>₺{formatTL(tier.yearlyMonthly)}</strong>’ye
                             düşsün
+                            <span className="cmp__yearly-total">
+                              Yıllık toplam ₺{formatTL(yearlyTotal)}
+                            </span>
                           </span>
                         )}
 
@@ -228,7 +280,7 @@ export default function ComparisonTable() {
             </tr>
           </thead>
           <tbody>
-            {comparison.groups.map((group) => (
+            {groupedModules.map((group) => (
               <Fragment key={group.title}>
                 <tr className="cmp__group">
                   <th scope="colgroup" colSpan={tiers.length + 1}>
@@ -236,19 +288,61 @@ export default function ComparisonTable() {
                   </th>
                 </tr>
                 {group.rows.map((row) => (
-                  <tr key={row.label}>
+                  <tr key={row.id}>
                     <th scope="row" className="cmp__row-head">
-                      {row.label}
+                      <span>{row.name}</span>
+                      {row.monthly > 0 && (
+                        <small>+₺{formatTL(row.monthly)} / ay</small>
+                      )}
                     </th>
-                    {row.values.map((value, i) => (
-                      <td
-                        key={tiers[i].id}
-                        className={tiers[i].highlight ? 'is-highlight' : ''}
-                        data-label={tiers[i].name}
-                      >
-                        <Cell value={value} />
-                      </td>
-                    ))}
+                    {tiers.map((tier) => {
+                      const status = getPackageModuleStatus(tier.id, row.id)
+                      const isAddable =
+                        status === PACKAGE_MODULE_STATUSES.ADDABLE && row.monthly > 0
+                      const isSelected = selectedAddons[tier.id]?.includes(row.id)
+                      return (
+                        <td
+                          key={tier.id}
+                          className={tier.highlight ? 'is-highlight' : ''}
+                          data-label={tier.name}
+                        >
+                          {status === PACKAGE_MODULE_STATUSES.INCLUDED ? (
+                            <span className="cmp__status cmp__status--included">
+                              Temel Özellik
+                            </span>
+                          ) : isAddable ? (
+                            <button
+                              type="button"
+                              className={`cmp__status cmp__status--addable ${
+                                isSelected ? 'is-selected' : ''
+                              }`}
+                              onClick={() => toggleAddon(tier.id, row.id)}
+                              disabled={!canShop}
+                              aria-label={
+                                isSelected
+                                  ? `${row.name} modülünü sepetten çıkar`
+                                  : `${row.name} modülünü sepete ekle`
+                              }
+                              title={
+                                isSelected
+                                  ? 'Sepetten çıkar'
+                                  : 'Sepete ekle'
+                              }
+                            >
+                              <span aria-hidden="true">
+                                {isSelected ? '✓' : '+'}
+                              </span>
+                            </button>
+                          ) : status === PACKAGE_MODULE_STATUSES.ADDABLE ? (
+                            <span className="cmp__status cmp__status--addable">
+                              <span aria-hidden="true">+</span>
+                            </span>
+                          ) : (
+                            <Dash />
+                          )}
+                        </td>
+                      )
+                    })}
                   </tr>
                 ))}
               </Fragment>

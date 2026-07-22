@@ -41,27 +41,75 @@ const included = [
 const faq = [
   {
     q: 'Hangi paket işletmeme uygun?',
-    a: 'Yeni başlıyorsanız Başlangıç, büyüyen bir KOBİ iseniz Standart, yüksek hacimli operasyonlar için Profesyonel, yurt dışına satış için ise E-İhracat paketini öneririz. Emin değilseniz ücretsiz danışmanlık alabilirsiniz.',
+    a: 'Yeni satışa başlayacak markalar için Başlangıç, düzenli sipariş alan ve pazaryeri bağlantılarına ihtiyaç duyan işletmeler için Standart, yüksek ürün ve sipariş hacmi yöneten ekipler için Profesyonel, yurt dışına satış hedefleyen markalar için E-İhracat paketi daha uygundur. Emin değilseniz işletmenizin kanal, ürün ve sipariş yapısına göre birlikte değerlendirebiliriz.',
   },
   {
     q: 'Yıllık ödeme ne kadar avantaj sağlıyor?',
-    a: 'Yıllık ödemede pakete göre %20 ile %25 arasında indirim uygulanır; aylık maliyetiniz belirgin şekilde düşer ve fiyatınız bir yıl sabit kalır.',
+    a: 'Yıllık ödemede pakete göre avantajlı fiyat uygulanır. Paket kartlarında hem aylık kullanım bedelini hem de yıllık toplam tutarı görebilirsiniz. Yıllık ödeme seçildiğinde fiyatınız ilgili dönem boyunca sabit kalır ve aylık maliyetiniz düşer.',
   },
   {
     q: 'Paketler arasında geçiş yapabilir miyim?',
-    a: 'İstediğiniz an üst pakete yükseltebilirsiniz. Fark tutarı kalan döneme orantılı hesaplanır, veri kaybı yaşanmaz.',
+    a: 'Evet. İşletmeniz büyüdükçe üst pakete geçebilirsiniz. Geçiş sırasında mağaza, ürün, sipariş ve müşteri verileriniz korunur. Fark tutarı kalan kullanım dönemine göre hesaplanır.',
+  },
+  {
+    q: 'Alt pakete geçiş yapabilir miyim?',
+    a: 'Alt pakete geçiş talepleri mevcut kullanımınız ve aktif özellikleriniz kontrol edilerek değerlendirilir. Kullandığınız ürün limiti, entegrasyonlar veya modüller alt paket sınırlarını aşıyorsa önce bu alanların düzenlenmesi gerekir.',
+  },
+  {
+    q: 'Paketlere sonradan modül ekleyebilir miyim?',
+    a: 'Evet. İhtiyacınıza göre e-fatura, pazaryeri entegrasyonu, kargo, CRM, kampanya, raporlama ve benzeri modüller sonradan eklenebilir. Modüller sayfasında ihtiyacınız olan modülü bulamazsanız talep formu üzerinden özel ihtiyaçlarınızı iletebilirsiniz.',
+  },
+  {
+    q: 'Modüller paket fiyatına dahil mi?',
+    a: 'Her pakette temel kullanım özellikleri bulunur. Bazı gelişmiş modüller pakete dahil olabilir, bazıları ise ek ücretli olarak etkinleştirilir. Paket karşılaştırma alanında hangi özelliklerin hangi pakette bulunduğunu kontrol edebilirsiniz.',
+  },
+  {
+    q: 'Kurulum süreci nasıl ilerliyor?',
+    a: 'Paket seçimi sonrasında hesap kurulumu, temel mağaza ayarları, ödeme, kargo ve ihtiyaç duyulan entegrasyonlar adım adım hazırlanır. Gerekli bilgiler alındıktan sonra ekibimiz kurulum sürecinde sizi yönlendirir.',
+  },
+  {
+    q: 'Mevcut e-ticaret sitemden geçiş yapabilir miyim?',
+    a: 'Evet. Ürün, kategori, müşteri ve sipariş yapınız incelenerek geçiş planı hazırlanabilir. Veri aktarımı yapılacak kaynağa göre süreç ve kapsam değişebilir; bu nedenle geçiş öncesinde teknik değerlendirme yapılır.',
+  },
+  {
+    q: 'Pazaryeri ve kargo entegrasyonları destekleniyor mu?',
+    a: 'Aserai, e-ticaret operasyonunuzda pazaryeri, kargo, ödeme, muhasebe ve ERP bağlantılarını tek panelden yönetmeye odaklanır. Kullanılacak kanal ve servisler paketiniz ve aktif modülleriniz doğrultusunda belirlenir.',
+  },
+  {
+    q: 'B2B veya bayi satış modeli için hangi paket uygun?',
+    a: 'Bayi, toptan satış veya kurumsal müşteri yönetimi olan yapılarda B2B ihtiyaçları ayrıca değerlendirilir. Aserai B2B E-Ticaret yaklaşımıyla fiyat listesi, cari yapı, müşteri grubu ve özel sipariş akışları planlanabilir.',
+  },
+  {
+    q: 'E-İhracat paketi kimler için uygundur?',
+    a: 'Yurt dışına satış yapmak, çoklu dil ve döviz yapısını yönetmek, uluslararası kargo ve ödeme süreçlerini planlamak isteyen işletmeler için E-İhracat paketi uygundur. Hedef pazar ve operasyon modeline göre ek entegrasyon ihtiyacı ayrıca değerlendirilir.',
   },
   {
     q: 'Fiyatlara KDV dahil mi?',
-    a: 'Belirtilen tüm fiyatlar KDV hariçtir. Fatura tutarına yürürlükteki KDV oranı eklenir.',
+    a: 'Belirtilen fiyatlar KDV hariçtir. Satın alma veya teklif sürecinde yürürlükteki KDV oranı fatura tutarına eklenir.',
   },
   {
     q: 'Ücretsiz deneme sürümü var mı?',
-    a: 'Evet. Tüm paketleri 14 gün boyunca ücretsiz deneyebilirsiniz; deneme için kredi kartı bilgisi gerekmez.',
+    a: 'Demo talep ederek paketi ve panel deneyimini inceleyebilirsiniz. Demo sürecinde işletmenizin ihtiyaçlarına göre uygun paket ve modül önerileri de paylaşılır.',
+  },
+  {
+    q: 'Destek hizmeti paketlere dahil mi?',
+    a: 'Evet. Tüm paketlerde Türkçe destek bulunur. Destek kapsamı; temel kullanım soruları, kurulum yönlendirmeleri, panel kullanımı ve sistem üzerindeki işlem adımlarını kapsar. Özel geliştirme ve ileri entegrasyon ihtiyaçları ayrıca planlanır.',
+  },
+  {
+    q: 'Özel geliştirme veya ek özellik talep edebilir miyim?',
+    a: 'Evet. Standart paketlerde yer almayan özel modül, entegrasyon veya iş akışı ihtiyaçlarınız için talep oluşturabilirsiniz. Ekibimiz talebin kapsamını inceleyerek size uygun çözüm ve zaman planı paylaşır.',
+  },
+  {
+    q: 'Paket satın aldıktan sonra fiyat değişirse etkilenir miyim?',
+    a: 'Aktif ödeme döneminiz boyunca seçtiğiniz paket koşulları korunur. Yenileme dönemlerinde güncel fiyatlandırma ve kampanya koşulları geçerli olabilir.',
   },
   {
     q: 'İptal etmek istersem ne olur?',
-    a: 'Aboneliğinizi istediğiniz an iptal edebilirsiniz. Dönem sonuna kadar hizmetiniz açık kalır, ek bir ücret alınmaz.',
+    a: 'Aboneliğinizi iptal etmek isterseniz talebiniz dönem ve sözleşme koşullarına göre değerlendirilir. Aktif hizmetiniz dönem sonuna kadar açık kalabilir; veri ve erişim süreçleri iptal planına göre yönetilir.',
+  },
+  {
+    q: 'Teklif almadan doğrudan paket seçebilir miyim?',
+    a: 'Evet. Paketleri karşılaştırarak size uygun planı seçebilirsiniz. Ancak modül, entegrasyon, B2B veya e-ihracat ihtiyacınız varsa teklif formu üzerinden bilgi paylaşmanız daha doğru paket önerisi almanızı sağlar.',
   },
 ]
 

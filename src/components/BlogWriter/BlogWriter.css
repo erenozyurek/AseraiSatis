@@ -10,9 +10,6 @@
 }
 
 .blog-writer__bar {
-  position: sticky;
-  top: 82px;
-  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,8 +171,8 @@
 
 .blog-writer__toolbar {
   position: sticky;
-  top: 158px;
-  z-index: 19;
+  top: 82px;
+  z-index: 20;
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
@@ -331,7 +328,6 @@
   }
 
   .blog-writer__bar {
-    top: 72px;
     align-items: flex-start;
     flex-direction: column;
   }
@@ -353,7 +349,7 @@
   }
 
   .blog-writer__toolbar {
-    top: 154px;
+    top: 72px;
     max-height: 42vh;
     overflow: auto;
   }

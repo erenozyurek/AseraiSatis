@@ -9,7 +9,7 @@ import './Sepet.css'
 
 export default function Sepet() {
   const navigate = useNavigate()
-  const { modules: addonModules } = useCatalog()
+  const { modules: addonModules, getPackageModuleStatus } = useCatalog()
   const { user, isAdmin, loading } = useAuth()
   const {
     tier,
@@ -50,6 +50,10 @@ export default function Sepet() {
       </>
     )
   }
+
+  const addableModules = addonModules.filter(
+    (module) => getPackageModuleStatus(tier.id, module.id) === 'addable',
+  )
 
   return (
     <>
@@ -98,7 +102,7 @@ export default function Sepet() {
                 İhtiyacınıza göre modül ekleyin; dilediğiniz an çıkarabilirsiniz.
               </p>
               <ul className="sepet__modules">
-                {addonModules.map((m) => {
+                {addableModules.map((m) => {
                   const active = moduleIds.includes(m.id)
                   return (
                     <li

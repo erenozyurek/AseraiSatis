@@ -706,9 +706,9 @@ export default function Yardim() {
 
     const form = event.currentTarget
     const payload = {
-      title: form.title.value.trim(),
-      excerpt: form.excerpt.value.trim(),
-      content: form.content.value.trim(),
+      title: form.elements.title.value.trim(),
+      excerpt: form.elements.excerpt.value.trim() || null,
+      content: form.elements.content.value.trim() || null,
       updated_at: new Date().toISOString(),
     }
 
@@ -1083,8 +1083,7 @@ export default function Yardim() {
                               defaultValue={article.excerpt || ''}
                               className="yardim-edit-in"
                               rows="2"
-                              placeholder="Kısa özet"
-                              required
+                              placeholder="Kısa özet (isteğe bağlı)"
                             />
                             <label className="yardim-edit-label">
                               Makale içeriği
@@ -1093,8 +1092,7 @@ export default function Yardim() {
                                 defaultValue={article.content || ''}
                                 className="yardim-edit-in"
                                 rows="8"
-                                placeholder="Paragrafları boş satırla ayırabilirsiniz."
-                                required
+                                placeholder="Paragrafları boş satırla ayırabilirsiniz. (isteğe bağlı)"
                               />
                             </label>
                             <div className="yardim-edit-actions">
@@ -1142,7 +1140,7 @@ export default function Yardim() {
                             >
                               <span>
                                 <strong>{article.title}</strong>
-                                <small>{article.excerpt}</small>
+                                {article.excerpt && <small>{article.excerpt}</small>}
                               </span>
                               <span className="yardim-article__chevron">
                                 {isOpen ? '−' : '+'}

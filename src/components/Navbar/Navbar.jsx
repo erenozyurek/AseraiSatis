@@ -8,20 +8,131 @@ import './Navbar.css'
 
 import aseraiLogo from '../../assets/aserai.png'
 
-/* Şablon menüsü: E-Ticaret Çözümleri · Modüller · Tüm Özellikler · Kurumsal */
-const corporate = [
-  { to: '/hakkimizda', name: 'Hakkımızda', desc: 'Bizi tanıyın' },
-  { to: '/referanslar', name: 'Referanslar', desc: 'Bize güvenenler' },
-  { to: '/iletisim', name: 'İletişim', desc: 'Bize ulaşın' },
-]
-
 const simpleLinks = [
-  { label: 'Ana Sayfa', to: '/', end: true },
-  { label: 'E-Ticaret Çözümleri', to: '/cozumler' },
-  { label: 'Modüller', to: '/moduller' },
-  { label: 'Tüm Özellikler', to: '/ozellikler' },
+  { label: 'Paketler', to: '/paketler' },
   { label: 'Kurumsal', to: '/kurumsal' },
   { label: 'Akademi', to: '/akademi' },
+]
+
+const megaMenuColumns = [
+  {
+    title: 'E-Ticaret Çözümleri',
+    items: [
+      {
+        to: '/aserai',
+        name: 'Aserai B2C E-Ticaret',
+        desc: 'Mağaza, ödeme, kargo ve kampanya altyapısı',
+      },
+      {
+        to: '/cozumler',
+        name: 'Uçtan Uca Çözümler',
+        desc: 'Aserai ve Iberai ekosistemini birlikte yönetin',
+      },
+      {
+        name: 'İberai Ticari Entegrasyon Platformu',
+        desc: 'Stok, fiyat ve sipariş senkronizasyonu',
+        status: 'Yakında',
+        disabled: true,
+      },
+      {
+        to: '/paketler',
+        name: 'Paketler ve Fiyatlandırma',
+        desc: 'İşinize uygun paketi karşılaştırın',
+      },
+      {
+        to: '/',
+        name: 'Ana Sayfa',
+        desc: 'Aserai ana sayfa akışına dönün',
+      },
+    ],
+  },
+  {
+    title: 'Modüller',
+    items: [
+      {
+        to: '/moduller',
+        name: 'E-Fatura & E-Arşiv',
+        desc: 'Fatura süreçlerini otomatik yönetin',
+      },
+      {
+        to: '/moduller',
+        name: 'Kargo Takip & Entegrasyon',
+        desc: 'Gönderi ve takip kodlarını tek panelde toplayın',
+      },
+      {
+        to: '/moduller',
+        name: 'Pazaryeri Entegrasyonu',
+        desc: 'Kanallar arası ürün, stok ve sipariş akışı',
+      },
+      {
+        to: '/moduller',
+        name: 'B2B Modülü',
+        desc: 'Bayi ve toptan satış operasyonları',
+      },
+      {
+        to: '/moduller',
+        name: 'CRM & Müşteri Yönetimi',
+        desc: 'Segment, iletişim ve satın alma geçmişi',
+      },
+    ],
+  },
+  {
+    title: 'Tüm Özellikler',
+    items: [
+      {
+        to: '/ozellikler',
+        name: 'Yapay Zeka & Otomasyon',
+        desc: 'İçerik, öneri ve fiyatlandırma araçları',
+      },
+      {
+        to: '/ozellikler',
+        name: 'Ürün & Katalog Yönetimi',
+        desc: 'Sınırsız ürün, varyant ve vitrin yönetimi',
+      },
+      {
+        to: '/ozellikler',
+        name: 'Satış & Pazarlama',
+        desc: 'SEO, kampanya ve bayi araçları',
+      },
+      {
+        to: '/ozellikler',
+        name: 'Global Satış & Entegrasyon',
+        desc: 'Çoklu dil, döviz ve e-ihracat desteği',
+      },
+    ],
+  },
+  {
+    title: 'Büyüme ve Destek',
+    items: [
+      {
+        to: '/demo',
+        name: 'Demo Talep Et',
+        desc: 'Aserai panelini işletmeniz için inceleyin',
+      },
+      {
+        to: '/teklif',
+        name: 'Teklif Al',
+        desc: 'Paket ve modüller için özel teklif isteyin',
+      },
+      {
+        to: '/akademi',
+        name: 'Aserai Akademi',
+        desc: 'E-ticaret rehberleri ve eğitim içerikleri',
+      },
+      {
+        to: '/iletisim',
+        name: 'Uzmanla Görüşün',
+        desc: 'Kurulum ve büyüme sorularınızı iletin',
+      },
+    ],
+  },
+]
+
+const megaFooterLinks = [
+  { to: '/cozumler', label: 'Tüm çözümleri gör' },
+  { to: '/moduller', label: 'Modül kataloğu' },
+  { to: '/ozellikler', label: 'Özellik listesi' },
+  { to: '/demo', label: 'Demo talep et' },
 ]
 
 function Logo() {
@@ -90,28 +201,82 @@ const EditPencil = () => (
   </svg>
 )
 
-function Dropdown({ label, items, openKey, active, setActive }) {
-  const isOpen = active === openKey
+function MegaMenu({ active, setActive, currentPath }) {
+  const isOpen = active === 'solutions'
+  const isActive = [
+    '/cozumler',
+    '/moduller',
+    '/ozellikler',
+    '/aserai',
+    '/iberai',
+  ].some((path) => currentPath.startsWith(path))
+
   return (
     <div
-      className="nav__dropdown"
-      onMouseEnter={() => setActive(openKey)}
+      className="nav__mega-wrap"
+      onMouseEnter={() => setActive('solutions')}
       onMouseLeave={() => setActive(null)}
+      onFocus={() => setActive('solutions')}
     >
-      <button className="nav__link nav__link--has-caret" aria-expanded={isOpen}>
-        {label}
+      <button
+        type="button"
+        className={`nav__link nav__link--has-caret ${
+          isActive ? 'is-active' : ''
+        }`}
+        aria-expanded={isOpen}
+        onClick={() => setActive(isOpen ? null : 'solutions')}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') setActive(null)
+        }}
+      >
+        E-Ticaret Çözümleri
         <Caret />
       </button>
-      <div className={`nav__menu ${isOpen ? 'is-open' : ''}`}>
-        {items.map((s) => (
-          <Link key={s.to} to={s.to} className="nav__menu-item">
-            <span className="nav__menu-mark">{s.name[0]}</span>
-            <span>
-              <strong>{s.name}</strong>
-              <small>{s.desc}</small>
-            </span>
-          </Link>
-        ))}
+      <div className={`nav__mega ${isOpen ? 'is-open' : ''}`}>
+        <div className="nav__mega-inner">
+          <div className="nav__mega-grid">
+            {megaMenuColumns.map((column) => (
+              <div key={column.title} className="nav__mega-col">
+                <h2>{column.title}</h2>
+                <div className="nav__mega-items">
+                  {column.items.map((item) =>
+                    item.disabled ? (
+                      <span
+                        key={`${column.title}-${item.name}`}
+                        className="nav__mega-item nav__mega-item--disabled"
+                        aria-disabled="true"
+                      >
+                        <strong>
+                          {item.name}
+                          {item.status ? (
+                            <em className="nav__mega-status">{item.status}</em>
+                          ) : null}
+                        </strong>
+                        <span>{item.desc}</span>
+                      </span>
+                    ) : (
+                      <Link
+                        key={`${column.title}-${item.name}`}
+                        to={item.to}
+                        className="nav__mega-item"
+                      >
+                        <strong>{item.name}</strong>
+                        <span>{item.desc}</span>
+                      </Link>
+                    ),
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="nav__mega-foot">
+            {megaFooterLinks.map((item) => (
+              <Link key={item.to} to={item.to}>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -162,8 +327,27 @@ export default function Navbar() {
         <Logo />
 
         <nav className="nav__links" aria-label="Ana menü">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `nav__link ${isActive ? 'is-active' : ''}`
+            }
+          >
+            Ana Sayfa
+          </NavLink>
+          <MegaMenu
+            active={activeMenu}
+            setActive={setActiveMenu}
+            currentPath={location.pathname}
+          />
           {simpleLinks.map((item) => (
-            <NavLink key={item.label} to={item.to} className="nav__link">
+            <NavLink
+              key={item.label}
+              to={item.to}
+              end={item.end}
+              className="nav__link"
+            >
               {item.label}
             </NavLink>
           ))}
@@ -231,8 +415,42 @@ export default function Navbar() {
       </div>
 
       <div className={`nav__mobile ${open ? 'is-open' : ''}`}>
+        <div className="nav__mobile-group">E-Ticaret Çözümleri</div>
+        {megaMenuColumns.map((column) => (
+          <div key={column.title} className="nav__mobile-section">
+            <span className="nav__mobile-section-title">{column.title}</span>
+            {column.items.map((item) =>
+              item.disabled ? (
+                <span
+                  key={`${column.title}-${item.name}`}
+                  className="nav__mobile-link nav__mobile-link--sub nav__mobile-link--disabled"
+                  aria-disabled="true"
+                >
+                  {item.name}
+                  {item.status ? (
+                    <small className="nav__mobile-status">{item.status}</small>
+                  ) : null}
+                </span>
+              ) : (
+                <NavLink
+                  key={`${column.title}-${item.name}`}
+                  to={item.to}
+                  className="nav__mobile-link nav__mobile-link--sub"
+                >
+                  {item.name}
+                </NavLink>
+              ),
+            )}
+          </div>
+        ))}
+        <div className="nav__mobile-group">Genel Menü</div>
         {simpleLinks.map((item) => (
-          <NavLink key={item.label} to={item.to} className="nav__mobile-link">
+          <NavLink
+            key={item.label}
+            to={item.to}
+            end={item.end}
+            className="nav__mobile-link"
+          >
             {item.label}
           </NavLink>
         ))}
